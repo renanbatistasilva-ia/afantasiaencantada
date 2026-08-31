@@ -1,0 +1,11 @@
+{
+  "sandbox": {
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "fonts.googleapis.com",
+        "fonts.gstatic.com"
+      ]
+    }
+  }
+}

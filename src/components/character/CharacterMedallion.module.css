@@ -1,0 +1,32 @@
+.medallion {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+
+.illustrated {
+  background:
+    radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--m-glow) 55%, transparent), transparent 62%),
+    linear-gradient(155deg, color-mix(in srgb, var(--m-accent) 85%, #000 8%), color-mix(in srgb, var(--m-accent) 55%, #1a0f1e 40%));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--m-glow) 55%, transparent),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.emblem {
+  position: absolute;
+  color: color-mix(in srgb, var(--m-glow) 78%, #fff 10%);
+  opacity: 0.5;
+  transform: translateY(-4%);
+}
+
+.initial {
+  position: relative;
+  z-index: 1;
+  color: #fff7ea;
+  line-height: 1;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}

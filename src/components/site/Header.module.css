@@ -1,0 +1,65 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem var(--gutter);
+  transition:
+    transform 0.5s var(--ease-out),
+    background-color 0.4s ease,
+    backdrop-filter 0.4s ease;
+}
+
+.hidden {
+  transform: translateY(-110%);
+}
+
+.tinted {
+  background: color-mix(in srgb, var(--noite) 78%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.wordmark {
+  font-size: 1.45rem;
+  color: var(--ouro-claro);
+  text-decoration: none;
+  text-shadow: 0 1px 12px rgba(233, 206, 156, 0.25);
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.navLink {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+}
+
+.navLink:hover {
+  opacity: 1;
+}
+
+.cta {
+  padding: 0.55rem 1.4rem;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 640px) {
+  .navLink {
+    display: none;
+  }
+  .wordmark {
+    font-size: 1.25rem;
+  }
+}

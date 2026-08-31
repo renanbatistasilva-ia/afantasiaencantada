@@ -1,0 +1,221 @@
+.section {
+  padding-top: var(--section);
+}
+
+.portals {
+  margin-top: var(--section);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: 88svh;
+  padding: clamp(3.5rem, 9vh, 6rem) var(--gutter);
+  color: var(--w-ink);
+  overflow: hidden;
+}
+
+.panel.flip {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+}
+
+.panel.flip .portalCol {
+  order: 2;
+}
+
+.panel.flip .copyCol {
+  order: 1;
+}
+
+.panelGlow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--w-glow) 30%, transparent), transparent 65%);
+  pointer-events: none;
+}
+
+.portalCol {
+  position: relative;
+  z-index: 2;
+}
+
+.portalLink {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.portalLink:hover {
+  transform: translateY(-6px);
+}
+
+.arch {
+  height: min(64vh, 40rem);
+}
+
+.archEmpty {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  height: min(58vh, 36rem);
+  border-radius: 50% 50% 14px 14px / 32% 32% 14px 14px;
+  border: 1px solid color-mix(in srgb, var(--w-ink) 30%, transparent);
+  background:
+    radial-gradient(80% 60% at 50% 20%, color-mix(in srgb, var(--w-glow) 22%, transparent), transparent 70%),
+    color-mix(in srgb, var(--w-ink) 5%, transparent);
+  color: var(--w-ink);
+  text-align: center;
+  padding: 2rem;
+}
+
+.archStar {
+  font-size: 1.4rem;
+  color: var(--w-accent);
+}
+
+.archNames {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.archNames em {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+  font-weight: 480;
+  line-height: 1.15;
+}
+
+.archSoon {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.copyCol {
+  position: relative;
+  z-index: 2;
+  max-width: 36rem;
+}
+
+.count {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.name {
+  margin-top: 0.9rem;
+  font-size: clamp(2.4rem, 7.5vw, 4.2rem);
+  color: var(--w-ink);
+}
+
+.tagline {
+  margin-top: 0.7rem;
+  font-size: clamp(1.35rem, 4.2vw, 1.8rem);
+  color: var(--w-accent);
+}
+
+.invite {
+  margin-top: 1.1rem;
+  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+  line-height: 1.7;
+  opacity: 0.85;
+  max-width: 28rem;
+}
+
+.residents {
+  margin-top: 1.8rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.9;
+  opacity: 0.8;
+  max-width: 30rem;
+}
+
+.sep {
+  color: var(--w-accent);
+  font-style: normal;
+  font-size: 0.7em;
+}
+
+.enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--w-accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--w-accent) 45%, transparent);
+  transition: gap 0.4s var(--ease-out), border-color 0.3s ease;
+}
+
+.enter:hover {
+  gap: 1rem;
+  border-color: var(--w-accent);
+}
+
+.enterArrow {
+  transition: inherit;
+}
+
+@media (max-width: 860px) {
+  .panel,
+  .panel.flip {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: auto;
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .panel.flip .portalCol {
+    order: 0;
+  }
+
+  .panel.flip .copyCol {
+    order: 1;
+  }
+
+  .arch,
+  .archEmpty {
+    height: min(52vh, 27rem);
+    width: min(88vw, 24rem);
+    margin: 0 auto;
+  }
+
+  .copyCol {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .invite,
+  .residents {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

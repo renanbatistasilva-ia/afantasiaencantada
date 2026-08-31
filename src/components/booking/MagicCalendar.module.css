@@ -1,0 +1,103 @@
+.calendar {
+  background: rgba(250, 243, 236, 0.05);
+  border: 1px solid rgba(233, 206, 156, 0.28);
+  border-radius: 20px;
+  padding: clamp(1rem, 3.5vw, 1.6rem);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.month {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ouro-claro);
+  text-transform: capitalize;
+  text-align: center;
+  flex: 1;
+}
+
+.navBtn {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(233, 206, 156, 0.35);
+  color: var(--ouro-claro);
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.navBtn:hover:not(:disabled) {
+  background: rgba(233, 206, 156, 0.12);
+}
+
+.navBtn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: color-mix(in srgb, var(--porcelana) 55%, transparent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+}
+
+.day {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--porcelana);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.day:hover:not(:disabled):not(.selected) {
+  background: rgba(233, 206, 156, 0.14);
+}
+
+.day:disabled {
+  color: color-mix(in srgb, var(--porcelana) 22%, transparent);
+  cursor: default;
+}
+
+.today::after {
+  content: "";
+  position: absolute;
+  bottom: 12%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ouro);
+}
+
+.selected {
+  background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
+  color: #3c2812;
+  font-weight: 700;
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px -6px rgba(194, 149, 83, 0.8);
+}

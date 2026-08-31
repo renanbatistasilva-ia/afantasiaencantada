@@ -1,0 +1,21 @@
+.arch {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50% 50% 14px 14px / 32% 32% 14px 14px;
+  isolation: isolate;
+}
+
+.arch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(233, 206, 156, 0.45);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.inner {
+  position: absolute;
+  inset: -8% 0;
+}

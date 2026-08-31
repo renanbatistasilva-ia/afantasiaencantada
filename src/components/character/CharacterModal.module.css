@@ -1,0 +1,119 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  background: rgba(20, 11, 24, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.card {
+  position: relative;
+  width: min(100%, 22rem);
+  max-height: min(88svh, 44rem);
+  overflow: hidden auto;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #2c1a30, #1d1122);
+  border: 1px solid rgba(233, 206, 156, 0.3);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.8);
+  scrollbar-width: none;
+}
+
+.card::-webkit-scrollbar {
+  display: none;
+}
+
+.close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: rgba(20, 11, 24, 0.55);
+  color: var(--porcelana);
+  font-size: 0.85rem;
+  backdrop-filter: blur(6px);
+  transition: background-color 0.25s ease;
+}
+
+.close:hover {
+  background: rgba(20, 11, 24, 0.85);
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 4.2;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(233, 206, 156, 0.12), transparent 60%),
+    #241429;
+}
+
+.portraitEmblem {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.portraitVeil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #1d1122 4%, transparent 45%);
+  pointer-events: none;
+}
+
+.body {
+  position: relative;
+  padding: 0 1.6rem 1.8rem;
+  margin-top: -2.5rem;
+  text-align: center;
+}
+
+.world {
+  font-size: 1.15rem;
+  color: var(--ouro-claro);
+}
+
+.name {
+  margin-top: 0.2rem;
+  font-size: clamp(1.7rem, 6vw, 2.1rem);
+  color: var(--porcelana);
+}
+
+.story {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--porcelana) 82%, transparent);
+  text-align: left;
+}
+
+.cta {
+  margin-top: 1.6rem;
+  width: 100%;
+  padding: 0.95rem 1.4rem;
+  font-size: 0.92rem;
+}
+
+.scheduleLink {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+  text-decoration: underline;
+  text-decoration-color: rgba(233, 206, 156, 0.35);
+  text-underline-offset: 4px;
+  transition: color 0.25s ease;
+}
+
+.scheduleLink:hover {
+  color: var(--ouro-claro);
+}

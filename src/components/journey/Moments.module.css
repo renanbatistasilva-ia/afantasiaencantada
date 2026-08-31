@@ -1,0 +1,101 @@
+.section {
+  padding: var(--section) 0;
+  color: var(--tinta);
+}
+
+.feature {
+  margin-top: clamp(3rem, 8vh, 5rem);
+  padding: 0 var(--gutter);
+  display: flex;
+  justify-content: center;
+}
+
+.featureFrame {
+  max-width: 33rem;
+}
+
+.featurePhoto {
+  background: #fffdf9;
+  padding: clamp(0.7rem, 2vw, 1.1rem);
+  padding-bottom: 0;
+  border: 1px solid rgba(194, 149, 83, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -30px rgba(67, 48, 59, 0.45);
+}
+
+.featurePhoto img {
+  border-radius: 3px;
+}
+
+.featureCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 1.1rem 0.4rem 1.3rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--tinta) 80%, transparent);
+}
+
+.featureScript {
+  font-size: 1.6rem;
+  color: var(--rosa-profundo);
+}
+
+.albumWrap {
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.albumWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.album {
+  display: flex;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  padding: 0 var(--gutter);
+  width: max-content;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.card {
+  scroll-snap-align: center;
+  width: clamp(15rem, 68vw, 19rem);
+  background: #fffdf9;
+  border: 1px solid rgba(194, 149, 83, 0.3);
+  border-radius: 6px;
+  padding: 0.65rem;
+  box-shadow: 0 22px 44px -24px rgba(67, 48, 59, 0.4);
+  transform: rotate(var(--rot));
+  transition: transform 0.5s var(--ease-out);
+}
+
+.card:hover {
+  transform: rotate(0deg) translateY(-6px);
+}
+
+.cardPhoto {
+  position: relative;
+  aspect-ratio: 4 / 4.4;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.cardCaption {
+  padding: 0.8rem 0.3rem 0.5rem;
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--rosa-profundo);
+}
+
+@media (max-width: 860px) {
+  .album {
+    margin: 0;
+  }
+}

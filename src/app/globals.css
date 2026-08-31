@@ -1,0 +1,180 @@
+/* ————————————————————————————————————————————
+   Fantasia Encantada — design tokens & base
+   Direção: "A Noite de Estreia" — penumbra de teatro,
+   luz champanhe e porcelana quente.
+   ———————————————————————————————————————————— */
+
+:root {
+  /* paleta */
+  --noite: #251629;
+  --ameixa: #362040;
+  --ameixa-luz: #4b2c50;
+  --porcelana: #faf3ec;
+  --blush: #f3dbdc;
+  --ouro: #c29553;
+  --ouro-claro: #e9ce9c;
+  --rosa: #d28a9c;
+  --rosa-profundo: #a44e68;
+  --tinta: #43303b;
+
+  /* tipografia */
+  --font-display: var(--next-font-display);
+  --font-script: var(--next-font-script);
+  --font-body: var(--next-font-body);
+
+  /* ritmo */
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --section: clamp(5rem, 14vh, 9rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--noite);
+  color: var(--porcelana);
+  font-family: var(--font-body), "Avenir Next", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--rosa-profundo);
+  color: var(--porcelana);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ouro-claro);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ——— utilitários tipográficos ——— */
+
+.script {
+  font-family: var(--font-script), cursive;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+  font-weight: 560;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* ——— botões ——— */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2rem;
+  border-radius: 999px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out),
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-ouro {
+  background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
+  color: #3c2812;
+  box-shadow:
+    0 1px 0 rgba(255, 245, 220, 0.6) inset,
+    0 10px 30px -12px rgba(194, 149, 83, 0.7);
+}
+
+.btn-ouro:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 245, 220, 0.6) inset,
+    0 16px 36px -12px rgba(194, 149, 83, 0.85);
+}
+
+.btn-veu {
+  background: rgba(250, 243, 236, 0.08);
+  color: var(--porcelana);
+  border: 1px solid rgba(233, 206, 156, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.btn-veu:hover {
+  background: rgba(250, 243, 236, 0.14);
+  border-color: rgba(233, 206, 156, 0.6);
+}
+
+/* ——— acessibilidade ——— */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

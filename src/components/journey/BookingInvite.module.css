@@ -1,0 +1,43 @@
+.section {
+  position: relative;
+  padding: var(--section) var(--gutter) calc(var(--section) * 0.9);
+  text-align: center;
+  overflow: hidden;
+}
+
+.actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 2.6rem;
+}
+
+.mainCta {
+  padding: 1.1rem 2.8rem;
+  font-size: 1.02rem;
+}
+
+.aside {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--porcelana) 70%, transparent);
+  text-decoration: underline;
+  text-decoration-color: rgba(233, 206, 156, 0.4);
+  text-underline-offset: 4px;
+  transition: color 0.3s ease;
+}
+
+.aside:hover {
+  color: var(--ouro-claro);
+}
+
+.note {
+  position: relative;
+  z-index: 2;
+  margin-top: 2.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--porcelana) 50%, transparent);
+}

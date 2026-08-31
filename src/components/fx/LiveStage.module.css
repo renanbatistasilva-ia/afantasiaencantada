@@ -1,0 +1,86 @@
+.stage {
+  position: relative;
+  perspective: 1100px;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  border-radius: 50% 50% 16px 16px / 34% 34% 16px 16px;
+}
+
+.plate {
+  position: absolute;
+  inset: -6%;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.plateWash {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 1;
+  transform: translateZ(20px);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.7);
+}
+
+.kenburns {
+  position: absolute;
+  inset: -6% -4%;
+}
+
+.breathing {
+  animation: breathe 13s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1.04) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.09) translate(1.2%, -1.4%);
+  }
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to top, rgba(37, 22, 41, 0.4), transparent 40%);
+  pointer-events: none;
+}
+
+.cutout {
+  position: absolute;
+  inset: -8% 0 0;
+  z-index: 3;
+  transform: translateZ(60px);
+  pointer-events: none;
+  filter: drop-shadow(0 30px 26px rgba(0, 0, 0, 0.4));
+}
+
+.rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+  pointer-events: none;
+  transform: translateZ(40px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breathing {
+    animation: none;
+  }
+}

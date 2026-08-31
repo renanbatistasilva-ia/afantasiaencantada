@@ -1,0 +1,59 @@
+.footer {
+  background: #1c1020;
+  padding: 4rem var(--gutter) calc(2rem + env(safe-area-inset-bottom));
+  text-align: center;
+  color: color-mix(in srgb, var(--porcelana) 78%, transparent);
+}
+
+.wordmark {
+  font-size: 2rem;
+  color: var(--ouro-claro);
+}
+
+.tag {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  opacity: 0.75;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.8rem;
+  font-size: 0.88rem;
+}
+
+.links a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(233, 206, 156, 0.35);
+  padding-bottom: 0.15rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.links a:hover {
+  color: var(--ouro-claro);
+  border-color: var(--ouro-claro);
+}
+
+.dot {
+  color: var(--ouro);
+  font-size: 0.7rem;
+}
+
+.bottom {
+  margin-top: 3rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(233, 206, 156, 0.14);
+  font-size: 0.78rem;
+  opacity: 0.65;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.legal {
+  opacity: 0.8;
+}

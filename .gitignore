@@ -1,0 +1,20 @@
+# dependências
+/node_modules
+
+# builds do Next / exportação estática
+/.next
+/out
+next-env.d.ts
+
+# fontes originais pesadas (fotos em alta e vídeos) — manter backup local, fora do deploy
+/Prints-referencias-instagram
+
+# ambiente / segredos
+.env
+.env.*
+!.env.example
+
+# sistema
+.DS_Store
+*.pem
+npm-debug.log*
