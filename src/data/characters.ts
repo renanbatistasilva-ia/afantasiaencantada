@@ -169,7 +169,15 @@ export const characters: Character[] = [
     story:
       "Poderosa, teatral e absolutamente inesquecível, a vilã dos mares faz uma entrada digna de espetáculo. Vem barganhar desejos e roubar a cena com aquela risada que dá um delicioso arrepio. Pode não ser mocinha, mas é, disparado, a mais divertida da festa.",
     emblem: "tridente",
-    photos: [],
+    photos: [
+      {
+        src: "/images/datas-magicas/bruxa.jpg",
+        alt: "Bruxa do Mar com cajado mágico iluminado e vestido roxo e dourado",
+        position: "50% 20%",
+        width: 490,
+        height: 590,
+      },
+    ],
   },
 
   // ——— Heróis & Aventuras ———
@@ -275,7 +283,15 @@ export const characters: Character[] = [
     story:
       "De luvas brancas e sorriso enorme, o casalzinho mais famoso do mundo veio dar as boas-vindas. Ele com suas orelhas redondas, ela com o laço perfeito, juntos, são a definição de festa feliz. Chegam para receber cada convidado como um velho amigo.",
     emblem: "orelhas",
-    photos: [],
+    photos: [
+      {
+        src: "/images/mascotes/ratinhos-casal.jpg",
+        alt: "Casal de ratinhos, ela de vestido rosa e ele de terno, sorridentes",
+        position: "50% 25%",
+        width: 420,
+        height: 510,
+      },
+    ],
   },
 
   // ——— Pop & K-Pop ———
@@ -351,7 +367,15 @@ export const characters: Character[] = [
     story:
       "Quando outubro chega, o casalzinho mais famoso do mundo troca o laço pela fantasia e sai atrás de gostosuras. Trazem uma pitada de susto do tamanho certo, só o suficiente para arrancar risadas. Travessura ou gostosura? Com eles, é sempre festa.",
     emblem: "abobora",
-    photos: [],
+    photos: [
+      {
+        src: "/images/datas-magicas/ratinhos-halloween.jpg",
+        alt: "Crianças caracterizadas de ratinhos em volta de abóboras iluminadas na noite de Halloween",
+        position: "50% 28%",
+        width: 465,
+        height: 530,
+      },
+    ],
   },
   {
     slug: "turma-junina",
@@ -361,7 +385,15 @@ export const characters: Character[] = [
     story:
       "Chapéu de palha, vestido de chita e o pé quentinho para a quadrilha: chegou a turma do arraiá. Trazem bandeirinha, dança de roda e aquela alegria de festa junina de rua. Anarriê! Todo mundo de mãos dadas para o forró começar.",
     emblem: "fogueira",
-    photos: [],
+    photos: [
+      {
+        src: "/images/datas-magicas/junina.jpg",
+        alt: "Grupo da turma junina dançando ao som da sanfona com bandeirinhas coloridas ao fundo",
+        position: "50% 30%",
+        width: 870,
+        height: 534,
+      },
+    ],
   },
   {
     slug: "natal-encantado",
@@ -371,7 +403,15 @@ export const characters: Character[] = [
     story:
       "Quando os primeiros pisca-piscas acendem, a magia do Natal bate à porta antes da hora. Vem com sinos, histórias de neve e aquele espírito de dezembro que faz todo mundo querer abraçar. Um presente vivo para a festa mais aconchegante do ano.",
     emblem: "presente",
-    photos: [],
+    photos: [
+      {
+        src: "/images/datas-magicas/natal.jpg",
+        alt: "Casal natalino segurando um globo de neve encantado ao lado da árvore de Natal",
+        position: "50% 25%",
+        width: 476,
+        height: 580,
+      },
+    ],
   },
 
   // ——— Brasil Encantado ———
@@ -403,7 +443,15 @@ export const characters: Character[] = [
     story:
       "O mascote mais fofo da quermesse chegou espigando alegria por todo canto. Fofo, quicando e sempre pronto para a dança, ele puxa a criançada para o meio do arraiá. Com ele por perto, ninguém fica parado, nem o milho na panela.",
     emblem: "milho",
-    photos: [],
+    photos: [
+      {
+        src: "/images/brasil/milhinho.jpg",
+        alt: "Milhinho Junino sorridente no meio do milharal com chapéu de palha e espiga de milho",
+        position: "50% 30%",
+        width: 656,
+        height: 330,
+      },
+    ],
   },
 ];
 

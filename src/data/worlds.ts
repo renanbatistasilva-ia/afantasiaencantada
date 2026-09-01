@@ -108,6 +108,11 @@ export const worlds: World[] = [
       glow: "#f1c97e",
       mood: "night",
     },
+    cover: {
+      src: "/images/datas-magicas/collage.jpg",
+      alt: "Collage dos personagens sazonais: Bruxa do Mar, Ratinhos no Halloween, Turma Junina e Natal Encantado",
+      position: "50% 30%",
+    },
     order: 6,
   },
   {
@@ -121,6 +126,11 @@ export const worlds: World[] = [
       accent: "#b0562f",
       glow: "#7fa65a",
       mood: "festive",
+    },
+    cover: {
+      src: "/images/brasil/junina-capa.jpg",
+      alt: "Turma junina dançando ao som de sanfona com bandeirinhas e fogueira ao fundo",
+      position: "50% 35%",
     },
     order: 7,
   },
