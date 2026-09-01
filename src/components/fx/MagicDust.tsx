@@ -92,8 +92,13 @@ export default function MagicDust() {
     };
 
     if (fine) window.addEventListener("pointermove", onMove, { passive: true });
-    // estouro no toque (e também no clique de mouse, dá um charme)
     window.addEventListener("pointerdown", onTap, { passive: true });
+
+    const onFairyDust = (e: Event) => {
+      const { x, y, count = 18, speed = 1.8 } = (e as CustomEvent).detail;
+      spawn(x, y, count, 14, speed);
+    };
+    window.addEventListener("fairy-dust", onFairyDust);
 
     const tick = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -132,6 +137,7 @@ export default function MagicDust() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onTap);
+      window.removeEventListener("fairy-dust", onFairyDust);
     };
   }, []);
 

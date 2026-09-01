@@ -6,6 +6,7 @@ import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import AmbientStage from "@/components/fx/AmbientStage";
 import MagicDust from "@/components/fx/MagicDust";
 import CurtainIntro from "@/components/site/CurtainIntro";
+import Fairy from "@/components/fx/Fairy";
 import PortalProvider from "@/components/fx/PortalProvider";
 
 const display = Fraunces({
@@ -63,6 +64,7 @@ export default function RootLayout({
       <body>
         <AmbientStage />
         <MagicDust />
+        <Fairy />
         <CurtainIntro />
         <Header />
         <PortalProvider>{children}</PortalProvider>
