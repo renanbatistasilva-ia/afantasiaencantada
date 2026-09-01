@@ -8,6 +8,7 @@ import LiveStage from "@/components/fx/LiveStage";
 import styles from "./Hero.module.css";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const vp = { once: true, margin: "0px" } as const;
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -28,7 +29,8 @@ export default function Hero() {
         <motion.p
           className={styles.eyebrowLine}
           initial={reduced ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
           transition={{ duration: 0.9, delay: 0.15, ease }}
         >
           <span className={styles.rule} aria-hidden="true" />
@@ -39,7 +41,8 @@ export default function Hero() {
         <motion.h1
           className={`display ${styles.title}`}
           initial={reduced ? false : { opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
           transition={{ duration: 1.1, delay: 0.3, ease }}
         >
           Era uma vez,
@@ -50,7 +53,8 @@ export default function Hero() {
         <motion.p
           className={styles.sub}
           initial={reduced ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
           transition={{ duration: 1, delay: 0.5, ease }}
         >
           Princesas, heróis e mascotes que saem da história e entram pela
@@ -61,7 +65,8 @@ export default function Hero() {
         <motion.div
           className={styles.actions}
           initial={reduced ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
           transition={{ duration: 0.9, delay: 0.68, ease }}
         >
           <Link href="#mundos" className="btn btn-ouro">
@@ -76,13 +81,14 @@ export default function Hero() {
       <motion.figure
         className={styles.portal}
         initial={reduced ? false : { opacity: 0, scale: 1.05, y: 26 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={vp}
         transition={{ duration: 1.4, delay: 0.35, ease }}
       >
         <LiveStage
-          src="/images/reino/ariel-danca.jpg"
-          alt="Princesa do mar dançando com o vestido verde-água rodado, à luz dourada do entardecer"
-          position="50% 14%"
+          src="/images/reino/rapunzel-hero.jpg"
+          alt="Princesa da torre com coroa dourada e trança florida sorrindo ao entardecer"
+          position="50% 16%"
           priority
           intensity={1.15}
           glow="233, 206, 156"
@@ -94,7 +100,8 @@ export default function Hero() {
       <motion.div
         className={styles.cue}
         initial={reduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={vp}
         transition={{ duration: 1, delay: 1.4 }}
         style={{ opacity: veil }}
         aria-hidden="true"
