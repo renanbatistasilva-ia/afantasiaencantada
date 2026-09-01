@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Character } from "@/data/types";
 import { worldBySlug } from "@/data/worlds";
@@ -21,15 +21,19 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function CharacterModal({ character, onClose }: Props) {
   const reduced = useReducedMotion();
   const open = !!character;
+  const savedScrollY = useRef(0);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
-    document.documentElement.style.overflow = "hidden";
+    // iOS-compatible scroll lock: position:fixed preserves scroll position
+    savedScrollY.current = window.scrollY;
+    document.body.style.cssText = `position:fixed;top:-${savedScrollY.current}px;width:100%;overflow-y:scroll`;
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.documentElement.style.overflow = "";
+      document.body.style.cssText = "";
+      window.scrollTo(0, savedScrollY.current);
     };
   }, [open, onClose]);
 

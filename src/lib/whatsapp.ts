@@ -10,7 +10,7 @@ export const quickMessage =
 
 /** Mensagem de interesse por um personagem específico (botão do cartão de história). */
 export function characterInterestMessage(name: string) {
-  return `Olá, equipe Fantasia Encantada! ✨ Me apaixonei pela ${name} e queria saber como funciona uma visita mágica dela na festa. Podem me contar mais?`;
+  return `Olá, equipe Fantasia Encantada! ✨ Quero saber mais sobre ${name} e como funciona uma visita mágica na festa. Podem me contar?`;
 }
 
 export interface BookingDraft {

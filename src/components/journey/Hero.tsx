@@ -96,8 +96,6 @@ export default function Hero() {
 
       <motion.div
         className={styles.cue}
-        animate={show ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 1.4 }}
         style={{ opacity: veil }}
         aria-hidden="true"
       >

@@ -68,8 +68,24 @@ export default function Fairy() {
   const cursorRef = useRef({ x: -9999, y: -9999 });
   const scrollTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const trailTimer = useRef<ReturnType<typeof setInterval>>(undefined);
+  const restTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const bowTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const peekTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const dustTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const isMobile = useRef(false);
   const prevPos = useRef<Perch>({ x: -100, y: -100 });
+
+  // Clear all pending timers on unmount
+  useEffect(() => () => {
+    clearTimeout(restTimer.current);
+    clearTimeout(bowTimer.current);
+    clearTimeout(hideTimer.current);
+    clearTimeout(peekTimer.current);
+    clearTimeout(dustTimer.current);
+    clearTimeout(scrollTimer.current);
+    clearInterval(trailTimer.current);
+  }, []);
 
   const startTrail = useCallback((from: Perch, to: Perch) => {
     clearInterval(trailTimer.current);
@@ -95,7 +111,7 @@ export default function Fairy() {
       startTrail(pos, target);
       prevPos.current = pos;
       setPos(target);
-      setTimeout(() => emitDust(target.x, target.y, 10, 0.8), 700);
+      dustTimer.current = setTimeout(() => emitDust(target.x, target.y, 10, 0.8), 700);
     },
     [pos, startTrail],
   );
@@ -113,7 +129,7 @@ export default function Fairy() {
     if (flees.current > MAX_FLEES) {
       setResting(true);
       flees.current = 0;
-      setTimeout(() => setResting(false), REST_MS);
+      restTimer.current = setTimeout(() => setResting(false), REST_MS);
       return;
     }
 
@@ -128,10 +144,10 @@ export default function Fairy() {
     if (far.length === 0) {
       setBowing(true);
       emitDust(pos.x, pos.y, 60, 3);
-      setTimeout(() => {
+      bowTimer.current = setTimeout(() => {
         setBowing(false);
         setVisible(false);
-        setTimeout(() => setVisible(true), EASTER_HIDE_MS);
+        hideTimer.current = setTimeout(() => setVisible(true), EASTER_HIDE_MS);
       }, 1800);
       return;
     }
@@ -171,7 +187,7 @@ export default function Fairy() {
           const vis = gatherVisiblePerches();
           if (vis.length > 0) {
             setPeeking(true);
-            setTimeout(() => setPeeking(false), 2500);
+            peekTimer.current = setTimeout(() => setPeeking(false), 2500);
           }
         }, 600);
       } else {
@@ -212,6 +228,8 @@ export default function Fairy() {
       window.removeEventListener("resize", onResize);
       clearInterval(idle);
       clearInterval(trailTimer.current);
+      clearTimeout(scrollTimer.current);
+      clearTimeout(peekTimer.current);
     };
   }, [visible, pos, resting, bowing, flying, flee, flyTo, reduced]);
 
