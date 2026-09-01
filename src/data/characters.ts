@@ -139,7 +139,15 @@ export const characters: Character[] = [
     story:
       "Da cinza do fogão ao salão de baile, ela provou que bondade e um pouquinho de magia mudam qualquer história. Chega de vestido reluzente e sapatinho de cristal, pronta para rodopiar com a aniversariante. E promete: nesta festa, a meia-noite pode esperar.",
     emblem: "coroa",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/princesa-baile.jpg",
+        alt: "Princesa do baile de vestido azul brilhante na escadaria do castelo com tiara de cristal",
+        position: "50% 22%",
+        width: 1536,
+        height: 1024,
+      },
+    ],
   },
   {
     slug: "arqueira-valente",
