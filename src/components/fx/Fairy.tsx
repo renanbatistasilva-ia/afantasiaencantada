@@ -293,21 +293,79 @@ function FairySvg() {
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="16" cy="5.5" r="3.2" />
-      <path d="M13.8 9h4.4l1.2 8.5h-6.8l1.2-8.5z" />
-      <path
-        className={styles.wingL}
-        d="M13.5 11c-5-1.5-8.5 1-10 5 3 1.5 7 0 9-3z"
-        opacity="0.65"
-      />
-      <path
-        className={styles.wingR}
-        d="M18.5 11c5-1.5 8.5 1 10 5-3 1.5-7 0-9-3z"
-        opacity="0.65"
-      />
-      <line x1="10" y1="4" x2="5.5" y2="0.5" stroke="currentColor" strokeWidth="0.7" />
-      <circle cx="5.5" cy="0.5" r="1.5" opacity="0.95" />
-      <path d="M12.5 17.5l-1.5 7h2.5l1.5-4.5 1.5 4.5h2.5l-1.5-7z" />
+      {/* Asas de borboleta — cada uma com pétala superior grande + pétala inferior menor */}
+      <g className={styles.wingL} opacity="0.5">
+        {/* Asa superior esquerda (going up and out) */}
+        <path d="M14 12 C 9 7, 3 8, 2 13 C 3 15, 8 15, 14 14 Z" />
+        {/* Asa inferior esquerda (going down and out) */}
+        <path d="M14 15 C 9 17, 5 20, 5 22 C 8 22, 12 20, 14 17 Z" opacity="0.85" />
+      </g>
+      <g className={styles.wingR} opacity="0.5">
+        <path d="M18 12 C 23 7, 29 8, 30 13 C 29 15, 24 15, 18 14 Z" />
+        <path d="M18 15 C 23 17, 27 20, 27 22 C 24 22, 20 20, 18 17 Z" opacity="0.85" />
+      </g>
+
+      {/* Cabelo — silhueta atrás da cabeça com maria-chiquinhas descendo dos lados */}
+      <path d="M10.5 6 C 10.5 3, 13 2, 16 2 C 19 2, 21.5 3, 21.5 6 L 21.5 9 Q 22 11.5, 20.5 12 L 19.5 8 L 12.5 8 L 11.5 12 Q 10 11.5, 10.5 9 Z" opacity="0.95" />
+      {/* Maria-chiquinha esquerda */}
+      <ellipse cx="10.5" cy="11.5" rx="1.4" ry="2.2" opacity="0.9" />
+      {/* Maria-chiquinha direita */}
+      <ellipse cx="21.5" cy="11.5" rx="1.4" ry="2.2" opacity="0.9" />
+      {/* Florzinha no topo (só uma, centralizada) */}
+      <circle cx="15" cy="2.5" r="0.7" opacity="0.85" />
+      <circle cx="16.5" cy="1.8" r="0.7" opacity="0.85" />
+      <circle cx="17" cy="3.2" r="0.7" opacity="0.85" />
+      <circle cx="16" cy="2.5" r="0.35" fill="var(--marfim)" opacity="0.95" />
+
+      {/* Cabeça grande (chibi) — na frente do cabelo, esconde parte de cima */}
+      <circle cx="16" cy="7" r="3.6" />
+
+      {/* Olhinhos grandes (marca registrada de fadinha fofa) */}
+      <ellipse cx="14.6" cy="7.3" rx="0.55" ry="0.75" fill="var(--noite)" />
+      <ellipse cx="17.4" cy="7.3" rx="0.55" ry="0.75" fill="var(--noite)" />
+      {/* Brilhinhos nos olhos */}
+      <circle cx="14.8" cy="7.1" r="0.22" fill="var(--marfim)" />
+      <circle cx="17.6" cy="7.1" r="0.22" fill="var(--marfim)" />
+
+      {/* Sorriso — arco pequenininho */}
+      <path d="M15 8.7 Q16 9.3 17 8.7" stroke="var(--noite)" strokeWidth="0.35" fill="none" strokeLinecap="round" opacity="0.85" />
+
+      {/* Bochechas rosadinhas */}
+      <circle cx="13.5" cy="8.2" r="0.45" opacity="0.35" />
+      <circle cx="18.5" cy="8.2" r="0.45" opacity="0.35" />
+
+      {/* Pescocinho */}
+      <rect x="15.4" y="10.5" width="1.2" height="1" rx="0.3" opacity="0.85" />
+
+      {/* Vestidinho — corpete + saia campânula em pétalas */}
+      {/* Corpete */}
+      <path d="M13.5 12 Q16 11.3 18.5 12 L 18 15 L 14 15 Z" />
+      {/* Cinta brilhante */}
+      <line x1="14" y1="14.7" x2="18" y2="14.7" stroke="var(--marfim)" strokeWidth="0.25" opacity="0.6" />
+      {/* Saia em campânula (mais larga em baixo) */}
+      <path d="M14 15 L 18 15 L 20 21 Q 16 22 12 21 Z" />
+      {/* Barra em pétalas */}
+      <path d="M12 21 Q 13 22.3 14 21 Q 15 22.5 16 21 Q 17 22.5 18 21 Q 19 22.3 20 21" fill="currentColor" opacity="0.95" />
+
+      {/* Bracinhos ao lado — fininhos */}
+      <path d="M13 13 Q 12 15 12.5 17" stroke="currentColor" strokeWidth="0.7" fill="none" strokeLinecap="round" opacity="0.9" />
+      <path d="M19 13 Q 20 15 20 17" stroke="currentColor" strokeWidth="0.7" fill="none" strokeLinecap="round" opacity="0.9" />
+      {/* Mãozinhas */}
+      <circle cx="12.5" cy="17" r="0.7" />
+      <circle cx="20" cy="17" r="0.7" />
+
+      {/* Perninhas */}
+      <rect x="14.5" y="21.8" width="0.9" height="2.2" rx="0.4" opacity="0.9" />
+      <rect x="16.6" y="21.8" width="0.9" height="2.2" rx="0.4" opacity="0.9" />
+      {/* Sapatinhos ballet */}
+      <ellipse cx="14.95" cy="24.3" rx="0.85" ry="0.45" />
+      <ellipse cx="17.05" cy="24.3" rx="0.85" ry="0.45" />
+
+      {/* Varinha na mão direita */}
+      <line x1="20" y1="17" x2="25" y2="12.5" stroke="currentColor" strokeWidth="0.45" opacity="0.9" />
+      {/* Estrelinha da varinha */}
+      <path d="M25 10.8 L25.55 12.15 L27 12.5 L25.55 12.85 L25 14.2 L24.45 12.85 L23 12.5 L24.45 12.15 Z" opacity="0.95" />
+      <circle cx="25" cy="12.5" r="0.35" fill="var(--marfim)" />
     </svg>
   );
 }
