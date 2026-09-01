@@ -1,24 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Sparkles from "@/components/fx/Sparkles";
 import LiveStage from "@/components/fx/LiveStage";
 import styles from "./Hero.module.css";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const vp = { once: true, margin: "0px" } as const;
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const [entered, setEntered] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "-18%"]);
   const veil = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setEntered(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
+  const show = reduced || entered;
 
   return (
     <section ref={ref} className={styles.hero} data-scene="sonho">
@@ -28,9 +35,7 @@ export default function Hero() {
       <motion.div className={styles.copy} style={{ y: textY, opacity: veil }}>
         <motion.p
           className={styles.eyebrowLine}
-          initial={reduced ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
+          animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.9, delay: 0.15, ease }}
         >
           <span className={styles.rule} aria-hidden="true" />
@@ -40,9 +45,7 @@ export default function Hero() {
 
         <motion.h1
           className={`display ${styles.title}`}
-          initial={reduced ? false : { opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
+          animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 1.1, delay: 0.3, ease }}
         >
           Era uma vez,
@@ -52,9 +55,7 @@ export default function Hero() {
 
         <motion.p
           className={styles.sub}
-          initial={reduced ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
+          animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 1, delay: 0.5, ease }}
         >
           Princesas, heróis e mascotes que saem da história e entram pela
@@ -64,9 +65,7 @@ export default function Hero() {
 
         <motion.div
           className={styles.actions}
-          initial={reduced ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
+          animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.9, delay: 0.68, ease }}
         >
           <Link href="#mundos" className="btn btn-ouro">
@@ -80,9 +79,7 @@ export default function Hero() {
 
       <motion.figure
         className={styles.portal}
-        initial={reduced ? false : { opacity: 0, scale: 1.05, y: 26 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={vp}
+        animate={show ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 1.05, y: 26 }}
         transition={{ duration: 1.4, delay: 0.35, ease }}
       >
         <LiveStage
@@ -99,9 +96,7 @@ export default function Hero() {
 
       <motion.div
         className={styles.cue}
-        initial={reduced ? false : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={vp}
+        animate={show ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1, delay: 1.4 }}
         style={{ opacity: veil }}
         aria-hidden="true"

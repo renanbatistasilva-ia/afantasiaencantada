@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
@@ -25,8 +26,15 @@ export default function Header() {
     <header
       className={`${styles.header} ${hidden ? styles.hidden : ""} ${tinted ? styles.tinted : ""}`}
     >
-      <Link href="/" className={`script ${styles.wordmark}`}>
-        Fantasia Encantada
+      <Link href="/" className={styles.wordmark}>
+        <Image
+          src="/images/marca/logo-header.png"
+          alt="Fantasia Encantada"
+          width={200}
+          height={258}
+          priority
+          className={styles.logoImg}
+        />
       </Link>
       <nav className={styles.nav} aria-label="Navegação principal">
         <Link href="/#mundos" className={styles.navLink}>

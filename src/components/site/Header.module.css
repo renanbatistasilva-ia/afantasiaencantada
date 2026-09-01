@@ -23,11 +23,16 @@
 }
 
 .wordmark {
-  font-size: 1.45rem;
-  color: var(--ouro-claro);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  text-shadow: 0 1px 12px rgba(233, 206, 156, 0.25);
-  white-space: nowrap;
+}
+
+.logoImg {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 8px rgba(233, 206, 156, 0.3));
 }
 
 .nav {
@@ -59,7 +64,7 @@
   .navLink {
     display: none;
   }
-  .wordmark {
-    font-size: 1.25rem;
+  .logoImg {
+    height: 40px;
   }
 }

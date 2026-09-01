@@ -37,10 +37,9 @@
 }
 
 .logo {
-  width: min(78vw, 30rem);
+  width: min(68vw, 22rem);
   height: auto;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 30px rgba(233, 206, 156, 0.35));
+  filter: drop-shadow(0 0 40px rgba(233, 206, 156, 0.45));
 }
 
 .rule {

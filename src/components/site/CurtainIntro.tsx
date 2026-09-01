@@ -82,10 +82,10 @@ export default function CurtainIntro() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
             <Image
-              src="/images/marca/logo-oficial.jpg"
+              src="/images/marca/logo-alpha.png"
               alt="Fantasia Encantada"
-              width={1024}
-              height={645}
+              width={600}
+              height={775}
               priority
               className={styles.logo}
             />
