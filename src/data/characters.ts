@@ -157,7 +157,15 @@ export const characters: Character[] = [
     story:
       "Cabelos vermelhos indomáveis e um arco sempre a postos, ela escreve o próprio destino a cada flecha. Corajosa e brincalhona, prefere subir em árvores a esperar num castelo. Seu alvo favorito? Acertar em cheio o riso de cada criança.",
     emblem: "arco",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/arqueira-valente.jpg",
+        alt: "Arqueira de cabelos vermelhos com arco e flechas na floresta ao pôr do sol, castelo ao fundo",
+        position: "42% 20%",
+        width: 1536,
+        height: 1024,
+      },
+    ],
   },
   {
     slug: "bela-e-a-fera",
@@ -167,7 +175,15 @@ export const characters: Character[] = [
     story:
       "Ela viu além das aparências e descobriu um coração gentil onde todos só enxergavam um monstro. Juntos, provam que o que importa mora por dentro, e que até a fera mais brava sabe dançar uma valsa. Chegam de mãos dadas, trazendo uma rosa encantada e uma lição de carinho.",
     emblem: "rosa",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/bela-e-a-fera.jpg",
+        alt: "Bela de vestido dourado e a Fera de traje formal posando juntos no salão do castelo encantado",
+        position: "50% 22%",
+        width: 1536,
+        height: 1024,
+      },
+    ],
   },
   {
     slug: "bruxa-do-mar",
