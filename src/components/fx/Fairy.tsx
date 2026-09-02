@@ -89,11 +89,19 @@ export default function Fairy() {
     setFlying(true);
     let t = 0;
     const steps = 12;
+    // Curved trail: perpendicular sine offset for arc effect
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.hypot(dx, dy);
+    const nx = len > 0 ? -dy / len : 0;
+    const ny = len > 0 ? dx / len : 0;
+    const perpMag = Math.min(80, len * 0.2) * (Math.random() > 0.5 ? 1 : -1);
     trailTimer.current = setInterval(() => {
       t++;
       const progress = t / steps;
-      const cx = from.x + (to.x - from.x) * progress;
-      const cy = from.y + (to.y - from.y) * progress;
+      const perp = Math.sin(progress * Math.PI);
+      const cx = from.x + dx * progress + nx * perp * perpMag;
+      const cy = from.y + dy * progress + ny * perp * perpMag;
       emitDust(cx, cy, 8, 1.4);
       if (t >= steps) {
         clearInterval(trailTimer.current);
@@ -203,23 +211,53 @@ export default function Fairy() {
     };
     window.addEventListener("resize", onResize);
 
-    const idle = setInterval(() => {
-      if (resting || bowing || flying) return;
-      const vis = gatherVisiblePerches();
-      if (vis.length > 1) {
-        const next = vis[Math.floor(Math.random() * vis.length)];
-        if (Math.hypot(next.x - pos.x, next.y - pos.y) > 60) {
-          flyTo(next);
+    // Organic timing: random 5-13s between moves via recursive setTimeout
+    let idleTimer: ReturnType<typeof setTimeout>;
+    const scheduleNextMove = () => {
+      const delay = 5000 + Math.random() * 8000;
+      idleTimer = setTimeout(() => {
+        if (resting || bowing || flying) {
+          scheduleNextMove();
+          return;
         }
-      }
-    }, 14000);
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        // 30% chance to wander to a free point (mid-air, not on a perch)
+        if (Math.random() < 0.3) {
+          const margin = 0.1;
+          const target = {
+            x: vw * (margin + Math.random() * (1 - margin * 2)),
+            y: vh * (margin + Math.random() * (1 - margin * 2)),
+          };
+          flyTo(target);
+        } else {
+          const vis = gatherVisiblePerches();
+          if (vis.length > 1) {
+            // Weighted pick: prefer perches farther from current position
+            const weights = vis.map((p) => Math.hypot(p.x - pos.x, p.y - pos.y) + 30);
+            const totalW = weights.reduce((a, b) => a + b, 0);
+            let roll = Math.random() * totalW;
+            let picked = vis[0];
+            for (let i = 0; i < vis.length; i++) {
+              roll -= weights[i];
+              if (roll <= 0) { picked = vis[i]; break; }
+            }
+            if (Math.hypot(picked.x - pos.x, picked.y - pos.y) > 60) {
+              flyTo(picked);
+            }
+          }
+        }
+        scheduleNextMove();
+      }, delay);
+    };
+    scheduleNextMove();
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      clearInterval(idle);
+      clearTimeout(idleTimer);
       clearInterval(trailTimer.current);
     };
   }, [visible, pos, resting, bowing, flying, flee, flyTo, reduced]);
@@ -229,22 +267,24 @@ export default function Fairy() {
   const screenX = pos.x;
   const screenY = pos.y;
 
+  const leanRotation = Math.max(-8, Math.min(8, (screenX - prevPos.current.x) * 0.03));
+
   return (
     <motion.div
       className={`${styles.fairy} ${resting ? styles.resting : ""} ${bowing ? styles.bowing : ""}`}
       initial={{ opacity: 0 }}
       animate={{
-        x: screenX - 32,
-        y: screenY - 32,
-        opacity: visible ? (resting ? 0.65 : 0.95) : 0,
+        x: screenX - 26,
+        y: screenY - 26,
+        opacity: visible ? (resting ? 0.48 : 0.72) : 0,
         scale: bowing ? 1.5 : 1,
-        rotate: bowing ? 15 : 0,
+        rotate: bowing ? 15 : leanRotation,
       }}
       transition={{
         type: "spring",
-        stiffness: 50,
-        damping: 12,
-        mass: 0.8,
+        stiffness: 32,
+        damping: 14,
+        mass: 1.1,
         opacity: { duration: 2 },
       }}
       aria-hidden="true"
