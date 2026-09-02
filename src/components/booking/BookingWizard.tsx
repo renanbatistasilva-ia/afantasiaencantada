@@ -172,8 +172,14 @@ export default function BookingWizard() {
                         <button
                           key={`${world.slug}-${c.slug}`}
                           type="button"
-                          className={styles.chip}
-                          onClick={() => setInfoChar(c)}
+                          className={`${styles.chip} ${
+                            draft.characterSlug === c.slug ? styles.chipSelected : ""
+                          }`}
+                          aria-pressed={draft.characterSlug === c.slug}
+                          onClick={() => {
+                            set("characterSlug", c.slug);
+                            setInfoChar(c);
+                          }}
                         >
                           <CharacterMedallion character={c} size={34} className={styles.chipAvatar} />
                           {c.name}
@@ -185,7 +191,7 @@ export default function BookingWizard() {
               })}
 
               <p className={styles.pickHint}>
-                Toque num personagem para conhecer a história dele.
+                Toque num personagem para escolher e conhecer a história dele.
               </p>
             </div>
           )}
@@ -387,20 +393,25 @@ export default function BookingWizard() {
               ← início
             </Link>
           )}
-          {step > 0 && (
-            <button
-              type="button"
-              className={`btn btn-ouro ${styles.next}`}
-              onClick={() => go(1)}
-              disabled={!stepValid}
-            >
-              {step === 4 ? "Rever a história" : "Continuar"}
-            </button>
-          )}
+          <button
+            type="button"
+            className={`btn btn-ouro ${styles.next}`}
+            onClick={() => go(1)}
+            disabled={!stepValid}
+          >
+            {step === 4 ? "Rever a história" : "Continuar"}
+          </button>
         </div>
       )}
 
-      <CharacterModal character={infoChar} onClose={() => setInfoChar(null)} />
+      <CharacterModal
+        character={infoChar}
+        onClose={() => setInfoChar(null)}
+        onSchedule={() => {
+          setInfoChar(null);
+          go(1);
+        }}
+      />
     </div>
   );
 }

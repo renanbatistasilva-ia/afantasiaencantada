@@ -13,12 +13,19 @@ import styles from "./CharacterModal.module.css";
 interface Props {
   character: Character | null;
   onClose: () => void;
+  /**
+   * Quando o modal é usado DENTRO do formulário de reserva, navegar para
+   * /reservar seria a mesma rota — o Next não remontaria o wizard e o passo
+   * ficaria travado. Nesse caso o pai passa esta callback para avançar o
+   * fluxo. Sem ela, o modal mantém o link de rota (uso nas páginas de mundo).
+   */
+  onSchedule?: () => void;
 }
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 /** Cartão de história do personagem — retrato + história + CTA de reserva. */
-export default function CharacterModal({ character, onClose }: Props) {
+export default function CharacterModal({ character, onClose, onSchedule }: Props) {
   const reduced = useReducedMotion();
   const open = !!character;
   const savedScrollY = useRef(0);
@@ -96,13 +103,23 @@ export default function CharacterModal({ character, onClose }: Props) {
               >
                 Chamar {character.name} para a festa
               </a>
-              <Link
-                href={`/reservar?personagem=${character.slug}`}
-                className={styles.scheduleLink}
-                onClick={onClose}
-              >
-                Prefiro escolher data e horário
-              </Link>
+              {onSchedule ? (
+                <button
+                  type="button"
+                  className={styles.scheduleLink}
+                  onClick={onSchedule}
+                >
+                  Prefiro escolher data e horário
+                </button>
+              ) : (
+                <Link
+                  href={`/reservar?personagem=${character.slug}`}
+                  className={styles.scheduleLink}
+                  onClick={onClose}
+                >
+                  Prefiro escolher data e horário
+                </Link>
+              )}
             </div>
           </motion.div>
         </motion.div>
