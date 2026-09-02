@@ -21,9 +21,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const world = worldBySlug(slug);
   if (!world) return {};
+  const title = `${world.name} — Fantasia Encantada`;
+  const description = `${world.tagline} ${world.invite} Personagens vivos para festas infantis em São Paulo.`;
+  const url = `https://afantasiaencantada.com/mundos/${world.slug}`;
   return {
-    title: `${world.name} — Fantasia Encantada`,
-    description: world.tagline,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Fantasia Encantada",
+      locale: "pt_BR",
+      type: "website",
+      images: [{ url: "/og-v2.jpg", width: 1200, height: 630, alt: world.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-v2.jpg"],
+    },
   };
 }
 

@@ -1,0 +1,115 @@
+.section {
+  position: relative;
+  padding: clamp(4rem, 8vw, 7rem) var(--gutter);
+}
+
+.header {
+  max-width: 44rem;
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-bottom: 0.9rem;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--porcelana);
+  text-wrap: balance;
+}
+
+.titleScript {
+  color: var(--ouro-claro);
+}
+
+.list {
+  max-width: 48rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.item {
+  border: 1px solid color-mix(in srgb, var(--ouro) 22%, transparent);
+  border-radius: 18px;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--noite) 55%, transparent),
+    color-mix(in srgb, var(--noite) 25%, transparent)
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+  transition: border-color 0.35s ease, background 0.35s ease;
+}
+
+.item[open] {
+  border-color: color-mix(in srgb, var(--ouro) 45%, transparent);
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--noite) 75%, transparent),
+    color-mix(in srgb, var(--noite) 40%, transparent)
+  );
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1.15rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 1rem;
+  color: var(--porcelana);
+  font-weight: 500;
+  user-select: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--ouro) 50%, transparent);
+  display: grid;
+  place-items: center;
+  color: var(--ouro-claro);
+  font-size: 0.85rem;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.item[open] .icon {
+  transform: rotate(45deg);
+  background: color-mix(in srgb, var(--ouro) 20%, transparent);
+}
+
+.answer {
+  padding: 0 1.5rem 1.35rem;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--porcelana) 82%, transparent);
+  animation: fade-in 0.4s var(--ease-out);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

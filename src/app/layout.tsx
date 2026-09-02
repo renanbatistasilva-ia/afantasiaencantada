@@ -39,14 +39,14 @@ export const metadata: Metadata = {
     siteName: "Fantasia Encantada",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Fantasia Encantada" }],
+    images: [{ url: "/og-v2.jpg", width: 1200, height: 630, alt: "Fantasia Encantada" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Fantasia Encantada",
     description:
       "Personagens que encantam, momentos que ficam para sempre. Reserve uma visita mágica.",
-    images: ["/og.jpg"],
+    images: ["/og-v2.jpg"],
   },
 };
 
@@ -56,12 +56,49 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://afantasiaencantada.com/#business",
+  name: "Fantasia Encantada",
+  description:
+    "Personagens vivos para festas infantis em São Paulo. Princesas, heróis, mascotes e estrelas do pop que transformam a festa do seu filho em um conto de fadas.",
+  url: "https://afantasiaencantada.com",
+  image: "https://afantasiaencantada.com/og-v2.jpg",
+  logo: "https://afantasiaencantada.com/images/marca/logo-alpha.png",
+  telephone: "+5511932237456",
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "São Paulo",
+    addressRegion: "SP",
+    addressCountry: "BR",
+  },
+  areaServed: [
+    { "@type": "City", name: "São Paulo" },
+    { "@type": "AdministrativeArea", name: "Grande São Paulo" },
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "09:00",
+      closes: "21:00",
+    },
+  ],
+  sameAs: ["https://www.instagram.com/afantasiaencantada"],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${display.variable} ${script.variable} ${body.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        />
         <AmbientStage />
         <MagicDust />
         <Fairy />
