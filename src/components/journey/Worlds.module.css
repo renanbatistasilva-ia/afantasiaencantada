@@ -56,8 +56,10 @@
   transition: transform 0.6s var(--ease-out);
 }
 
-.portalLink:hover {
-  transform: translateY(-6px);
+@media (hover: hover) {
+  .portalLink:hover {
+    transform: translateY(-6px);
+  }
 }
 
 .arch {
@@ -177,9 +179,11 @@
   transition: gap 0.4s var(--ease-out), border-color 0.3s ease;
 }
 
-.enter:hover {
-  gap: 1rem;
-  border-color: var(--w-accent);
+@media (hover: hover) {
+  .enter:hover {
+    gap: 1rem;
+    border-color: var(--w-accent);
+  }
 }
 
 .enterArrow {

@@ -36,8 +36,10 @@
   transition: background-color 0.25s ease, opacity 0.25s ease;
 }
 
-.navBtn:hover:not(:disabled) {
-  background: rgba(233, 206, 156, 0.12);
+@media (hover: hover) {
+  .navBtn:hover:not(:disabled) {
+    background: rgba(233, 206, 156, 0.12);
+  }
 }
 
 .navBtn:disabled {
@@ -78,8 +80,10 @@
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.day:hover:not(:disabled):not(.selected) {
-  background: rgba(233, 206, 156, 0.14);
+@media (hover: hover) {
+  .day:hover:not(:disabled):not(.selected) {
+    background: rgba(233, 206, 156, 0.14);
+  }
 }
 
 .day:disabled {

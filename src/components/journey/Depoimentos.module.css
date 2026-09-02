@@ -62,9 +62,11 @@
   transition: transform 0.4s var(--ease-out), border-color 0.4s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--ouro) 45%, transparent);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--ouro) 45%, transparent);
+  }
 }
 
 .quote {

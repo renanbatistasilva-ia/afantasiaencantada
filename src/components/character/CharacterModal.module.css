@@ -43,8 +43,10 @@
   transition: background-color 0.25s ease;
 }
 
-.close:hover {
-  background: rgba(20, 11, 24, 0.85);
+@media (hover: hover) {
+  .close:hover {
+    background: rgba(20, 11, 24, 0.85);
+  }
 }
 
 .portrait {
@@ -114,6 +116,8 @@
   transition: color 0.25s ease;
 }
 
-.scheduleLink:hover {
-  color: var(--ouro-claro);
+@media (hover: hover) {
+  .scheduleLink:hover {
+    color: var(--ouro-claro);
+  }
 }

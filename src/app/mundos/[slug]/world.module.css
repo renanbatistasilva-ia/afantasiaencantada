@@ -117,8 +117,10 @@
   transition: color 0.25s ease;
 }
 
-.nameButton:hover .memberName {
-  color: var(--w-accent);
+@media (hover: hover) {
+  .nameButton:hover .memberName {
+    color: var(--w-accent);
+  }
 }
 
 .memberBlurb {
@@ -146,8 +148,10 @@
   transition: gap 0.4s var(--ease-out);
 }
 
-.memberCta:hover {
-  gap: 1rem;
+@media (hover: hover) {
+  .memberCta:hover {
+    gap: 1rem;
+  }
 }
 
 /* ——— personagens aguardando fotos ——— */
@@ -194,8 +198,10 @@
   transition: transform 0.4s var(--ease-out);
 }
 
-.rosterLink:hover {
-  transform: translateX(6px);
+@media (hover: hover) {
+  .rosterLink:hover {
+    transform: translateX(6px);
+  }
 }
 
 .rosterStar {

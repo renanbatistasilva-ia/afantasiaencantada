@@ -19,7 +19,9 @@
     background-color 0.3s ease;
 }
 
-.float:hover {
-  transform: translateY(-3px);
-  background: rgba(37, 22, 41, 0.9);
+@media (hover: hover) {
+  .float:hover {
+    transform: translateY(-3px);
+    background: rgba(37, 22, 41, 0.9);
+  }
 }

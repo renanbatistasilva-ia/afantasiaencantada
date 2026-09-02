@@ -55,8 +55,10 @@
   transition: opacity 0.25s ease;
 }
 
-.navLink:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .navLink:hover {
+    opacity: 1;
+  }
 }
 
 .cta {

@@ -29,8 +29,10 @@
   transition: color 0.3s ease;
 }
 
-.aside:hover {
-  color: var(--ouro-claro);
+@media (hover: hover) {
+  .aside:hover {
+    color: var(--ouro-claro);
+  }
 }
 
 .note {

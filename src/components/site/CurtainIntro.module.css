@@ -71,6 +71,8 @@
   transition: color 0.2s ease;
 }
 
-.skip:hover {
-  color: var(--ouro-claro);
+@media (hover: hover) {
+  .skip:hover {
+    color: var(--ouro-claro);
+  }
 }

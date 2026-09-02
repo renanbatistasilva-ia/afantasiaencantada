@@ -150,11 +150,13 @@ button {
     0 10px 30px -12px rgba(194, 149, 83, 0.7);
 }
 
-.btn-ouro:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 1px 0 rgba(255, 245, 220, 0.6) inset,
-    0 16px 36px -12px rgba(194, 149, 83, 0.85);
+@media (hover: hover) {
+  .btn-ouro:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 rgba(255, 245, 220, 0.6) inset,
+      0 16px 36px -12px rgba(194, 149, 83, 0.85);
+  }
 }
 
 .btn-veu {
@@ -164,9 +166,11 @@ button {
   backdrop-filter: blur(6px);
 }
 
-.btn-veu:hover {
-  background: rgba(250, 243, 236, 0.14);
-  border-color: rgba(233, 206, 156, 0.6);
+@media (hover: hover) {
+  .btn-veu:hover {
+    background: rgba(250, 243, 236, 0.14);
+    border-color: rgba(233, 206, 156, 0.6);
+  }
 }
 
 /* ——— acessibilidade ——— */

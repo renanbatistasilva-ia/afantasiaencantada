@@ -33,9 +33,11 @@
   transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.links a:hover {
-  color: var(--ouro-claro);
-  border-color: var(--ouro-claro);
+@media (hover: hover) {
+  .links a:hover {
+    color: var(--ouro-claro);
+    border-color: var(--ouro-claro);
+  }
 }
 
 .dot {
