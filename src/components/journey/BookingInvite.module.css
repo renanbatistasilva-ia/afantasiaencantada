@@ -37,7 +37,7 @@
   position: relative;
   z-index: 2;
   margin-top: 2.4rem;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--porcelana) 50%, transparent);
+  color: color-mix(in srgb, var(--porcelana) 72%, transparent);
 }

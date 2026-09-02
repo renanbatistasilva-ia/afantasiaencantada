@@ -31,10 +31,12 @@
 
 .logoImg {
   width: auto;
-  height: 100px;
+  height: 94px;
   object-fit: contain;
   filter: drop-shadow(0 1px 8px rgba(233, 206, 156, 0.3));
-  margin: 0 0 -20px;
+  /* Transborda a barra (o header tem overflow: visible). Mantido em 20% da
+     altura. Ao mexer na altura, ajuste --header-h em globals.css junto. */
+  margin: 0 0 -24px;
 }
 
 .nav {
@@ -44,12 +46,12 @@
 }
 
 .navLink {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
-  opacity: 0.85;
+  opacity: 0.95;
   transition: opacity 0.25s ease;
 }
 
@@ -58,8 +60,8 @@
 }
 
 .cta {
-  padding: 0.55rem 1.4rem;
-  font-size: 0.82rem;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.88rem;
 }
 
 @media (max-width: 640px) {
@@ -67,7 +69,7 @@
     display: none;
   }
   .logoImg {
-    height: 72px;
-    margin: 0 0 -10px;
+    height: 62px;
+    margin: 0 0 -16px;
   }
 }

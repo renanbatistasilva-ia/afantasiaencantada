@@ -75,6 +75,25 @@ export default function Hero() {
             Reservar uma data
           </Link>
         </motion.div>
+
+        <motion.div
+          className={styles.socialProof}
+          animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.9, delay: 0.85, ease }}
+          aria-label="Nossa trajetória"
+        >
+          <span className={styles.socialProofItem}>
+            <span className={styles.socialProofNum}>500+</span> festas encantadas
+          </span>
+          <span className={styles.socialProofDot} aria-hidden="true" />
+          <span className={styles.socialProofItem}>
+            <span className={styles.socialProofNum}>8</span> anos de magia
+          </span>
+          <span className={styles.socialProofDot} aria-hidden="true" />
+          <span className={styles.socialProofItem}>
+            <span className={styles.socialProofNum}>+200</span> famílias apaixonadas
+          </span>
+        </motion.div>
       </motion.div>
 
       <motion.figure

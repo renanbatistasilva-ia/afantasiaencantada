@@ -5,7 +5,7 @@
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
-  padding: calc(4.5rem + env(safe-area-inset-top)) var(--gutter) 4rem;
+  padding: calc(var(--header-h) + 0.75rem + env(safe-area-inset-top)) var(--gutter) 4rem;
   overflow: hidden;
 }
 
@@ -33,9 +33,9 @@
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ouro-claro);
 }
@@ -81,6 +81,38 @@
   margin-top: 2.2rem;
 }
 
+.socialProof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.4rem;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ouro-claro) 95%, transparent);
+}
+
+.socialProofItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  white-space: nowrap;
+}
+
+.socialProofDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ouro-claro);
+  opacity: 0.55;
+}
+
+.socialProofNum {
+  font-weight: 600;
+  color: var(--ouro-claro);
+  letter-spacing: 0.06em;
+}
+
 .portal {
   position: relative;
   z-index: 2;
@@ -114,10 +146,10 @@
 }
 
 .cueLabel {
-  font-size: 0.62rem;
-  letter-spacing: 0.28em;
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--ouro-claro) 75%, transparent);
+  color: color-mix(in srgb, var(--ouro-claro) 88%, transparent);
 }
 
 @keyframes cue-draw {
@@ -140,7 +172,7 @@
     grid-template-columns: 1fr;
     align-items: start;
     gap: 1.6rem;
-    padding-top: calc(5rem + env(safe-area-inset-top));
+    padding-top: calc(var(--header-h) + 1rem + env(safe-area-inset-top));
     padding-bottom: 5.5rem;
   }
 
@@ -150,7 +182,8 @@
   }
 
   .eyebrowLine,
-  .actions {
+  .actions,
+  .socialProof {
     justify-content: center;
   }
 

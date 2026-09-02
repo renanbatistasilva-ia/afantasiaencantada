@@ -8,7 +8,7 @@
 .hero {
   position: relative;
   z-index: 2;
-  padding: calc(6rem + env(safe-area-inset-top)) var(--gutter) clamp(2.5rem, 7vh, 4rem);
+  padding: calc(var(--header-h) + 1.25rem + env(safe-area-inset-top)) var(--gutter) clamp(2.5rem, 7vh, 4rem);
   text-align: center;
   max-width: 52rem;
   margin: 0 auto;
@@ -16,12 +16,12 @@
 
 .back {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--w-accent);
+  color: color-mix(in srgb, var(--w-accent) 58%, var(--w-ink));
   margin-bottom: 1.6rem;
 }
 
@@ -134,13 +134,13 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 1.5rem;
-  font-size: 0.8rem;
+  font-size: 0.86rem;
   font-weight: 650;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--w-accent);
-  border-bottom: 1px solid color-mix(in srgb, var(--w-accent) 45%, transparent);
+  color: color-mix(in srgb, var(--w-accent) 58%, var(--w-ink));
+  border-bottom: 1px solid color-mix(in srgb, var(--w-accent) 60%, transparent);
   padding-bottom: 0.25rem;
   cursor: pointer;
   transition: gap 0.4s var(--ease-out);
@@ -221,16 +221,16 @@
 
 .rosterBlurb {
   grid-area: blurb;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.6;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .rosterNote {
   margin-top: 1.8rem;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0.03em;
-  opacity: 0.6;
+  opacity: 0.78;
 }
 
 /* ——— barra de reserva ——— */

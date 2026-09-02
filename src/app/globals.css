@@ -26,7 +26,21 @@
   --gutter: clamp(1.25rem, 5vw, 4rem);
   --section: clamp(5rem, 14vh, 9rem);
 
+  /* Altura visual do header fixo: padding (0.6rem = 9.6px) + a altura do logo,
+     que transborda a barra (margin negativo + overflow: visible), portanto é a
+     logo que define a borda de baixo, não a barra. Hoje: 9.6 + 94 = 103.6px.
+     Se mexer no logo em Header.module.css, ajuste aqui — todo padding-top de
+     topo de página usa isto. */
+  --header-h: 6.5rem;
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 640px) {
+  :root {
+    /* logo de 62px: 9.6 + 62 = 71.6px */
+    --header-h: 4.5rem;
+  }
 }
 
 * {
@@ -96,11 +110,11 @@ button {
 
 .eyebrow {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: 0.75;
+  opacity: 0.88;
 }
 
 /* ——— botões ——— */

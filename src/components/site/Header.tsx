@@ -28,10 +28,10 @@ export default function Header() {
     >
       <Link href="/" className={styles.wordmark}>
         <Image
-          src="/images/marca/logo-header.png"
+          src="/images/marca/logo-header-tight.png"
           alt="Fantasia Encantada"
-          width={200}
-          height={258}
+          width={360}
+          height={188}
           priority
           className={styles.logoImg}
         />

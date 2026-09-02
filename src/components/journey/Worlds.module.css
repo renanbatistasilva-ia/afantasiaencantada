@@ -102,10 +102,10 @@
 }
 
 .archSoon {
-  font-size: 0.66rem;
-  letter-spacing: 0.28em;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .copyCol {
@@ -115,11 +115,11 @@
 }
 
 .count {
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 0.82;
 }
 
 .name {
@@ -148,7 +148,7 @@
   font-style: italic;
   font-size: 0.98rem;
   line-height: 1.9;
-  opacity: 0.8;
+  opacity: 0.88;
   max-width: 30rem;
 }
 
@@ -164,13 +164,16 @@
   gap: 0.6rem;
   margin-top: 1.6rem;
   padding-bottom: 0.25rem;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   font-weight: 650;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--w-accent);
-  border-bottom: 1px solid color-mix(in srgb, var(--w-accent) 45%, transparent);
+  /* O accent puro fica entre 3.8:1 e 4.2:1 sobre o fundo do mundo — reprova AA
+     em texto pequeno. Puxar 42% na direção da tinta escurece nos mundos claros
+     e clareia nos escuros, mantendo a matiz e passando 4.5:1 em todos os sete. */
+  color: color-mix(in srgb, var(--w-accent) 58%, var(--w-ink));
+  border-bottom: 1px solid color-mix(in srgb, var(--w-accent) 60%, transparent);
   transition: gap 0.4s var(--ease-out), border-color 0.3s ease;
 }
 

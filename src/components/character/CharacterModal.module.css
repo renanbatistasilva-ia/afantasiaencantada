@@ -105,9 +105,9 @@
 .scheduleLink {
   display: inline-block;
   margin-top: 1rem;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   letter-spacing: 0.02em;
-  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+  color: color-mix(in srgb, var(--porcelana) 78%, transparent);
   text-decoration: underline;
   text-decoration-color: rgba(233, 206, 156, 0.35);
   text-underline-offset: 4px;

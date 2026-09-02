@@ -22,6 +22,10 @@ const HOME_SCENES: Record<string, Scene> = {
     bg: "radial-gradient(120% 90% at 78% 26%, #4a2544 0%, #2e1a34 46%, #1c1020 100%)",
     glow: "rgba(233,206,156,0.16)",
   },
+  depoimentos: {
+    bg: "radial-gradient(120% 90% at 22% 24%, #40243f 0%, #2b1830 52%, #1b1020 100%)",
+    glow: "rgba(233,206,156,0.18)",
+  },
   momentos: {
     bg: "radial-gradient(120% 90% at 30% 20%, #f7e2e0 0%, #efd0cf 55%, #e6c3c6 100%)",
     glow: "rgba(210,138,156,0.22)",
@@ -29,6 +33,10 @@ const HOME_SCENES: Record<string, Scene> = {
   espetaculo: {
     bg: "radial-gradient(120% 90% at 70% 30%, #3a1f3f 0%, #271633 50%, #1a1024 100%)",
     glow: "rgba(178,108,255,0.14)",
+  },
+  faq: {
+    bg: "radial-gradient(110% 85% at 60% 18%, #33203c 0%, #241631 55%, #170e1e 100%)",
+    glow: "rgba(233,206,156,0.13)",
   },
   convite: {
     bg: "radial-gradient(100% 80% at 50% 0%, #4a2544 0%, #2a1730 55%, #150c1a 100%)",
