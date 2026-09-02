@@ -14,6 +14,8 @@ export function characterInterestMessage(name: string) {
 }
 
 export interface BookingDraft {
+  parentName?: string;
+  parentPhone?: string;
   characterName?: string;
   worldName?: string;
   date?: Date;
@@ -49,6 +51,34 @@ export function bookingMessage(d: BookingDraft) {
   if (d.childName)
     lines.push(`⭐ Estrela da festa: ${d.childName}${d.childAge ? `, ${d.childAge}` : ""}`);
   if (d.special) lines.push(`💌 Algo especial: ${d.special}`);
+  if (d.parentName) lines.push(`👋 Falo com vocês: ${d.parentName}`);
+  if (d.parentPhone) lines.push(`📱 Meu contato: ${d.parentPhone}`);
   lines.push("", "Podem me confirmar a disponibilidade?");
   return lines.join("\n");
+}
+
+/* ——— telefone do responsável ——— */
+
+/** Só os dígitos, para validar e para gravar depois no banco. */
+export function phoneDigits(value: string) {
+  return value.replace(/\D/g, "").slice(0, 11);
+}
+
+/** Máscara progressiva: (11) 91234-5678 — aplicada enquanto a pessoa digita. */
+export function formatPhone(value: string) {
+  const d = phoneDigits(value);
+  if (d.length <= 2) return d;
+  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+/**
+ * Celular brasileiro: 11 dígitos, DDD de 11 a 99 e nono dígito 9.
+ * Fixo não serve — o contato precisa receber WhatsApp.
+ */
+export function isValidPhone(value: string) {
+  const d = phoneDigits(value);
+  if (d.length !== 11) return false;
+  const ddd = Number(d.slice(0, 2));
+  return ddd >= 11 && ddd <= 99 && d[2] === "9";
 }

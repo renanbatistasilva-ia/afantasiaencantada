@@ -10,7 +10,7 @@ import CharacterModal from "@/components/character/CharacterModal";
 import type { Character } from "@/data/types";
 import { visibleWorlds } from "@/data/worlds";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
-import { bookingMessage, whatsappUrl } from "@/lib/whatsapp";
+import { bookingMessage, formatPhone, isValidPhone, whatsappUrl } from "@/lib/whatsapp";
 import styles from "./BookingWizard.module.css";
 
 interface Draft {
@@ -23,6 +23,8 @@ interface Draft {
   childName: string;
   childAge: string;
   special: string;
+  parentName: string;
+  parentPhone: string;
 }
 
 const PERIODS = ["Manhã", "Tarde", "Noite"];
@@ -54,7 +56,16 @@ export default function BookingWizard() {
     childName: "",
     childAge: "",
     special: "",
+    parentName: "",
+    parentPhone: "",
   });
+
+  // O site abre o WhatsApp, mas não tem como saber se a mensagem foi enviada
+  // de fato — o envio acontece dentro do app. Este estado só registra que o
+  // encaminhamento aconteceu, e a tela final é redigida com esse limite em mente.
+  const [sent, setSent] = useState(false);
+
+  const contactValid = draft.parentName.trim().length > 1 && isValidPhone(draft.parentPhone);
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((d) => ({ ...d, [key]: value }));
@@ -93,6 +104,8 @@ export default function BookingWizard() {
   };
 
   const message = bookingMessage({
+    parentName: draft.parentName.trim() || undefined,
+    parentPhone: draft.parentPhone.trim() || undefined,
     characterName: character?.name,
     worldName: worldOfCharacter?.name,
     date: draft.date ?? undefined,
@@ -122,12 +135,17 @@ export default function BookingWizard() {
     { script: "o cenário", title: "Onde e a que horas a magia entra em cena?" },
     { script: "a estrela", title: "Como devemos chamar a estrela dessa história?" },
     { script: "o segredo", title: "Existe algo que o personagem deveria saber?" },
-    {
-      script: "quase lá",
-      title: draft.childName
-        ? `A história de ${draft.childName} está quase escrita`
-        : "A história está quase escrita",
-    },
+    sent
+      ? {
+          script: "pronto",
+          title: "Abrimos seu WhatsApp com a história pronta",
+        }
+      : {
+          script: "quase lá",
+          title: draft.childName
+            ? `A história de ${draft.childName} está quase escrita`
+            : "A história está quase escrita",
+        },
   ][step];
 
   return (
@@ -316,7 +334,54 @@ export default function BookingWizard() {
             </div>
           )}
 
-          {step === 5 && (
+          {step === 5 && sent && (
+            <div className={styles.done}>
+              <p className={styles.doneMark} aria-hidden="true">
+                ✦
+              </p>
+              <p className={styles.doneLede}>
+                Falta um passo: <strong>toque em enviar dentro do WhatsApp</strong> para a
+                mensagem chegar até nós. Assim que ela chegar, confirmamos a disponibilidade
+                {draft.parentName ? `, ${draft.parentName.trim().split(" ")[0]}` : ""}.
+              </p>
+
+              <ul className={styles.doneSummary}>
+                <li>
+                  <span className={styles.reviewLabel}>Personagem</span>
+                  <span className={styles.reviewValue}>{character?.name}</span>
+                </li>
+                <li>
+                  <span className={styles.reviewLabel}>Data</span>
+                  <span className={styles.reviewValue}>
+                    {draft.date ? dateFmt.format(draft.date) : "—"}
+                  </span>
+                </li>
+                <li>
+                  <span className={styles.reviewLabel}>Estrela</span>
+                  <span className={styles.reviewValue}>{draft.childName}</span>
+                </li>
+              </ul>
+
+              <p className={styles.doneNote}>
+                A data só fica reservada depois da nossa confirmação. Nada é cobrado agora.
+              </p>
+
+              <a
+                href={whatsappUrl(message)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn btn-ouro ${styles.send}`}
+              >
+                Não abriu? Abrir o WhatsApp de novo
+              </a>
+
+              <button type="button" className={styles.back} onClick={() => setSent(false)}>
+                ← revisar os dados
+              </button>
+            </div>
+          )}
+
+          {step === 5 && !sent && (
             <div className={styles.review}>
               <ul className={styles.reviewList}>
                 <li>
@@ -365,14 +430,49 @@ export default function BookingWizard() {
                 )}
               </ul>
 
-              <a
-                href={whatsappUrl(message)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <div className={styles.contact}>
+                <label className={styles.field}>
+                  <span className={styles.fieldLabel}>Seu nome</span>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={draft.parentName}
+                    onChange={(e) => set("parentName", e.target.value)}
+                    placeholder="ex: Camila"
+                    autoComplete="name"
+                  />
+                </label>
+
+                <label className={styles.field}>
+                  <span className={styles.fieldLabel}>Seu WhatsApp</span>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    className={styles.input}
+                    value={draft.parentPhone}
+                    onChange={(e) => set("parentPhone", formatPhone(e.target.value))}
+                    placeholder="(11) 91234-5678"
+                    autoComplete="tel"
+                    aria-describedby="contato-motivo"
+                  />
+                </label>
+
+                <p id="contato-motivo" className={styles.contactWhy}>
+                  Para garantirmos sua reserva mesmo se a mensagem não chegar.
+                </p>
+              </div>
+
+              <button
+                type="button"
                 className={`btn btn-ouro ${styles.send}`}
+                disabled={!contactValid}
+                onClick={() => {
+                  window.open(whatsappUrl(message), "_blank", "noopener,noreferrer");
+                  setSent(true);
+                }}
               >
                 Enviar a história pelo WhatsApp
-              </a>
+              </button>
               <p className={styles.hint}>
                 A mensagem já vai prontinha. Nossa equipe responde confirmando
                 a disponibilidade. Nada é cobrado agora.

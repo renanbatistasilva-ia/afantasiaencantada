@@ -312,3 +312,83 @@ label .fieldLabel {
   transform: none;
   box-shadow: none;
 }
+
+/* ——— contato do responsável (tela de revisão) ——— */
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contactWhy {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--porcelana) 68%, transparent);
+  text-align: center;
+}
+
+/* ——— confirmação ——— */
+
+.done {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.1rem;
+}
+
+.doneMark {
+  font-size: 1.6rem;
+  color: var(--ouro-claro);
+  text-shadow: 0 0 22px rgba(233, 206, 156, 0.55);
+}
+
+.doneTitle {
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  color: var(--porcelana);
+  text-wrap: balance;
+}
+
+.doneLede {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--porcelana) 85%, transparent);
+  max-width: 30rem;
+}
+
+.doneLede strong {
+  color: var(--ouro-claro);
+  font-weight: 600;
+}
+
+.doneSummary {
+  list-style: none;
+  width: 100%;
+  max-width: 26rem;
+  margin-top: 0.4rem;
+  border: 1px solid rgba(233, 206, 156, 0.25);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(250, 243, 236, 0.04);
+}
+
+.doneSummary li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1.3rem;
+  text-align: left;
+}
+
+.doneSummary li + li {
+  border-top: 1px solid rgba(233, 206, 156, 0.16);
+}
+
+.doneNote {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--porcelana) 70%, transparent);
+  max-width: 28rem;
+}
