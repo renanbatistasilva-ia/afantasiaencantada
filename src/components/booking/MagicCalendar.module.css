@@ -28,8 +28,8 @@
 .navBtn {
   display: grid;
   place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: 1px solid rgba(233, 206, 156, 0.35);
   color: var(--ouro-claro);
@@ -66,6 +66,9 @@
 .day {
   position: relative;
   aspect-ratio: 1;
+  /* Em telas estreitas as 7 colunas deixam a célula com ~41px; o mínimo
+     garante o alvo de toque de 44px, ficando só um pouco mais alta que larga. */
+  min-height: 44px;
   display: grid;
   place-items: center;
   border-radius: 50%;
