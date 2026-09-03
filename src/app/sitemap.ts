@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${BASE}/`, changeFrequency: "weekly", priority: 1.0 },
     { url: `${BASE}/reservar`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/personagens`, changeFrequency: "monthly", priority: 0.8 },
     ...worldEntries,
     ...characterEntries,
   ];

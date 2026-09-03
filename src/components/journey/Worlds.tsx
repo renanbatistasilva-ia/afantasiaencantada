@@ -89,7 +89,9 @@ export default function Worlds() {
                   <p className={styles.residents}>
                     {residents.map((c, j) => (
                       <span key={c.slug}>
-                        {c.name}
+                        <Link href={`/personagens/${c.slug}`} className={styles.residentLink}>
+                          {c.name}
+                        </Link>
                         {j < residents.length - 1 && (
                           <span className={styles.sep} aria-hidden="true">
                             {" ✦ "}

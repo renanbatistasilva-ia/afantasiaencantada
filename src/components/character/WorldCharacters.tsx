@@ -1,12 +1,9 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import Arch from "@/components/fx/Arch";
 import LiveStage from "@/components/fx/LiveStage";
 import Reveal from "@/components/fx/Reveal";
 import type { Character, World } from "@/data/types";
 import CharacterMedallion from "./CharacterMedallion";
-import CharacterModal from "./CharacterModal";
 import styles from "@/app/mundos/[slug]/world.module.css";
 
 interface Props {
@@ -23,7 +20,6 @@ function hexToRgb(hex: string): string {
 }
 
 export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: Props) {
-  const [selected, setSelected] = useState<Character | null>(null);
   const glowRgb = hexToRgb(world.atmosphere.glow);
 
   return (
@@ -33,10 +29,9 @@ export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: P
           {withPhotos.map((c, i) => (
             <article key={c.slug} className={`${styles.member} ${i % 2 ? styles.flip : ""}`}>
               <Reveal className={styles.memberPhotos}>
-                <button
-                  type="button"
+                <Link
+                  href={`/personagens/${c.slug}`}
                   className={styles.photoButton}
-                  onClick={() => setSelected(c)}
                   aria-label={`Conhecer a história de ${c.name}`}
                 >
                   <LiveStage
@@ -48,7 +43,7 @@ export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: P
                     className={styles.mainArch}
                     sizes="(max-width: 860px) 88vw, 42vw"
                   />
-                </button>
+                </Link>
                 {c.photos[1] && (
                   <div className={styles.echoFrame}>
                     <Arch
@@ -63,13 +58,13 @@ export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: P
                 )}
               </Reveal>
               <Reveal delay={0.1} className={styles.memberCopy}>
-                <button type="button" className={styles.nameButton} onClick={() => setSelected(c)}>
+                <Link href={`/personagens/${c.slug}`} className={styles.nameButton}>
                   <h2 className={`display ${styles.memberName}`}>{c.name}</h2>
-                </button>
+                </Link>
                 <p className={styles.memberBlurb}>{c.blurb}</p>
-                <button type="button" className={styles.memberCta} onClick={() => setSelected(c)}>
+                <Link href={`/personagens/${c.slug}`} className={styles.memberCta}>
                   Conheça a história <span aria-hidden="true">→</span>
-                </button>
+                </Link>
               </Reveal>
             </article>
           ))}
@@ -87,15 +82,11 @@ export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: P
             {awaitingPhotos.map((c, i) => (
               <li key={c.slug} className={styles.rosterItem}>
                 <Reveal delay={Math.min(i * 0.05, 0.3)}>
-                  <button
-                    type="button"
-                    className={styles.rosterLink}
-                    onClick={() => setSelected(c)}
-                  >
+                  <Link href={`/personagens/${c.slug}`} className={styles.rosterLink}>
                     <CharacterMedallion character={c} size={46} className={styles.rosterMedal} />
                     <span className={styles.rosterName}>{c.name}</span>
                     <span className={styles.rosterBlurb}>{c.blurb}</span>
-                  </button>
+                  </Link>
                 </Reveal>
               </li>
             ))}
@@ -107,7 +98,6 @@ export default function WorldCharacters({ world, withPhotos, awaitingPhotos }: P
         </section>
       )}
 
-      <CharacterModal character={selected} onClose={() => setSelected(null)} />
     </>
   );
 }

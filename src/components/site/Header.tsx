@@ -40,6 +40,9 @@ export default function Header() {
         <Link href="/#mundos" className={styles.navLink}>
           Mundos
         </Link>
+        <Link href="/personagens" className={styles.navLink}>
+          Personagens
+        </Link>
         <Link href="/#momentos" className={styles.navLink}>
           Momentos
         </Link>
