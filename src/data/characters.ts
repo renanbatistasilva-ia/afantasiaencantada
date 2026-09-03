@@ -37,6 +37,13 @@ export const characters: Character[] = [
     emblem: "torre",
     photos: [
       {
+        src: "/images/reino/neve-e-torre-dupla.jpg",
+        alt: "Princesa da Torre ao lado da Princesa da Neve, as duas surpresas, no jardim ao fim da tarde",
+        position: "70% 22%",
+        width: 1067,
+        height: 1600,
+      },
+      {
         src: "/images/reino/rapunzel-corpo.jpg",
         alt: "Princesa da torre segurando a longa trança florida no jardim",
         position: "50% 16%",
@@ -62,11 +69,25 @@ export const characters: Character[] = [
     emblem: "coroa",
     photos: [
       {
-        src: "/images/reino/neve-e-torre.jpg",
-        alt: "Princesa da neve com laço vermelho ao lado da princesa da torre no jardim",
-        position: "30% 24%",
-        width: 1000,
-        height: 1500,
+        src: "/images/reino/neve-close.jpg",
+        alt: "Retrato da Princesa da Neve com laço vermelho no cabelo e capa vermelha, ao fim da tarde",
+        position: "50% 18%",
+        width: 1067,
+        height: 1600,
+      },
+      {
+        src: "/images/reino/neve-corpo.jpg",
+        alt: "Princesa da Neve de corpo inteiro, segurando a saia amarela sob as árvores do jardim",
+        position: "50% 24%",
+        width: 1067,
+        height: 1600,
+      },
+      {
+        src: "/images/reino/neve-sentada.jpg",
+        alt: "Princesa da Neve sentada no jardim com a capa vermelha estendida, olhando ao longe",
+        position: "50% 26%",
+        width: 1067,
+        height: 1600,
       },
     ],
   },
@@ -105,6 +126,13 @@ export const characters: Character[] = [
     emblem: "lampada",
     photos: [
       {
+        src: "/images/reino/deserto-dupla.jpg",
+        alt: "Princesa do Deserto ao lado do Príncipe do Deserto, que segura a lâmpada mágica",
+        position: "70% 24%",
+        width: 1200,
+        height: 1600,
+      },
+      {
         src: "/images/reino/jasmine.jpg",
         alt: "Princesa de traje turquesa e dourado com longa trança escura",
         position: "50% 28%",
@@ -139,15 +167,7 @@ export const characters: Character[] = [
     story:
       "Da cinza do fogão ao salão de baile, ela provou que bondade e um pouquinho de magia mudam qualquer história. Chega de vestido reluzente e sapatinho de cristal, pronta para rodopiar com a aniversariante. E promete: nesta festa, a meia-noite pode esperar.",
     emblem: "coroa",
-    photos: [
-      {
-        src: "/images/reino/princesa-baile.jpg",
-        alt: "Princesa do baile de vestido azul brilhante na escadaria do castelo com tiara de cristal",
-        position: "50% 22%",
-        width: 1536,
-        height: 1024,
-      },
-    ],
+    photos: [],
   },
   {
     slug: "arqueira-valente",
@@ -157,15 +177,7 @@ export const characters: Character[] = [
     story:
       "Cabelos vermelhos indomáveis e um arco sempre a postos, ela escreve o próprio destino a cada flecha. Corajosa e brincalhona, prefere subir em árvores a esperar num castelo. Seu alvo favorito? Acertar em cheio o riso de cada criança.",
     emblem: "arco",
-    photos: [
-      {
-        src: "/images/reino/arqueira-valente.jpg",
-        alt: "Arqueira de cabelos vermelhos com arco e flechas na floresta ao pôr do sol, castelo ao fundo",
-        position: "42% 20%",
-        width: 1536,
-        height: 1024,
-      },
-    ],
+    photos: [],
   },
   {
     slug: "bela-e-a-fera",
@@ -177,11 +189,11 @@ export const characters: Character[] = [
     emblem: "rosa",
     photos: [
       {
-        src: "/images/reino/bela-e-a-fera.jpg",
-        alt: "Bela de vestido dourado e a Fera de traje formal posando juntos no salão do castelo encantado",
-        position: "50% 22%",
-        width: 1536,
-        height: 1024,
+        src: "/images/reino/bela-e-fera-real.jpg",
+        alt: "Bela de vestido amarelo ao lado da Fera de casaco azul, de braços dados numa festa",
+        position: "50% 24%",
+        width: 900,
+        height: 1600,
       },
     ],
   },
@@ -193,13 +205,31 @@ export const characters: Character[] = [
     story:
       "Poderosa, teatral e absolutamente inesquecível, a vilã dos mares faz uma entrada digna de espetáculo. Vem barganhar desejos e roubar a cena com aquela risada que dá um delicioso arrepio. Pode não ser mocinha, mas é, disparado, a mais divertida da festa.",
     emblem: "tridente",
+    photos: [],
+  },
+
+  {
+    slug: "principe-do-deserto",
+    name: "Príncipe do Deserto",
+    worlds: ["reino-encantado"],
+    blurb: "Chegou de tapete, trouxe a lâmpada e promete um desejo por criança.",
+    story:
+      "Cresceu correndo pelos becos do mercado e aprendeu que coragem não tem a ver com ouro. Traz a lâmpada dourada debaixo do braço e uma reverência ensaiada que nunca sai como devia. Deixa cada criança esfregar a lâmpada e pedir um desejo em voz alta — e faz questão de anotar todos, porque diz que gênio esquecido é gênio desempregado.",
+    emblem: "lampada",
     photos: [
       {
-        src: "/images/datas-magicas/bruxa.jpg",
-        alt: "Bruxa do Mar com cajado mágico iluminado e vestido roxo e dourado",
-        position: "50% 20%",
-        width: 490,
-        height: 590,
+        src: "/images/reino/principe-deserto.jpg",
+        alt: "Príncipe do Deserto de turbante branco com pluma rosa, segurando a lâmpada dourada",
+        position: "50% 22%",
+        width: 1200,
+        height: 1600,
+      },
+      {
+        src: "/images/reino/deserto-dupla.jpg",
+        alt: "Príncipe do Deserto ao lado da Princesa do Deserto numa festa",
+        position: "30% 24%",
+        width: 1200,
+        height: 1600,
       },
     ],
   },
@@ -307,15 +337,7 @@ export const characters: Character[] = [
     story:
       "De luvas brancas e sorriso enorme, o casalzinho mais famoso do mundo veio dar as boas-vindas. Ele com suas orelhas redondas, ela com o laço perfeito, juntos, são a definição de festa feliz. Chegam para receber cada convidado como um velho amigo.",
     emblem: "orelhas",
-    photos: [
-      {
-        src: "/images/mascotes/ratinhos-casal.jpg",
-        alt: "Casal de ratinhos, ela de vestido rosa e ele de terno, sorridentes",
-        position: "50% 25%",
-        width: 420,
-        height: 510,
-      },
-    ],
+    photos: [],
   },
 
   // ——— Pop & K-Pop ———
@@ -393,11 +415,11 @@ export const characters: Character[] = [
     emblem: "abobora",
     photos: [
       {
-        src: "/images/datas-magicas/ratinhos-halloween.jpg",
-        alt: "Crianças caracterizadas de ratinhos em volta de abóboras iluminadas na noite de Halloween",
-        position: "50% 28%",
-        width: 465,
-        height: 530,
+        src: "/images/datas-magicas/ratinhos-halloween-real.jpg",
+        alt: "Casal de ratinhos fantasiado para o Halloween diante de um arco de balões laranja e roxo",
+        position: "50% 30%",
+        width: 960,
+        height: 1280,
       },
     ],
   },
@@ -409,15 +431,7 @@ export const characters: Character[] = [
     story:
       "Chapéu de palha, vestido de chita e o pé quentinho para a quadrilha: chegou a turma do arraiá. Trazem bandeirinha, dança de roda e aquela alegria de festa junina de rua. Anarriê! Todo mundo de mãos dadas para o forró começar.",
     emblem: "fogueira",
-    photos: [
-      {
-        src: "/images/datas-magicas/junina.jpg",
-        alt: "Grupo da turma junina dançando ao som da sanfona com bandeirinhas coloridas ao fundo",
-        position: "50% 30%",
-        width: 870,
-        height: 534,
-      },
-    ],
+    photos: [],
   },
   {
     slug: "natal-encantado",
@@ -427,13 +441,56 @@ export const characters: Character[] = [
     story:
       "Quando os primeiros pisca-piscas acendem, a magia do Natal bate à porta antes da hora. Vem com sinos, histórias de neve e aquele espírito de dezembro que faz todo mundo querer abraçar. Um presente vivo para a festa mais aconchegante do ano.",
     emblem: "presente",
+    photos: [],
+  },
+
+  {
+    slug: "noiva-do-outro-mundo",
+    name: "Noiva do Outro Mundo",
+    worlds: ["datas-magicas"],
+    blurb: "Esperou tanto pelo casamento que atravessou para o outro lado — e voltou de buquê na mão.",
+    story:
+      "Tem a pele azul da lua e um véu que arrasta folhas por onde passa. Dizem que ficou anos esperando um noivo que não veio, e que desistiu de esperar para ir dançar. Chega no Halloween com o buquê de sempre e uma minhoquinha falante no ombro, que conta as piadas que ela é tímida demais para contar. Ensina as crianças a fazer a reverência mais elegante do cemitério.",
+    emblem: "lua",
     photos: [
       {
-        src: "/images/datas-magicas/natal.jpg",
-        alt: "Casal natalino segurando um globo de neve encantado ao lado da árvore de Natal",
-        position: "50% 25%",
-        width: 476,
-        height: 580,
+        src: "/images/datas-magicas/noiva-outro-mundo.jpg",
+        alt: "Noiva do Outro Mundo de pele azul e véu, segurando um buquê de rosas brancas",
+        position: "50% 20%",
+        width: 1206,
+        height: 1551,
+      },
+      {
+        src: "/images/datas-magicas/noiva-outro-mundo-2.jpg",
+        alt: "Noiva do Outro Mundo ao ar livre à noite, com a minhoquinha verde no ombro",
+        position: "50% 22%",
+        width: 1058,
+        height: 1447,
+      },
+    ],
+  },
+  {
+    slug: "rei-da-abobora",
+    name: "Rei da Abóbora & Boneca de Retalhos",
+    worlds: ["datas-magicas"],
+    blurb: "Ele manda no Halloween. Ela costura o resto. Em dezembro, os dois trocam de roupa.",
+    story:
+      "Ele é magro feito um galho, usa terno de riscas e acha que já viu tudo — até descobrir o Natal e resolver assumir o trenó no susto. Ela costura as próprias roupas de retalho e é quem lembra o que ele esquece. Chegam juntos, contam como é a cidade onde moram e ensinam as crianças a rir do que assusta. Atendem tanto festa de Halloween quanto de Natal, com o mesmo par e figurinos diferentes.",
+    emblem: "abobora",
+    photos: [
+      {
+        src: "/images/datas-magicas/rei-abobora-boneca.jpg",
+        alt: "Rei da Abóbora de terno listrado ao lado da Boneca de Retalhos, ao ar livre",
+        position: "50% 20%",
+        width: 975,
+        height: 1300,
+      },
+      {
+        src: "/images/datas-magicas/rei-abobora-natal.jpg",
+        alt: "Rei da Abóbora e a Boneca de Retalhos vestidos de vermelho para o Natal",
+        position: "50% 24%",
+        width: 864,
+        height: 1101,
       },
     ],
   },
@@ -467,15 +524,7 @@ export const characters: Character[] = [
     story:
       "O mascote mais fofo da quermesse chegou espigando alegria por todo canto. Fofo, quicando e sempre pronto para a dança, ele puxa a criançada para o meio do arraiá. Com ele por perto, ninguém fica parado, nem o milho na panela.",
     emblem: "milho",
-    photos: [
-      {
-        src: "/images/brasil/milhinho.jpg",
-        alt: "Milhinho Junino sorridente no meio do milharal com chapéu de palha e espiga de milho",
-        position: "50% 30%",
-        width: 656,
-        height: 330,
-      },
-    ],
+    photos: [],
   },
 ];
 

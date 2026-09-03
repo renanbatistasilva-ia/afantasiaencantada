@@ -109,9 +109,9 @@ export const worlds: World[] = [
       mood: "night",
     },
     cover: {
-      src: "/images/datas-magicas/collage.jpg",
-      alt: "Collage dos personagens sazonais: Bruxa do Mar, Ratinhos no Halloween, Turma Junina e Natal Encantado",
-      position: "50% 30%",
+      src: "/images/datas-magicas/rei-abobora-boneca.jpg",
+      alt: "Dupla do Halloween em trajes listrados posando ao ar livre entre palmeiras",
+      position: "50% 25%",
     },
     order: 6,
   },
