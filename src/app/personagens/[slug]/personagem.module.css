@@ -1,0 +1,149 @@
+.page {
+  position: relative;
+  min-height: 100svh;
+  color: var(--w-ink, var(--porcelana));
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  z-index: 2;
+  padding: calc(var(--header-h) + 1.25rem + env(safe-area-inset-top)) var(--gutter)
+    clamp(2rem, 6vh, 3rem);
+  text-align: center;
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: color-mix(in srgb, var(--w-accent) 58%, var(--w-ink));
+  margin-bottom: 1.6rem;
+}
+
+.name {
+  font-size: clamp(2.4rem, 8.5vw, 4.2rem);
+  color: var(--w-ink);
+  text-wrap: balance;
+}
+
+.blurb {
+  margin-top: 0.8rem;
+  font-size: clamp(1.3rem, 4.2vw, 1.8rem);
+  color: var(--w-accent);
+  text-wrap: balance;
+}
+
+/* ——— foto principal ——— */
+
+.stageWrap {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--gutter);
+  display: flex;
+  justify-content: center;
+}
+
+.stage {
+  height: min(64vh, 38rem);
+  width: min(90vw, 26rem);
+}
+
+.medalhaoWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  padding: clamp(2rem, 8vh, 4rem) 0;
+}
+
+.semFoto {
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+/* ——— história ——— */
+
+.story {
+  position: relative;
+  z-index: 2;
+  max-width: 38rem;
+  margin: clamp(2.5rem, 7vh, 4rem) auto 0;
+  padding: 0 var(--gutter);
+  font-size: clamp(1rem, 2.5vw, 1.12rem);
+  line-height: 1.8;
+  opacity: 0.9;
+  text-wrap: pretty;
+}
+
+/* ——— galeria ——— */
+
+.gallery {
+  position: relative;
+  z-index: 2;
+  max-width: 64rem;
+  margin: clamp(3rem, 9vh, 5rem) auto 0;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.galleryItem {
+  height: min(42vh, 24rem);
+}
+
+/* ——— chamada ——— */
+
+.cta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  padding: clamp(3rem, 10vh, 5.5rem) var(--gutter);
+  text-align: center;
+}
+
+.mainCta {
+  padding: 1.1rem 2.6rem;
+  font-size: 1rem;
+}
+
+.aside {
+  font-size: 0.92rem;
+  color: color-mix(in srgb, var(--w-ink) 72%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--w-accent) 45%, transparent);
+  transition: color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .aside:hover {
+    color: var(--w-accent);
+  }
+}
+
+@media (max-width: 860px) {
+  .gallery {
+    /* Em duas colunas as fotos ainda respiram; três ficariam ilegíveis no celular. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .galleryItem {
+    height: min(34vh, 18rem);
+  }
+
+  .stage {
+    height: min(56vh, 30rem);
+    width: min(88vw, 24rem);
+  }
+}

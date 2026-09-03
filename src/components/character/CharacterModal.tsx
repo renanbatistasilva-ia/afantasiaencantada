@@ -103,6 +103,9 @@ export default function CharacterModal({ character, onClose, onSchedule }: Props
               >
                 Chamar {character.name} para a festa
               </a>
+              <Link href={`/personagens/${character.slug}`} className={styles.fullLink}>
+                ver todas as fotos
+              </Link>
               {onSchedule ? (
                 <button
                   type="button"

@@ -89,6 +89,13 @@ export const characters: Character[] = [
         width: 1067,
         height: 1600,
       },
+      {
+        src: "/images/reino/neve-torre-jardim.jpg",
+        alt: "Princesa da Neve com a mão no rosto ao lado da Princesa da Torre, no jardim ao fim da tarde",
+        position: "35% 22%",
+        width: 1067,
+        height: 1600,
+      },
     ],
   },
   {

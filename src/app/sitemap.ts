@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 // Obrigatório com output: "export" — sem isto o build falha ao coletar a rota.
 export const dynamic = "force-static";
 import { visibleWorlds } from "@/data/worlds";
+import { visibleCharacters } from "@/data/characters";
 
 const BASE = "https://afantasiaencantada.com";
 
@@ -13,9 +14,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const characterEntries = visibleCharacters.map((c) => ({
+    url: `${BASE}/personagens/${c.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
   return [
     { url: `${BASE}/`, changeFrequency: "weekly", priority: 1.0 },
     { url: `${BASE}/reservar`, changeFrequency: "monthly", priority: 0.9 },
     ...worldEntries,
+    ...characterEntries,
   ];
 }
