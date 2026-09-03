@@ -340,11 +340,19 @@ export const characters: Character[] = [
     slug: "casal-de-ratinhos",
     name: "Casal de Ratinhos",
     worlds: ["mundo-dos-mascotes", "datas-magicas"],
-    blurb: "Os anfitriões mais famosos do mundo, de laço e luvas brancas.",
+    blurb: "Os anfitriões mais famosos do mundo, de laço e luvas brancas — e de fantasia em outubro.",
     story:
-      "De luvas brancas e sorriso enorme, o casalzinho mais famoso do mundo veio dar as boas-vindas. Ele com suas orelhas redondas, ela com o laço perfeito, juntos, são a definição de festa feliz. Chegam para receber cada convidado como um velho amigo.",
+      "De luvas brancas e sorriso enorme, o casalzinho mais famoso do mundo veio dar as boas-vindas. Ele com suas orelhas redondas, ela com o laço perfeito, juntos, são a definição de festa feliz. Chegam para receber cada convidado como um velho amigo. E quando outubro chega, trocam o laço pela fantasia e saem atrás de gostosuras, com uma pitada de susto do tamanho certo, só o suficiente para arrancar risadas.",
     emblem: "orelhas",
-    photos: [],
+    photos: [
+      {
+        src: "/images/datas-magicas/ratinhos-halloween-real.jpg",
+        alt: "Casal de ratinhos fantasiado para o Halloween diante de um arco de balões laranja e roxo",
+        position: "50% 30%",
+        width: 960,
+        height: 1280,
+      },
+    ],
   },
 
   // ——— Pop & K-Pop ———
@@ -412,24 +420,6 @@ export const characters: Character[] = [
   },
 
   // ——— Datas Mágicas ———
-  {
-    slug: "ratinhos-halloween",
-    name: "Ratinhos no Halloween",
-    worlds: ["datas-magicas"],
-    blurb: "Travessuras elegantes e gostosuras dançantes em outubro.",
-    story:
-      "Quando outubro chega, o casalzinho mais famoso do mundo troca o laço pela fantasia e sai atrás de gostosuras. Trazem uma pitada de susto do tamanho certo, só o suficiente para arrancar risadas. Travessura ou gostosura? Com eles, é sempre festa.",
-    emblem: "abobora",
-    photos: [
-      {
-        src: "/images/datas-magicas/ratinhos-halloween-real.jpg",
-        alt: "Casal de ratinhos fantasiado para o Halloween diante de um arco de balões laranja e roxo",
-        position: "50% 30%",
-        width: 960,
-        height: 1280,
-      },
-    ],
-  },
   {
     slug: "turma-junina",
     name: "Turma Junina",

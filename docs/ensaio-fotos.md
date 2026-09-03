@@ -1,6 +1,6 @@
 # Guia de ensaio — fotos que faltam no site
 
-Seis personagens estão no site com **medalhão ilustrado** em vez de foto, porque não existe
+Cinco personagens estão no site com **medalhão ilustrado** em vez de foto, porque não existe
 foto real deles. Este guia é para levar ao próximo ensaio.
 
 > As imagens que existiam antes para alguns deles eram geradas por IA e foram removidas: não
@@ -9,14 +9,17 @@ foto real deles. Este guia é para levar ao próximo ensaio.
 
 ## Quem precisa
 
-| Personagem | O que já existe |
-|---|---|
-| Princesa do Baile | nada |
-| Arqueira Valente | nada |
-| Bruxa do Mar | nada |
-| Cavaleiro das Sombras | nada |
-| Heróis do Pijama | nada |
-| Casal de Ratinhos | nada |
+| Personagem | Quem é | O que já existe |
+|---|---|---|
+| Princesa do Baile | a do sapatinho de cristal | nada |
+| Arqueira Valente | a arqueira ruiva de cachos | nada |
+| **Bruxa do Mar** | **a vilã roxa de cabelo branco e tentáculos** | nada |
+| Cavaleiro das Sombras | o herói de capa e máscara | nada |
+| Heróis do Pijama | o trio de pijama | nada |
+
+> ⚠️ **Bruxa do Mar é a bruxa roxa do fundo do mar**, a vilã da sereia. Já chegaram fotos da
+> Noiva Cadáver (pele azul, buquê branco) nomeadas como Bruxa do Mar — são personagens
+> diferentes, e a Noiva já está no site com o nome dela.
 
 ---
 
@@ -85,7 +88,7 @@ Vestido de baile pede corpo inteiro com a saia aberta. Escada ou parede clara ao
 **Arqueira Valente**
 Corpo inteiro com o arco visível — é o que identifica a personagem à primeira vista.
 
-**Bruxa do Mar**
+**Bruxa do Mar** *(a vilã roxa, de cabelo branco)*
 Retrato dramático. A fantasia tem volume, então três quartos funciona melhor que corpo
 inteiro.
 
@@ -95,22 +98,19 @@ Corpo inteiro; contraluz combina com o personagem. Vale um retrato fechado da m�
 **Heróis do Pijama**
 Os três juntos, corpo inteiro. Um retrato de cada, se der tempo.
 
-**Casal de Ratinhos**
-A dupla junta, corpo inteiro, e um plano mais fechado dos dois.
-
 ---
 
 ## Vale registrar também
 
 **Foto em festa, com criança.** São as que mais convertem e alimentam a seção Momentos, que é
 onde o site prova que as festas aconteceram de verdade. Vale para qualquer personagem, não só
-para os seis desta lista.
+para os cinco desta lista.
 
 ---
 
 ## Quando as fotos chegarem
 
 O encaixe é rápido: as fotos são processadas para no máximo 1600px e 150–300KB, entram no
-array `photos` em `src/data/characters.ts` com o enquadramento ajustado, e os seis saem do
+array `photos` em `src/data/characters.ts` com o enquadramento ajustado, e eles saem do
 medalhão de uma vez — na página do mundo, na página de elenco, na página individual e nos
 chips do formulário de reserva.
