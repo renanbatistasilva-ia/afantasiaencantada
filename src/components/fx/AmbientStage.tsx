@@ -80,8 +80,6 @@ export default function AmbientStage() {
     const scenes = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
     if (scenes.length === 0) return;
 
-    const ratios = new Map<Element, number>();
-
     const applyScene = (key: string) => {
       const scene = SCENES[key];
       if (!scene || key === currentKey.current) return;
@@ -98,27 +96,55 @@ export default function AmbientStage() {
       g.style.background = `radial-gradient(circle at 74% 26%, ${scene.glow}, transparent 62%)`;
     };
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          ratios.set(e.target, e.isIntersecting ? e.intersectionRatio : 0);
-        }
-        let bestKey = "";
-        let bestRatio = 0;
-        for (const el of scenes) {
-          const r = ratios.get(el) ?? 0;
-          if (r > bestRatio) {
-            bestRatio = r;
-            bestKey = (el as HTMLElement).dataset.scene ?? "";
-          }
-        }
-        if (bestKey) applyScene(bestKey);
-      },
-      { threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9] },
-    );
+    /**
+     * A cena é a da seção que contém um ponto de sondagem — e o ponto acompanha
+     * a direção da rolagem: descendo fica na faixa de baixo da tela, subindo na
+     * de cima. Assim o fundo já trocou quando o texto da seção entra na área de
+     * leitura, em vez de trocar depois (o texto claro chegava a aparecer sobre
+     * o fundo claro da seção anterior).
+     *
+     * Não dá para usar intersectionRatio aqui: ele é relativo ao tamanho do
+     * próprio elemento, então uma seção de 3x a tela satura em ~0,32 e nunca
+     * ganha de uma seção curta, que chega a 1,0.
+     */
+    // Antecipação pequena: o suficiente para a dissolução de 0,45s terminar antes
+    // do texto entrar na área de leitura, sem que a cena seguinte roube o rodapé
+    // da seção atual (com 0.25 sobravam ~675px da seção anterior com a cor errada).
+    const LOOKAHEAD = 0.15;
+    let lastY = window.scrollY;
+    let ticking = false;
 
-    scenes.forEach((s) => io.observe(s));
-    return () => io.disconnect();
+    const pick = () => {
+      ticking = false;
+      const y = window.scrollY;
+      const descendo = y >= lastY;
+      lastY = y;
+
+      const vh = window.innerHeight;
+      const probe = descendo ? vh * (1 - LOOKAHEAD) : vh * LOOKAHEAD;
+
+      for (const el of scenes) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= probe && r.bottom >= probe) {
+          applyScene(el.dataset.scene ?? "");
+          return;
+        }
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(pick);
+    };
+
+    pick(); // ainda não houve rolagem na montagem
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (

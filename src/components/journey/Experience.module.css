@@ -81,3 +81,17 @@
     margin-right: auto;
   }
 }
+
+/* A foto do ato leva ao personagem que aparece nela, mesmo padrão do
+   .photoButton da página do mundo. */
+.photoLink {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.5s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .photoLink:hover {
+    transform: translateY(-5px);
+  }
+}
