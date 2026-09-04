@@ -392,3 +392,8 @@ label .fieldLabel {
   color: color-mix(in srgb, var(--porcelana) 70%, transparent);
   max-width: 28rem;
 }
+
+.contactWhyLink {
+  color: var(--ouro-claro);
+  text-underline-offset: 3px;
+}

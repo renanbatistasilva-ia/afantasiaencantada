@@ -6,6 +6,7 @@ import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import AmbientStage from "@/components/fx/AmbientStage";
 import MagicDust from "@/components/fx/MagicDust";
 import CurtainIntro from "@/components/site/CurtainIntro";
+import RegistroDeOrigem from "@/components/site/RegistroDeOrigem";
 import Fairy from "@/components/fx/Fairy";
 import PortalProvider from "@/components/fx/PortalProvider";
 
@@ -99,6 +100,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
+        <RegistroDeOrigem />
         <AmbientStage />
         <MagicDust />
         <Fairy />

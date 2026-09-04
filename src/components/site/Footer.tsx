@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { quickMessage, whatsappUrl } from "@/lib/whatsapp";
 import styles from "./Footer.module.css";
 
@@ -30,6 +31,9 @@ export default function Footer() {
         <p className={styles.legal}>
           © {new Date().getFullYear()} Fantasia Encantada. Personagens
           inspirados em contos clássicos e universos queridos pelas crianças.
+        </p>
+        <p className={styles.legal}>
+          <Link href="/privacidade">Privacidade</Link>
         </p>
       </div>
     </footer>

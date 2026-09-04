@@ -11,6 +11,7 @@ import type { Character } from "@/data/types";
 import { visibleWorlds } from "@/data/worlds";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
 import { bookingMessage, formatPhone, isValidPhone, whatsappUrl } from "@/lib/whatsapp";
+import { dataLocalISO, enviarLead } from "@/lib/lead";
 import styles from "./BookingWizard.module.css";
 
 interface Draft {
@@ -458,7 +459,12 @@ export default function BookingWizard() {
                 </label>
 
                 <p id="contato-motivo" className={styles.contactWhy}>
-                  Para garantirmos sua reserva mesmo se a mensagem não chegar.
+                  Para garantirmos sua reserva mesmo se a mensagem não chegar. Usamos seus
+                  dados só para organizar a festa — veja como em{" "}
+                  <Link href="/privacidade" className={styles.contactWhyLink}>
+                    privacidade
+                  </Link>
+                  .
                 </p>
               </div>
 
@@ -467,6 +473,25 @@ export default function BookingWizard() {
                 className={`btn btn-ouro ${styles.send}`}
                 disabled={!contactValid}
                 onClick={() => {
+                  // Grava primeiro: quem desiste dentro do WhatsApp continua
+                  // sendo alguém que dá para responder. sendBeacon não bloqueia,
+                  // então o window.open abaixo segue síncrono e não é barrado
+                  // pelo bloqueador de pop-up.
+                  enviarLead({
+                    personagem_slug: draft.characterSlug || undefined,
+                    personagem_nome: character?.name,
+                    mundo_nome: worldOfCharacter?.name,
+                    data_festa: draft.date ? dataLocalISO(draft.date) : undefined,
+                    periodo: draft.period || undefined,
+                    horario: draft.time || undefined,
+                    endereco: draft.place || undefined,
+                    tipo_local: draft.venueType || undefined,
+                    crianca_nome: draft.childName || undefined,
+                    crianca_idade: draft.childAge || undefined,
+                    observacao: draft.special || undefined,
+                    responsavel_nome: draft.parentName || undefined,
+                    responsavel_telefone: draft.parentPhone || undefined,
+                  });
                   window.open(whatsappUrl(message), "_blank", "noopener,noreferrer");
                   setSent(true);
                 }}
