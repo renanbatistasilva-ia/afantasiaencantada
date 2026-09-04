@@ -1,0 +1,13 @@
+{
+  // O tsconfig principal usa lib "dom", porque quase todo o projeto é Next.
+  // Dentro de worker/ isso resolve `crypto.subtle` para o SubtleCrypto do
+  // navegador — que não tem timingSafeEqual e tipa deriveBits diferente. Aqui o
+  // Worker é checado contra os tipos do runtime que ele de fato executa.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "incremental": false
+  },
+  "include": ["worker/**/*.ts", "worker-configuration.d.ts"],
+  "exclude": ["node_modules"]
+}

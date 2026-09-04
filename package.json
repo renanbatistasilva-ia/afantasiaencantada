@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute fantasia-leads --local --file=worker/schema.sql",
+    "db:remoto": "wrangler d1 execute fantasia-leads --remote --file=worker/schema.sql"
   },
   "dependencies": {
     "lenis": "^1.3.4",
