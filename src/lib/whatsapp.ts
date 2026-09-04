@@ -82,3 +82,26 @@ export function isValidPhone(value: string) {
   const ddd = Number(d.slice(0, 2));
   return ddd >= 11 && ddd <= 99 && d[2] === "9";
 }
+
+/**
+ * Conversa com um número específico — o oposto de `whatsappUrl`, que sempre
+ * abre a conversa com a empresa.
+ *
+ * O telefone vem do banco como a pessoa digitou, com máscara. Só os dígitos
+ * servem no link, e o 55 do Brasil precisa ser somado.
+ */
+export function whatsappUrlPara(telefone: string, mensagem: string) {
+  return `https://wa.me/55${phoneDigits(telefone)}?text=${encodeURIComponent(mensagem)}`;
+}
+
+/**
+ * Primeira resposta a quem preencheu o formulário, já pronta no painel.
+ *
+ * Diz "a festa de Helena", nunca "da Helena": o nome de uma criança não informa
+ * o gênero dela, e errar isso na primeira mensagem é um mau começo.
+ */
+export function mensagemDeResposta(responsavel: string, crianca?: string | null) {
+  const primeiro = responsavel.trim().split(/\s+/)[0] || "tudo bem";
+  const festa = crianca?.trim() ? `a festa de ${crianca.trim()}` : "a festa";
+  return `Olá, ${primeiro}! Aqui é da Fantasia Encantada ✨ Recebemos seu pedido sobre ${festa} e já quero ajudar a deixar tudo pronto. Posso confirmar alguns detalhes com você?`;
+}

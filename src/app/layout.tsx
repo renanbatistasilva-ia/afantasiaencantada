@@ -1,13 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Parisienne, Figtree } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/site/Header";
-import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import AmbientStage from "@/components/fx/AmbientStage";
-import MagicDust from "@/components/fx/MagicDust";
-import CurtainIntro from "@/components/site/CurtainIntro";
-import RegistroDeOrigem from "@/components/site/RegistroDeOrigem";
-import Fairy from "@/components/fx/Fairy";
+import Vitrine from "@/components/site/Vitrine";
 import PortalProvider from "@/components/fx/PortalProvider";
 
 const display = Fraunces({
@@ -100,14 +95,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
-        <RegistroDeOrigem />
         <AmbientStage />
-        <MagicDust />
-        <Fairy />
-        <CurtainIntro />
-        <Header />
-        <PortalProvider>{children}</PortalProvider>
-        <WhatsAppFloat />
+        <Vitrine>
+          <PortalProvider>{children}</PortalProvider>
+        </Vitrine>
       </body>
     </html>
   );
