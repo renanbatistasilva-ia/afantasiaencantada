@@ -131,7 +131,7 @@ export default async function CharacterPage({ params }: Props) {
       )}
 
       <section className={styles.cta}>
-        <Reveal>
+        <Reveal className={styles.ctaGroup}>
           <Link href={`/reservar?personagem=${character.slug}`} className={`btn btn-ouro ${styles.mainCta}`}>
             Reservar {character.name}
           </Link>

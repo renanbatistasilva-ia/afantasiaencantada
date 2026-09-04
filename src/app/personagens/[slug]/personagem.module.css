@@ -104,12 +104,19 @@
 .cta {
   position: relative;
   z-index: 2;
+  padding: clamp(3rem, 10vh, 5.5rem) var(--gutter);
+  text-align: center;
+}
+
+/* O layout precisa ficar aqui, e não no <section>: o Reveal renderiza uma div
+   própria entre os dois, então um flex no section aplicaria nela, não no botão
+   e no link — eles acabavam inline, colados (e sobrepostos no celular).
+   Mesmo gap do CTA final da home, em BookingInvite.module.css. */
+.ctaGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.1rem;
-  padding: clamp(3rem, 10vh, 5.5rem) var(--gutter);
-  text-align: center;
 }
 
 .mainCta {
