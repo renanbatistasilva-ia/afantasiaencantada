@@ -124,21 +124,6 @@
   font-size: 1rem;
 }
 
-.aside {
-  font-size: 0.92rem;
-  color: color-mix(in srgb, var(--w-ink) 72%, transparent);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-color: color-mix(in srgb, var(--w-accent) 45%, transparent);
-  transition: color 0.3s ease;
-}
-
-@media (hover: hover) {
-  .aside:hover {
-    color: var(--w-accent);
-  }
-}
-
 @media (max-width: 860px) {
   .gallery {
     /* Em duas colunas as fotos ainda respiram; três ficariam ilegíveis no celular. */

@@ -9,7 +9,6 @@ import Footer from "@/components/site/Footer";
 import CharacterMedallion from "@/components/character/CharacterMedallion";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
 import { worldBySlug } from "@/data/worlds";
-import { characterInterestMessage, whatsappUrl } from "@/lib/whatsapp";
 import styles from "./personagem.module.css";
 
 const BASE = "https://afantasiaencantada.com";
@@ -135,14 +134,6 @@ export default async function CharacterPage({ params }: Props) {
           <Link href={`/reservar?personagem=${character.slug}`} className={`btn btn-ouro ${styles.mainCta}`}>
             Reservar {character.name}
           </Link>
-          <a
-            href={whatsappUrl(characterInterestMessage(character.name))}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.aside}
-          >
-            ou tirar uma dúvida no WhatsApp
-          </a>
         </Reveal>
       </section>
 
