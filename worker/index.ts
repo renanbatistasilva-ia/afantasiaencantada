@@ -171,9 +171,13 @@ async function entrar(
   const ip = request.headers.get("CF-Connecting-IP") ?? "desconhecido";
   // O freio por IP trava quem está chutando; o global impede que um ataque
   // distribuído gaste CPU de PBKDF2 sem teto. 60/min ainda sobra para a dona.
+  //
+  // Os bindings são opcionais de propósito: se a conta não os oferecer, o
+  // painel continua de pé com a senha como defesa, em vez de o Worker inteiro
+  // falhar ao iniciar e derrubar junto a gravação de leads.
   const [porIp, global] = await Promise.all([
-    env.LIMITE_LOGIN.limit({ key: ip }),
-    env.LIMITE_GLOBAL.limit({ key: "login" }),
+    env.LIMITE_LOGIN?.limit({ key: ip }) ?? Promise.resolve({ success: true }),
+    env.LIMITE_GLOBAL?.limit({ key: "login" }) ?? Promise.resolve({ success: true }),
   ]);
   if (!porIp.success || !global.success) {
     return semCache(

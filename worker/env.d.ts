@@ -12,4 +12,7 @@ interface Env {
   PAINEL_SENHA_HASH: string;
   /** 32 bytes aleatórios em base64, usados só para assinar o cookie de sessão. */
   PAINEL_SESSAO_SEGREDO: string;
+  /** Freios de tentativa de senha. Opcionais: nem toda conta os oferece. */
+  LIMITE_LOGIN?: RateLimit;
+  LIMITE_GLOBAL?: RateLimit;
 }
