@@ -21,3 +21,6 @@ npm-debug.log*
 
 # gerado por `wrangler types` a partir do wrangler.jsonc
 worker-configuration.d.ts
+
+# cache incremental do tsc
+tsconfig.tsbuildinfo

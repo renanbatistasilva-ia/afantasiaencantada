@@ -3,6 +3,12 @@
   "name": "afantasiaencantada",
   "compatibility_date": "2025-01-01",
   "main": "worker/index.ts",
+  // Gera o site antes de publicar. Vale para o deploy automático da Cloudflare,
+  // que clona o repositório sem o `out/` (ele é ignorado no git), e também aqui:
+  // impede que um `out/` velho suba no lugar do código atual.
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
