@@ -13,6 +13,8 @@ next-env.d.ts
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
 
 # sistema
 .DS_Store
@@ -24,3 +26,8 @@ worker-configuration.d.ts
 
 # cache incremental do tsc
 tsconfig.tsbuildinfo
+
+# estado local do wrangler — inclui o SQLite do D1 de desenvolvimento.
+# Testar o formulário localmente grava leads de verdade neste arquivo, e o
+# repositório é público: nome, telefone e dados de criança não podem entrar aqui.
+.wrangler/
