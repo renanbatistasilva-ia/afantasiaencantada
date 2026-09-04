@@ -2,8 +2,13 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "afantasiaencantada",
   "compatibility_date": "2025-01-01",
+  "main": "worker/index.ts",
   "assets": {
     "directory": "./out",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Só estas rotas passam pelo Worker. Todo o resto do site continua sendo
+    // servido direto pela camada de assets, sem tocar em código.
+    "run_worker_first": ["/api/*"]
   }
 }
