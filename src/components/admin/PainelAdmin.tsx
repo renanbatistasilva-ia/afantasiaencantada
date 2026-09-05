@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import PainelTrafego from "./PainelTrafego";
 import { formatPhone, mensagemDeResposta, whatsappUrlPara } from "@/lib/whatsapp";
 import styles from "./PainelAdmin.module.css";
 
@@ -67,6 +68,9 @@ export default function PainelAdmin() {
   const [entrando, setEntrando] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [apagando, setApagando] = useState<string | null>(null);
+  // Aba fica fora de `fase` de propósito: `carregar()` trata qualquer valor
+  // diferente de "lista" como sessão expirada e voltaria para a senha.
+  const [aba, setAba] = useState<"leads" | "trafego">("leads");
 
   const carregar = useCallback(async () => {
     const r = await fetch("/api/admin/leads");
@@ -193,6 +197,30 @@ export default function PainelAdmin() {
         </button>
       </header>
 
+      <div className={styles.abas} role="group" aria-label="O que mostrar">
+        <button
+          type="button"
+          className={`${styles.chip} ${aba === "leads" ? styles.chipAtivo : ""}`}
+          aria-pressed={aba === "leads"}
+          onClick={() => setAba("leads")}
+        >
+          pedidos
+        </button>
+        <button
+          type="button"
+          className={`${styles.chip} ${aba === "trafego" ? styles.chipAtivo : ""}`}
+          aria-pressed={aba === "trafego"}
+          onClick={() => setAba("trafego")}
+        >
+          visitas
+        </button>
+      </div>
+
+      {aba === "trafego" && <PainelTrafego />}
+
+      {aba === "leads" && (
+        <>
+
       {leads.length === 0 && (
         <p className={styles.vazio}>
           Quando alguém preencher o formulário de reserva, o pedido aparece aqui — mesmo que a
@@ -315,6 +343,8 @@ export default function PainelAdmin() {
           );
         })}
       </ul>
+        </>
+      )}
     </main>
   );
 }

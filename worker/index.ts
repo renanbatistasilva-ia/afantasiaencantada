@@ -16,6 +16,7 @@
  * - `/api/admin/*`, atrás de senha.
  */
 
+import { lerAnalitica, receberEventos } from "./analitica";
 import {
   conferirSessao,
   cookieVazio,
@@ -250,6 +251,11 @@ async function apagarLead(env: Env, id: string): Promise<Response> {
 }
 
 async function rotearLeads(request: Request, env: Env, url: URL, rota: string): Promise<Response> {
+  if (rota === "/api/admin/analitica") {
+    if (request.method !== "GET") return erro("método não permitido", 405);
+    return semCache(await lerAnalitica(env, url));
+  }
+
   if (rota === "/api/admin/leads") {
     return request.method === "GET" ? listarLeads(env, url) : erro("método não permitido", 405);
   }
@@ -271,6 +277,11 @@ async function rotearApi(request: Request, env: Env, url: URL): Promise<Response
   // Captura de lead: intocada, e nenhuma checagem nova antes desta linha. O
   // formulário público não pode regredir por causa do painel.
   if (rota === "/api/lead") return gravarLead(request, env);
+
+  // Contagem de tráfego: pública como a captura, e igualmente antes de
+  // qualquer coisa do painel. Ela nunca devolve erro nem toca no que é do
+  // painel, então não pode atrapalhar quem está navegando ou reservando.
+  if (rota === "/api/e") return receberEventos(request, env, url);
 
   if (!rota.startsWith("/api/admin/")) return erro("rota não encontrada", 404);
 

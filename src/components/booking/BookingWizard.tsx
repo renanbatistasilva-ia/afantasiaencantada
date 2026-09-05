@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import MagicCalendar from "./MagicCalendar";
 import CharacterMedallion from "@/components/character/CharacterMedallion";
@@ -12,6 +12,7 @@ import { visibleWorlds } from "@/data/worlds";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
 import { bookingMessage, formatPhone, isValidPhone, whatsappUrl } from "@/lib/whatsapp";
 import { dataLocalISO, enviarLead } from "@/lib/lead";
+import { medirLead, medirPasso } from "@/lib/medicao";
 import styles from "./BookingWizard.module.css";
 
 interface Draft {
@@ -33,6 +34,19 @@ const VENUES = ["Em casa", "Salão do prédio", "Buffet", "Escola", "Outro"];
 const AGES = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13+"];
 
 const STEP_COUNT = 6;
+
+/**
+ * O que significa ter ALCANÇADO cada tela — não o que a tela pede.
+ *
+ * Chegar à tela 1 é o que prova que a pessoa escolheu o personagem; estar na
+ * tela 0 só prova que ela abriu o formulário. Por isso os nomes estão deslocados
+ * em relação ao conteúdo das telas, e "segredo" não aparece: chegar à revisão já
+ * implica ter passado por ele.
+ *
+ * O painel lê nome, e não número, porque o índice não é comparável entre quem
+ * entra pela home e quem chega por link direto de personagem, que começa em 1.
+ */
+const PASSOS = ["abriu", "personagem", "data", "cenario", "estrela", "contato"];
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function BookingWizard() {
@@ -65,6 +79,7 @@ export default function BookingWizard() {
   // de fato — o envio acontece dentro do app. Este estado só registra que o
   // encaminhamento aconteceu, e a tela final é redigida com esse limite em mente.
   const [sent, setSent] = useState(false);
+  const maxPasso = useRef(-1);
 
   const contactValid = draft.parentName.trim().length > 1 && isValidPhone(draft.parentPhone);
 
@@ -93,6 +108,27 @@ export default function BookingWizard() {
     true,
     true,
   ][step];
+
+  /**
+   * Registra o passo mais avançado que a pessoa alcançou.
+   *
+   * Fica num efeito sobre `step`, e não dentro de `go`/`jump`, porque assim
+   * pega também a montagem — inclusive quando o link traz `?personagem=` e o
+   * assistente já começa no passo 1. Instrumentar as duas funções perderia
+   * justamente a entrada, que é onde mais gente desiste.
+   *
+   * Só conta para frente: voltar para revisar não é passo novo.
+   */
+  useEffect(() => {
+    if (step <= maxPasso.current) return;
+    // Os passos pulados por quem chegou com o personagem escolhido contam
+    // também. Sem isso o funil deixaria de cair sempre, e um passo apareceria
+    // com mais gente que o anterior — que se lê como erro, não como dado.
+    for (let n = maxPasso.current + 1; n <= step; n++) {
+      if (PASSOS[n]) medirPasso(PASSOS[n]);
+    }
+    maxPasso.current = step;
+  }, [step]);
 
   const go = (delta: number) => {
     setDir(delta);
@@ -477,6 +513,7 @@ export default function BookingWizard() {
                   // sendo alguém que dá para responder. sendBeacon não bloqueia,
                   // então o window.open abaixo segue síncrono e não é barrado
                   // pelo bloqueador de pop-up.
+                  medirLead();
                   enviarLead({
                     personagem_slug: draft.characterSlug || undefined,
                     personagem_nome: character?.name,

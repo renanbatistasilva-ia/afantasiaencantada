@@ -64,3 +64,9 @@
   font-size: 0.88rem;
   color: color-mix(in srgb, var(--porcelana) 62%, transparent);
 }
+
+.link {
+  color: var(--ouro-claro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

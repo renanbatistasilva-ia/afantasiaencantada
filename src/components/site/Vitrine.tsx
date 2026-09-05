@@ -6,6 +6,7 @@ import Fairy from "@/components/fx/Fairy";
 import Header from "@/components/site/Header";
 import MagicDust from "@/components/fx/MagicDust";
 import RegistroDeOrigem from "@/components/site/RegistroDeOrigem";
+import RegistroDeVisita from "@/components/site/RegistroDeVisita";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 
 /**
@@ -29,6 +30,7 @@ export default function Vitrine({ children }: { children: React.ReactNode }) {
   return (
     <>
       <RegistroDeOrigem />
+      <RegistroDeVisita />
       <MagicDust />
       <Fairy />
       <CurtainIntro />

@@ -47,7 +47,7 @@ export function registrarOrigem() {
   }
 }
 
-function lerOrigem(): Origem {
+export function lerOrigem(): Origem {
   if (typeof window === "undefined") return {};
   try {
     return JSON.parse(sessionStorage.getItem(CHAVE_ORIGEM) ?? "{}") as Origem;

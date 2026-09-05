@@ -291,6 +291,145 @@
   font-weight: 650;
 }
 
+/* ——— abas ——— */
+
+.abas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 1.6rem;
+}
+
+/* ——— tráfego ——— */
+
+.trafego {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.bloco {
+  border: 1px solid rgba(233, 206, 156, 0.25);
+  border-radius: 20px;
+  background: rgba(250, 243, 236, 0.04);
+  padding: 1.1rem 1.2rem 1.2rem;
+}
+
+.blocoTitulo {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ouro-claro);
+  margin-bottom: 0.2rem;
+}
+
+.blocoNota,
+.legenda {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+}
+
+.blocoNota {
+  margin-bottom: 0.9rem;
+}
+
+.legenda {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.destaque {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--porcelana);
+  margin-top: 0.4rem;
+}
+
+.destaqueNota {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+}
+
+.comparacao {
+  font-size: 0.88rem;
+  color: color-mix(in srgb, var(--porcelana) 72%, transparent);
+  margin-bottom: 1rem;
+}
+
+/* Barras em divs: uma biblioteca de gráfico seria mais peso que o painel todo. */
+.barras {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 5rem;
+}
+
+.barraCol {
+  flex: 1;
+  /* Com um dia só de dados, sem teto a barra vira um bloco ocupando a largura
+     inteira — parece defeito, não gráfico. */
+  max-width: 14px;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.barra {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, var(--ouro-claro), var(--ouro));
+}
+
+/* ——— funil ——— */
+
+.funil {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  list-style: none;
+  margin-top: 0.6rem;
+}
+
+.degrau {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(233, 206, 156, 0.12);
+}
+
+.degrauNome {
+  flex: 1;
+  font-size: 0.92rem;
+  color: var(--porcelana);
+}
+
+.degrauValor {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ouro-claro);
+}
+
+.perda,
+.perdaMaior {
+  flex-shrink: 0;
+  min-width: 3.2rem;
+  text-align: right;
+  font-size: 0.82rem;
+}
+
+.perda {
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+}
+
+/* A maior queda é a única coisa acionável da tela; merece destaque. */
+.perdaMaior {
+  color: var(--rosa);
+  font-weight: 650;
+}
+
 /* ——— ponteiro ——— */
 
 @media (hover: hover) {

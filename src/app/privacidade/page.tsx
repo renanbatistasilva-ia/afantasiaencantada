@@ -46,6 +46,23 @@ export default function PrivacidadePage() {
           publicidade e não rastreamos você em outros sites.
         </p>
 
+        <h2 className={styles.secao}>Como contamos as visitas</h2>
+        <p>
+          Contamos quantas pessoas abrem o site e quais páginas elas veem, para saber o que está
+          funcionando. Para isso o navegador guarda um número sorteado na hora, que existe só
+          enquanto a aba estiver aberta e some quando você a fecha. Ele não tem seu nome, não tem
+          seu telefone e não sai daqui.
+        </p>
+        <p>
+          <strong>Não guardamos seu endereço de IP.</strong> Ficam só totais por dia — quantas
+          visitas, de onde vieram, quais páginas — sem nada que aponte para uma pessoa. Se preferir
+          não ser contado, abra{" "}
+          <Link href="/?fe=off" className={styles.link}>
+            este link
+          </Link>{" "}
+          e este aparelho para de contar.
+        </p>
+
         <h2 className={styles.secao}>Sobre os dados da criança</h2>
         <p>
           Pedimos o primeiro nome e a idade da criança por um motivo único: o personagem chega

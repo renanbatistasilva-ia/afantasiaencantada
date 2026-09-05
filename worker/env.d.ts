@@ -15,4 +15,6 @@ interface Env {
   /** Freios de tentativa de senha. Opcionais: nem toda conta os oferece. */
   LIMITE_LOGIN?: RateLimit;
   LIMITE_GLOBAL?: RateLimit;
+  /** Freio da contagem de tráfego, com namespace próprio. */
+  LIMITE_EVENTOS?: RateLimit;
 }
