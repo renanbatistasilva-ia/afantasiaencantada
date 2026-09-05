@@ -26,9 +26,12 @@
     { "name": "LIMITE_GLOBAL", "namespace_id": "1002", "simple": { "limit": 60, "period": 60 } },
     { "name": "LIMITE_EVENTOS", "namespace_id": "1003", "simple": { "limit": 20, "period": 10 } }
   ],
-  // Detalhe cru da navegação. Não consome cota do D1 e a Cloudflare apaga
-  // sozinha em 3 meses. O conjunto se cria na primeira escrita, sem painel.
-  "analytics_engine_datasets": [{ "binding": "EVENTOS", "dataset": "fe_eventos" }],
+  // O detalhe cru da navegação iria para a Analytics Engine — sem custo de cota
+  // do D1 e apagado pela Cloudflare em 3 meses. Fica comentado porque ela exige
+  // um clique de habilitação no painel, como o R2. Os contadores que o painel
+  // mostra vivem no D1 e não dependem disto; o código já trata a ausência do
+  // binding. Habilitou? Basta descomentar e publicar.
+  // "analytics_engine_datasets": [{ "binding": "EVENTOS", "dataset": "fe_eventos" }],
   // Interruptor da contagem: "off" e um deploy desligam tudo.
   "vars": { "ANALITICA": "on" },
   "d1_databases": [

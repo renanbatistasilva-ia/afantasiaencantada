@@ -17,4 +17,7 @@ interface Env {
   LIMITE_GLOBAL?: RateLimit;
   /** Freio da contagem de tráfego, com namespace próprio. */
   LIMITE_EVENTOS?: RateLimit;
+  /** Detalhe cru da navegação. Ausente enquanto a Analytics Engine não for
+   *  habilitada no painel da Cloudflare — o código funciona sem ela. */
+  EVENTOS?: AnalyticsEngineDataset;
 }
