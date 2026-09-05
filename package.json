@@ -8,6 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
     "deploy": "wrangler deploy",
+    "senha": "bash scripts/senha.sh",
+    "sessoes:encerrar": "bash scripts/encerrar-sessoes.sh",
     "db:local": "wrangler d1 execute fantasia-leads --local --file=worker/schema.sql",
     "db:remoto": "wrangler d1 execute fantasia-leads --remote --file=worker/schema.sql"
   },

@@ -87,6 +87,14 @@
   box-shadow: none;
 }
 
+.ajuda {
+  /* 62% mede 5,85:1 sobre o fundo da página — discreto e ainda legível. */
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+  text-wrap: pretty;
+}
+
 .voltar {
   font-size: 0.8rem;
   letter-spacing: 0.16em;

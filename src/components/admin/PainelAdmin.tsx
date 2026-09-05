@@ -173,6 +173,9 @@ export default function PainelAdmin() {
           <button className={`btn btn-ouro ${styles.acaoPrincipal}`} type="submit" disabled={entrando}>
             {entrando ? "conferindo…" : "Entrar"}
           </button>
+          <p className={styles.ajuda}>
+            Esqueceu a senha? A troca é feita por quem cuida do site.
+          </p>
           <Link href="/" className={styles.voltar}>
             ← início
           </Link>
