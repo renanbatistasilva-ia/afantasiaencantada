@@ -59,7 +59,7 @@ export function bookingMessage(d: BookingDraft) {
 
 /* ——— telefone do responsável ——— */
 
-/** Só os dígitos, para validar e para gravar depois no banco. */
+/** Só os dígitos, para validar e para montar o link do WhatsApp. */
 export function phoneDigits(value: string) {
   return value.replace(/\D/g, "").slice(0, 11);
 }

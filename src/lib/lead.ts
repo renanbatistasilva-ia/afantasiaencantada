@@ -57,6 +57,14 @@ export function lerOrigem(): Origem {
 }
 
 export interface DadosLead {
+  /**
+   * Identificador do rascunho, estável enquanto o formulário estiver aberto.
+   *
+   * A tela de confirmação oferece "revisar os dados": sem isto, enviar de
+   * novo gravaria uma segunda linha, e as duas chegariam ao painel como se
+   * fossem dois pedidos de pessoas diferentes.
+   */
+  id?: string;
   personagem_slug?: string;
   personagem_nome?: string;
   mundo_nome?: string;
@@ -84,11 +92,13 @@ export function enviarLead(dados: DadosLead) {
   if (typeof window === "undefined") return;
   const corpo = JSON.stringify({ ...dados, ...lerOrigem() });
   try {
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon("/api/lead", new Blob([corpo], { type: "application/json" }));
-      return;
-    }
-    // Navegador sem sendBeacon: keepalive faz o mesmo papel.
+    // O sendBeacon devolve false quando o navegador se recusa a enfileirar —
+    // fila cheia, corpo grande, aba encerrando. Ignorar esse retorno fazia a
+    // pessoa ver a tela de sucesso enquanto o pedido não chegava a existir.
+    const blob = new Blob([corpo], { type: "application/json" });
+    if (navigator.sendBeacon?.("/api/lead", blob)) return;
+
+    // Recusado, ou navegador sem sendBeacon: keepalive faz o mesmo papel.
     void fetch("/api/lead", {
       method: "POST",
       body: corpo,

@@ -9,6 +9,12 @@
   "build": {
     "command": "npm run build"
   },
+  // Limpeza diária às 4h de São Paulo (7h UTC): apaga pedido que não virou festa
+  // com mais de 12 meses, como a página de privacidade promete, e poda os
+  // contadores com mais de 25 meses. Cron Trigger é gratuito e mora aqui, sem
+  // passo no painel — confirmar no primeiro deploy, porque R2, Analytics Engine
+  // e Zero Trust também "moravam aqui" e os três exigiram clique.
+  "triggers": { "crons": ["0 7 * * *"] },
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",

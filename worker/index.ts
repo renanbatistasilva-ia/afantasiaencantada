@@ -16,7 +16,7 @@
  * - `/api/admin/*`, atrás de senha.
  */
 
-import { lerAnalitica, receberEventos } from "./analitica";
+import { diaEmSaoPaulo, lerAnalitica, receberEventos } from "./analitica";
 import {
   conferirSessao,
   cookieVazio,
@@ -27,6 +27,9 @@ import {
 
 // O tipo Env vem de worker-configuration.d.ts, gerado por `wrangler types` a
 // partir do próprio wrangler.jsonc — assim binding novo não passa despercebido.
+
+/** Usado pelas duas famílias de rota: o id do rascunho e o id do lead no painel. */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Corpo maior que isto é recusado sem nem tentar interpretar. */
 const LIMITE_CORPO = 8 * 1024;
@@ -96,12 +99,26 @@ async function gravarLead(request: Request, env: Env): Promise<Response> {
     return Response.json({ erro: "personagem ausente" }, { status: 400 });
   }
 
+  // O formulário manda um id estável por rascunho. A tela de confirmação oferece
+  // "revisar os dados", e sem isto enviar de novo criaria uma segunda linha —
+  // duas pessoas diferentes, aos olhos do painel. Com o upsert, reenviar corrige
+  // o mesmo pedido, que é o que quem clicou em revisar quis fazer.
+  const id = UUID.test(String(corpo.id ?? "")) ? String(corpo.id) : crypto.randomUUID();
+
   const colunas = ["id", "criado_em", ...Object.keys(LIMITES)];
-  const valores = [crypto.randomUUID(), new Date().toISOString(), ...Object.keys(LIMITES).map((k) => campos[k])];
+  const valores = [id, new Date().toISOString(), ...Object.keys(LIMITES).map((k) => campos[k])];
+
+  // `criado_em` e `status` ficam de fora da atualização de propósito: a hora do
+  // primeiro envio é a que vale, e se a dona já marcou o pedido como respondido,
+  // um reenvio não pode jogar isso para trás.
+  const atualiza = Object.keys(LIMITES)
+    .map((c) => `${c} = excluded.${c}`)
+    .join(", ");
 
   try {
     await env.DB.prepare(
-      `INSERT INTO leads (${colunas.join(", ")}) VALUES (${colunas.map(() => "?").join(", ")})`,
+      `INSERT INTO leads (${colunas.join(", ")}) VALUES (${colunas.map(() => "?").join(", ")})
+         ON CONFLICT(id) DO UPDATE SET ${atualiza}`,
     )
       .bind(...valores)
       .run();
@@ -117,7 +134,6 @@ async function gravarLead(request: Request, env: Env): Promise<Response> {
 
 const PREFIXO_LEAD = "/api/admin/leads/";
 const STATUS_VALIDOS = new Set(["novo", "respondido", "fechado", "perdido"]);
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * Resposta do painel nunca pode ser guardada em cache: são nomes e idades de
@@ -316,6 +332,32 @@ async function rotearApi(request: Request, env: Env, url: URL): Promise<Response
   return resposta;
 }
 
+/**
+ * Cumpre os prazos que a página de privacidade promete publicamente.
+ *
+ * Ela diz que um pedido que não vira festa é apagado em até 12 meses, e que o
+ * registro de quem virou cliente é mantido enquanto for cliente. Até aqui nada
+ * apagava nada: as duas tabelas cresciam para sempre e a promessa era só texto.
+ *
+ * Os contadores de tráfego não identificam ninguém, então não correm o mesmo
+ * prazo — mas também não devem crescer sem fim. Vinte e cinco meses dão
+ * comparação de um ano para o outro, que num negócio de festas é a pergunta
+ * mais útil que existe: como foi o Natal passado.
+ */
+async function descartarAntigos(env: Env): Promise<void> {
+  const doze = new Date();
+  doze.setMonth(doze.getMonth() - 12);
+  await env.DB.prepare(`DELETE FROM leads WHERE status <> 'fechado' AND criado_em < ?`)
+    .bind(doze.toISOString())
+    .run();
+
+  const vinteCinco = new Date();
+  vinteCinco.setMonth(vinteCinco.getMonth() - 25);
+  await env.DB.prepare(`DELETE FROM analitica_diaria WHERE dia < ?`)
+    .bind(diaEmSaoPaulo(vinteCinco))
+    .run();
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -330,5 +372,11 @@ export default {
       // inglês e em HTML, para quem esperava JSON.
       return erro("falha inesperada", 500);
     }
+  },
+
+  async scheduled(_evento: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    // Uma falha na limpeza não pode virar alarme nem derrubar nada: na próxima
+    // madrugada tenta de novo.
+    ctx.waitUntil(descartarAntigos(env).catch(() => {}));
   },
 };

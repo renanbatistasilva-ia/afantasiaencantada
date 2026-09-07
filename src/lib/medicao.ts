@@ -43,7 +43,6 @@ interface Evento {
 let fila: Evento[] = [];
 let timer: ReturnType<typeof setTimeout> | null = null;
 let envios = 0;
-let ligado: boolean | null = null;
 
 /**
  * Um número sorteado na hora, que vive só enquanto a aba estiver aberta.
@@ -66,9 +65,16 @@ function idDaVisita(): string {
   }
 }
 
-/** Respeita quem pediu para não ser medido, e a própria dona no aparelho dela. */
+/**
+ * Respeita quem pediu para não ser medido, e a própria dona no aparelho dela.
+ *
+ * Sem cache, de propósito. A resposta já foi guardada numa variável de módulo, e
+ * isso quebrava o opt-out que a página de privacidade promete: o link para
+ * `/?fe=off` navega sem recarregar, então o módulo não é reavaliado e o
+ * parâmetro nunca chegava a ser lido. Ler `localStorage` a cada evento não custa
+ * nada perto da requisição de rede que vem depois.
+ */
 function medindo(): boolean {
-  if (ligado !== null) return ligado;
   if (typeof window === "undefined") return false;
   try {
     const p = new URLSearchParams(window.location.search);
@@ -76,15 +82,17 @@ function medindo(): boolean {
     if (p.get("fe") === "on") localStorage.removeItem(CHAVE_OPTOUT);
 
     const nav = navigator as Navigator & { globalPrivacyControl?: boolean; webdriver?: boolean };
-    ligado =
+    return (
       localStorage.getItem(CHAVE_OPTOUT) !== "1" &&
       nav.globalPrivacyControl !== true &&
       navigator.doNotTrack !== "1" &&
-      nav.webdriver !== true;
+      nav.webdriver !== true
+    );
   } catch {
-    ligado = true;
+    // Armazenamento bloqueado: não dá para saber se pediu opt-out. Medir é o
+    // padrão, e nenhum dado pessoal está em jogo.
+    return true;
   }
-  return ligado;
 }
 
 /** Conjunto do que já foi contado nesta visita, para não contar duas vezes. */

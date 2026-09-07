@@ -8,12 +8,12 @@ const depoimentos = [
     detail: "Mãe da Isabela, 5 anos",
   },
   {
-    text: "Contratamos o Homem-Aranha para o Miguel e o menino ficou uma semana falando disso. O ator era caracterizado dos pés à cabeça e brincou com a criançada como se fosse um deles.",
+    text: "Contratamos os Heróis Aranha para o Miguel e o menino ficou uma semana falando disso. Os atores eram caracterizados dos pés à cabeça e brincaram com a criançada como se fossem um deles.",
     name: "Renata Mendes",
     detail: "Mãe do Miguel, 6 anos",
   },
   {
-    text: "Achei que uma visita de 45 minutos seria pouco, mas passou tão intenso que ninguém queria que a Elsa fosse embora. Teve foto, música, brincadeira. Foi uma festa dentro da festa.",
+    text: "Achei que uma visita de 45 minutos seria pouco, mas passou tão intenso que ninguém queria que a Princesa da Neve fosse embora. Teve foto, música, brincadeira. Foi uma festa dentro da festa.",
     name: "Juliana Prado",
     detail: "Mãe da Sofia, 4 anos",
   },

@@ -80,6 +80,9 @@ export default function BookingWizard() {
   // encaminhamento aconteceu, e a tela final é redigida com esse limite em mente.
   const [sent, setSent] = useState(false);
   const maxPasso = useRef(-1);
+  // Vive enquanto o formulário estiver montado, então "revisar os dados" e
+  // enviar de novo atualiza o mesmo pedido em vez de criar outro.
+  const idRascunho = useRef("");
 
   const contactValid = draft.parentName.trim().length > 1 && isValidPhone(draft.parentPhone);
 
@@ -513,8 +516,12 @@ export default function BookingWizard() {
                   // sendo alguém que dá para responder. sendBeacon não bloqueia,
                   // então o window.open abaixo segue síncrono e não é barrado
                   // pelo bloqueador de pop-up.
+                  // Só aqui, nunca na renderização: crypto.randomUUID não
+                  // existe na geração estática do site.
+                  if (!idRascunho.current) idRascunho.current = crypto.randomUUID();
                   medirLead();
                   enviarLead({
+                    id: idRascunho.current,
                     personagem_slug: draft.characterSlug || undefined,
                     personagem_nome: character?.name,
                     mundo_nome: worldOfCharacter?.name,

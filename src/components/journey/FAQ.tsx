@@ -24,7 +24,7 @@ const perguntas = [
   },
   {
     q: "Vocês têm personagens masculinos e femininos?",
-    a: "Sim! Princesas, heróis (Homem-Aranha, Cavaleiro das Sombras, Heróis do Pijama), mascotes, personagens do K-Pop, do universo pop e brasileiros (Maria Bonita, Casal da Roça). Veja o elenco completo na página de personagens.",
+    a: "Sim! Princesas, heróis (Heróis Aranha, Cavaleiro das Sombras, Heróis do Pijama), mascotes, personagens do K-Pop, do universo pop e brasileiros (Maria Bonita, Casal da Roça). Veja o elenco completo na página de personagens.",
   },
   {
     q: "E se der problema no dia? Tem plano B?",

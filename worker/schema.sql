@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS leads (
 
   -- quem está falando com a gente
   responsavel_nome TEXT,
-  responsavel_telefone TEXT,            -- só dígitos, como veio do formulário
+  responsavel_telefone TEXT,            -- COM máscara: (11) 91234-5678. O formulário
+                                        -- aplica formatPhone a cada tecla e é esse texto
+                                        -- que chega aqui. Quem for comparar com telefone
+                                        -- de outra origem precisa tirar a pontuação antes.
 
   -- a festa
   personagem_slug TEXT,
