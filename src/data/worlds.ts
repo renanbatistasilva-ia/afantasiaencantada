@@ -90,9 +90,9 @@ export const worlds: World[] = [
       mood: "festive",
     },
     cover: {
-      src: "/images/diversao/mascotes-anime.jpg",
-      alt: "Personagem do Goku entre dois mascotes coloridos na festa",
-      position: "50% 28%",
+      src: "/images/diversao/carreta-alegria.jpg",
+      alt: "O trio da carreta diante do painel iluminado, prontos para a dança",
+      position: "50% 35%",
     },
     order: 5,
   },

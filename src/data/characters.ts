@@ -192,7 +192,15 @@ export const characters: Character[] = [
     story:
       "Cabelos vermelhos indomáveis e um arco sempre a postos, ela escreve o próprio destino a cada flecha. Corajosa e brincalhona, prefere subir em árvores a esperar num castelo. Seu alvo favorito? Acertar em cheio o riso de cada criança.",
     emblem: "arco",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/arqueira-valente.jpg",
+        alt: "Arqueira Valente de cabelo ruivo cacheado e vestido azul-petróleo, com o arco ao lado",
+        position: "50% 30%",
+        width: 1446,
+        height: 1066,
+      },
+    ],
   },
   {
     slug: "fada-madrinha",
@@ -312,7 +320,15 @@ export const characters: Character[] = [
     story:
       "Guardião silencioso da cidade, ele surge das sombras com capa, armadura e voz grave de herói. Faz a pose séria que o figurino manda… até a primeira criança pedir colo e derreter todo aquele mistério. Por baixo da máscara, mora o defensor mais gentil da festa.",
     emblem: "morcego",
-    photos: [],
+    photos: [
+      {
+        src: "/images/herois/cavaleiro-sombras.jpg",
+        alt: "Cavaleiro das Sombras de máscara e armadura, num salão de festa",
+        position: "25% 35%",
+        width: 710,
+        height: 1170,
+      },
+    ],
   },
   {
     slug: "herois-do-pijama",
@@ -436,6 +452,13 @@ export const characters: Character[] = [
     emblem: "estrela",
     photos: [
       {
+        src: "/images/pop/kpop-com-crianca.jpg",
+        alt: "As três do K-Pop abraçadas com uma criança, diante do painel colorido da festa",
+        position: "50% 30%",
+        width: 1067,
+        height: 1600,
+      },
+      {
         src: "/images/pop/guerreira-tranca.jpg",
         alt: "Guerreira do k-pop de trança roxa e jaqueta amarela",
         position: "50% 18%",
@@ -461,20 +484,20 @@ export const characters: Character[] = [
 
   // ——— Diversão & Desenhos ———
   {
-    slug: "turma-anime",
-    name: "Goku & a Turma",
-    worlds: ["diversao-desenhos", "herois-aventuras"],
-    blurb: "O guerreiro mais forte do universo, e amigos fofos, direto dos desenhos.",
+    slug: "carreta-da-alegria",
+    name: "Carreta da Alegria",
+    worlds: ["diversao-desenhos", "brasil-encantado"],
+    blurb: "Chegou a hora de todo mundo dançar, e ninguém escapa.",
     story:
-      "Direto dos desenhos mais amados, o guerreiro mais forte do universo pousa na festa com seus amigos mais fofos a tiracolo. Vem cheio de energia, poses de luta e aquele coração gigante que salva o dia. Prepare-se para treinar golpes e dar muita risada.",
+      "É a farra sobre rodas que todo mundo reconhece pela batida antes mesmo de ver. O coelho, o guerreiro e o de cabelo vermelho descem juntos, e a coreografia começa antes de alguém pedir. Não existe plateia: em cinco minutos está todo mundo no meio da roda, inclusive os adultos que juraram que não iam dançar.",
     emblem: "raio",
     photos: [
       {
-        src: "/images/diversao/mascotes-anime.jpg",
-        alt: "Personagem do Goku entre dois mascotes coloridos na festa",
-        position: "50% 30%",
-        width: 1067,
-        height: 1600,
+        src: "/images/diversao/carreta-alegria.jpg",
+        alt: "O trio da carreta — o coelho, o guerreiro de laranja e o de cabelo vermelho — diante do painel iluminado",
+        position: "50% 35%",
+        width: 1024,
+        height: 1536,
       },
     ],
   },
@@ -579,7 +602,15 @@ export const characters: Character[] = [
     story:
       "São quatro amigos e um coelho azul que não desgruda dela. Brigam, fazem as pazes e inventam brincadeira com o que estiver por perto — que é exatamente o que toda criança faz. Chegam com o jeito de quem cresceu em rua de bairro, e transformam a festa num daqueles dias de brincar até a mãe chamar para jantar.",
     emblem: "estrela",
-    photos: [],
+    photos: [
+      {
+        src: "/images/brasil/turma-bairro.jpg",
+        alt: "O quarteto dos quadrinhos brasileiros no jardim, com o coelho azul",
+        position: "50% 30%",
+        width: 920,
+        height: 1600,
+      },
+    ],
   },
   {
     slug: "maria-bonita-e-cangaceiro",
@@ -599,17 +630,15 @@ export const characters: Character[] = [
     story:
       "Descalços na rocinha e com o coração do tamanho do Brasil, o casalzinho mais querido dos quadrinhos chega para brincar. Trazem causos da vida no campo, pescaria e aquele jeitinho simples de ser feliz. Pura brasilidade, do chapéu de palha ao sorriso banguela.",
     emblem: "chapeu",
-    photos: [],
-  },
-  {
-    slug: "carreta-da-alegria",
-    name: "Carreta da Alegria",
-    worlds: ["brasil-encantado", "diversao-desenhos"],
-    blurb: "Chegou a hora de todo mundo dançar, e ninguém escapa.",
-    story:
-      "É a farra sobre rodas que todo mundo reconhece pela batida antes mesmo de ver. Vem com os mascotes mais animados que já pisaram numa festa, e a coreografia começa antes de alguém pedir. Não existe plateia: em cinco minutos está todo mundo no meio da roda, inclusive os adultos que juraram que não iam dançar.",
-    emblem: "presente",
-    photos: [],
+    photos: [
+      {
+        src: "/images/brasil/casal-roca.jpg",
+        alt: "O casal da roça posando com duas crianças numa festa junina ao ar livre",
+        position: "50% 35%",
+        width: 1322,
+        height: 1198,
+      },
+    ],
   },
   {
     slug: "milhinho-junino",
@@ -619,7 +648,15 @@ export const characters: Character[] = [
     story:
       "O mascote mais fofo da quermesse chegou espigando alegria por todo canto. Fofo, quicando e sempre pronto para a dança, ele puxa a criançada para o meio do arraiá. Com ele por perto, ninguém fica parado, nem o milho na panela.",
     emblem: "milho",
-    photos: [],
+    photos: [
+      {
+        src: "/images/brasil/milhinho-junino.jpg",
+        alt: "Milhinho Junino, o mascote espiga de milho, no arraiá com bandeirinhas e fardos de feno",
+        position: "50% 35%",
+        width: 1106,
+        height: 1422,
+      },
+    ],
   },
 ];
 

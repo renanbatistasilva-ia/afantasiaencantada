@@ -1,11 +1,12 @@
 # Guia de ensaio — fotos que faltam no site
 
-**Dez personagens** estão no site com **medalhão ilustrado** em vez de foto. Este guia é para
-levar ao próximo ensaio.
+**Quatro personagens** estão no site com **medalhão ilustrado** em vez de foto. Este guia é
+para levar ao próximo ensaio.
 
-> A contagem já esteve errada aqui duas vezes: primeiro dizia cinco, quando eram onze. Depois
-> caiu para dez, porque três buracos foram tapados com fotos que já existiam na pasta de
-> referências — e dois personagens novos entraram sem foto.
+> A contagem já esteve errada aqui três vezes: dizia cinco quando eram onze, depois dez, e
+> agora são quatro. A última queda veio de uma releitura da pasta de referências, onde havia
+> foto real de cinco personagens que eu tinha descartado por olhar a dimensão do arquivo em
+> vez de abrir a imagem.
 
 > As imagens que existiam antes para alguns deles eram geradas por IA e foram removidas: não
 > mostravam a equipe de verdade. Quem reservava a Bela e a Fera vendo um salão renderizado
@@ -13,55 +14,21 @@ levar ao próximo ensaio.
 
 ## Quem precisa
 
-### Prioridade 1 — o mundo que está sem nenhuma foto
-
-Quem abre **Brasil Encantado** hoje não vê o rosto de ninguém: a página não tem uma
-fotografia sequer, só o logo do site. E o problema **cresceu**: o mundo ganhou dois moradores
-novos, e os seis estão sem foto.
-
-| Personagem | Quem é |
-|---|---|
-| **Maria Bonita & Cangaceiro** | o casal do cangaço, chapéu de couro |
-| **Casal da Roça** | o casalzinho dos quadrinhos, descalço, do campo |
-| **Milhinho Junino** | o mascote espiga de milho da quermesse |
-| **Turma do Bairro** | o quarteto dos quadrinhos, com o coelho azul |
-| **Carreta da Alegria** | os mascotes que puxam a dança |
-| **Turma Junina** | chapéu de palha e vestido de chita |
-
-> Uma foto de qualquer um destes já resolve a página do mundo. Hoje ela é a única do site sem
-> nenhum rosto.
-
-### Prioridade 2 — os que já apareciam com imagem de IA
-
-| Personagem | Quem é |
-|---|---|
-| Arqueira Valente | a arqueira ruiva de cachos |
-| **Bruxa do Mar** | **a vilã roxa de cabelo branco e tentáculos** |
-| Cavaleiro das Sombras | o herói de capa e máscara |
-
-*(Princesa do Baile e Heróis do Pijama saíram desta lista: acharam-se fotos reais na pasta.)*
-
-### Prioridade 3 — os que nunca tiveram foto
+### Os quatro que faltam
 
 | Personagem | Quem é | Quando fotografar |
 |---|---|---|
+| **Bruxa do Mar** | **a vilã roxa de cabelo branco e tentáculos** | qualquer época |
+| Maria Bonita & Cangaceiro | o casal do cangaço, chapéu de couro | qualquer época |
+| Turma Junina | chapéu de palha, vestido de chita, quadrilha | **numa junina de verdade, junho** |
 | Natal Encantado | o casal do Natal, sinos e vermelho | **dezembro** |
 
-*(Gabby e Amigos saiu desta lista: os gatinhos da casa de bonecas já têm foto no site.)*
+> O Brasil Encantado **deixou de ser o mundo sem nenhuma foto**: o Casal da Roça, o Milhinho
+> Junino e a Turma do Bairro ganharam imagem. Falta a Maria Bonita e a Turma Junina.
 
-> ⏰ **Os sazonais valem a pena esperar.** Turma Junina e Milhinho Junino ficam muito melhores
-> num arraiá real, com bandeirinha e gente em volta, do que num ensaio montado em setembro. O
-> mesmo vale para o Natal Encantado em dezembro. Se a próxima festa junina ou natalina estiver
-> no calendário, é ali que essas quatro fotos se resolvem sozinhas — basta alguém lembrar de
-> fotografar direito no dia.
-
-> ⚠️ **Bruxa do Mar é a bruxa roxa do fundo do mar**, a vilã da sereia. Já chegaram fotos da
-> Noiva Cadáver (pele azul, buquê branco) nomeadas como Bruxa do Mar — são personagens
-> diferentes, e a Noiva já está no site com o nome dela.
->
-> **Isso aconteceu de novo.** Na pasta de referências existem dois arquivos chamados "Bruxa do
-> Mar 1" e "Bruxa do Mar 2" que são, os dois, a Noiva Cadáver. Ao mandar a foto da Bruxa,
-> confira: ela é **roxa, de cabelo branco e tentáculos** — não é a de pele azul com buquê.
+> ⏰ **Dois são sazonais.** A Turma Junina fica muito melhor num arraiá real, em junho, e o
+> Natal Encantado em dezembro. Se a próxima festa dessas já está no calendário, essas duas se
+> resolvem sozinhas — basta alguém lembrar de fotografar direito no dia.
 
 ---
 
@@ -168,7 +135,7 @@ Corpo inteiro, com árvore ou luzes ao fundo. Vale um retrato para o medalhão.
 
 **Foto em festa, com criança.** São as que mais convertem e alimentam a seção Momentos, que é
 onde o site prova que as festas aconteceram de verdade. Vale para qualquer personagem, não só
-para os dez desta lista.
+para os quatro desta lista.
 
 ---
 
