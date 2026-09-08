@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import MagicCalendar from "./MagicCalendar";
 import CharacterMedallion from "@/components/character/CharacterMedallion";
-import CharacterModal from "@/components/character/CharacterModal";
 import type { Character } from "@/data/types";
 import { visibleWorlds } from "@/data/worlds";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
@@ -59,7 +58,6 @@ export default function BookingWizard() {
   const presetCharacter = !!(initialCharacter && characterBySlug(initialCharacter));
   const [step, setStep] = useState(presetCharacter ? 1 : 0);
   const [dir, setDir] = useState(1);
-  const [infoChar, setInfoChar] = useState<Character | null>(null);
   const reduced = useReducedMotion();
   const [draft, setDraft] = useState<Draft>({
     characterSlug: presetCharacter ? initialCharacter! : "",
@@ -80,6 +78,7 @@ export default function BookingWizard() {
   // encaminhamento aconteceu, e a tela final é redigida com esse limite em mente.
   const [sent, setSent] = useState(false);
   const maxPasso = useRef(-1);
+  const [busca, setBusca] = useState("");
   // Vive enquanto o formulário estiver montado, então "revisar os dados" e
   // enviar de novo atualiza o mesmo pedido em vez de criar outro.
   const idRascunho = useRef("");
@@ -98,6 +97,40 @@ export default function BookingWizard() {
     const first = visibleWorlds.find((w) => w.slug === initialWorld);
     return first ? [first, ...rest] : visibleWorlds;
   }, [initialWorld]);
+
+  /**
+   * O elenco agrupado por mundo, cada personagem UMA vez.
+   *
+   * Dez dos vinte e oito pertencem a mais de um mundo, e a versão anterior
+   * mostrava um chip em cada — trinta e oito opções para vinte e oito pessoas.
+   * Aqui cada um aparece no primeiro mundo em que couber.
+   */
+  const elencoPorMundo = useMemo(() => {
+    const jaMostrado = new Set<string>();
+    const grupos: { world: (typeof visibleWorlds)[number]; cast: Character[] }[] = [];
+    for (const world of orderedWorlds) {
+      const cast = visibleCharacters.filter(
+        (c) => !jaMostrado.has(c.slug) && c.worlds.includes(world.slug),
+      );
+      cast.forEach((c) => jaMostrado.add(c.slug));
+      if (cast.length) grupos.push({ world, cast });
+    }
+    return grupos;
+  }, [orderedWorlds]);
+
+  /**
+   * Busca sem acento: quem digita "principe" precisa achar "Príncipe", e quem
+   * digita "neve" precisa achar a Princesa da Neve sem saber o nome inteiro.
+   */
+  const gruposVisiveis = useMemo(() => {
+    const semAcento = (s: string) =>
+      s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const termo = semAcento(busca.trim());
+    if (!termo) return elencoPorMundo;
+    return elencoPorMundo
+      .map((g) => ({ ...g, cast: g.cast.filter((c) => semAcento(c.name).includes(termo)) }))
+      .filter((g) => g.cast.length > 0);
+  }, [elencoPorMundo, busca]);
 
   const worldOfCharacter = character
     ? visibleWorlds.find((w) => character.worlds.includes(w.slug))
@@ -219,38 +252,54 @@ export default function BookingWizard() {
 
           {step === 0 && (
             <div className={styles.characterPick}>
-              {orderedWorlds.map((world) => {
-                const cast = visibleCharacters.filter((c) => c.worlds.includes(world.slug));
-                if (cast.length === 0) return null;
-                return (
-                  <fieldset key={world.slug} className={styles.worldGroup}>
-                    <legend className={styles.worldLegend}>{world.name}</legend>
-                    <div className={styles.chips}>
-                      {cast.map((c) => (
-                        <button
-                          key={`${world.slug}-${c.slug}`}
-                          type="button"
-                          className={`${styles.chip} ${
-                            draft.characterSlug === c.slug ? styles.chipSelected : ""
-                          }`}
-                          aria-pressed={draft.characterSlug === c.slug}
-                          onClick={() => {
-                            set("characterSlug", c.slug);
-                            setInfoChar(c);
-                          }}
-                        >
-                          <CharacterMedallion character={c} size={34} className={styles.chipAvatar} />
-                          {c.name}
-                        </button>
-                      ))}
-                    </div>
-                  </fieldset>
-                );
-              })}
+              <input
+                className={styles.busca}
+                type="search"
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                placeholder="buscar pelo nome"
+                aria-label="Buscar personagem pelo nome"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellCheck={false}
+              />
 
-              <p className={styles.pickHint}>
-                Toque num personagem para escolher e conhecer a história dele.
-              </p>
+              {gruposVisiveis.map(({ world, cast }) => (
+                <fieldset key={world.slug} className={styles.worldGroup}>
+                  <legend className={styles.worldLegend}>{world.name}</legend>
+                  <div className={styles.elenco}>
+                    {cast.map((c) => (
+                      <button
+                        key={c.slug}
+                        type="button"
+                        className={`${styles.cartao} ${
+                          draft.characterSlug === c.slug ? styles.cartaoEscolhido : ""
+                        }`}
+                        aria-pressed={draft.characterSlug === c.slug}
+                        onClick={() => {
+                          // Escolher É avançar. Antes o toque abria um modal por
+                          // cima da lista e o botão de continuar ficava a quase
+                          // três mil pixels de rolagem — quatro pessoas abriram o
+                          // formulário e nenhuma passou desta tela.
+                          set("characterSlug", c.slug);
+                          go(1);
+                        }}
+                      >
+                        <CharacterMedallion character={c} size={40} className={styles.cartaoFoto} />
+                        <span className={styles.cartaoNome}>{c.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+              ))}
+
+              {gruposVisiveis.length === 0 ? (
+                <p className={styles.pickHint}>
+                  Nenhum personagem com esse nome. Apague a busca para ver todos.
+                </p>
+              ) : (
+                <p className={styles.pickHint}>Toque em quem seu filho quer conhecer.</p>
+              )}
             </div>
           )}
 
@@ -562,25 +611,21 @@ export default function BookingWizard() {
               ← início
             </Link>
           )}
-          <button
-            type="button"
-            className={`btn btn-ouro ${styles.next}`}
-            onClick={() => go(1)}
-            disabled={!stepValid}
-          >
-            {step === 4 ? "Rever a história" : "Continuar"}
-          </button>
+          {/* Na escolha do personagem o toque já avança; um "Continuar" ali
+              seria um degrau a mais para a mesma decisão. */}
+          {step > 0 && (
+            <button
+              type="button"
+              className={`btn btn-ouro ${styles.next}`}
+              onClick={() => go(1)}
+              disabled={!stepValid}
+            >
+              {step === 4 ? "Rever a história" : "Continuar"}
+            </button>
+          )}
         </div>
       )}
 
-      <CharacterModal
-        character={infoChar}
-        onClose={() => setInfoChar(null)}
-        onSchedule={() => {
-          setInfoChar(null);
-          go(1);
-        }}
-      />
     </div>
   );
 }

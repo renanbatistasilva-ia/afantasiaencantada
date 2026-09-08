@@ -83,6 +83,96 @@
   gap: 0.55rem;
 }
 
+/* ——— escolha do personagem ——— */
+
+.busca {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(233, 206, 156, 0.28);
+  background: rgba(250, 243, 236, 0.06);
+  color: var(--porcelana);
+  font-family: var(--font-body), sans-serif;
+  /* 1rem exato: abaixo disso o iOS dá zoom ao focar o campo. */
+  font-size: 1rem;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.busca::placeholder {
+  /* 58% mede 5,4:1 sobre o fundo da página; a 45% ficava em 4,0 e reprovava.
+     Aqui a dica é a única etiqueta visível do campo, então precisa ser lida. */
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+}
+
+.busca:focus {
+  outline: none;
+  border-color: var(--ouro-claro);
+  background: rgba(250, 243, 236, 0.09);
+}
+
+/*
+ * Grade de duas colunas em vez de pílulas embrulhando.
+ *
+ * Nomes como "Maria Bonita & Cangaceiro" faziam a pílula ocupar a linha
+ * inteira: vinte e oito personagens viravam quase quatro telas de rolagem.
+ * Em cartão de largura fixa cabem dois por linha, e a lista inteira encolhe
+ * para cerca de uma tela e meia.
+ */
+.elenco {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.cartao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.4rem;
+  min-height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(233, 206, 156, 0.28);
+  background: rgba(250, 243, 236, 0.05);
+  color: var(--porcelana);
+  text-align: left;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s var(--ease-out);
+}
+
+/*
+ * Como o toque já avança, este estado só é visto por quem volta para trocar de
+ * personagem — e é justamente aí que ele precisa estar claro. Mesmo dourado dos
+ * outros passos, para a tela inteira falar a mesma língua.
+ */
+.cartaoEscolhido {
+  background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
+  border-color: transparent;
+  color: #3c2812;
+  font-weight: 650;
+  box-shadow: 0 8px 22px -8px rgba(194, 149, 83, 0.7);
+}
+
+.cartao:active {
+  transform: scale(0.97);
+}
+
+.cartaoFoto {
+  flex: none;
+}
+
+.cartaoNome {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-wrap: pretty;
+}
+
+@media (min-width: 34rem) {
+  .elenco {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -102,6 +192,11 @@
 }
 
 @media (hover: hover) {
+  .cartao:hover {
+    border-color: var(--ouro-claro);
+    background: rgba(250, 243, 236, 0.1);
+  }
+
   .chip:hover {
     border-color: rgba(233, 206, 156, 0.6);
     transform: translateY(-1px);
