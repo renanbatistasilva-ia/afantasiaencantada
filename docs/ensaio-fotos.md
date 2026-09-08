@@ -1,11 +1,11 @@
 # Guia de ensaio — fotos que faltam no site
 
-**Onze personagens** estão no site com **medalhão ilustrado** em vez de foto, porque não
-existe foto real deles. Este guia é para levar ao próximo ensaio.
+**Dez personagens** estão no site com **medalhão ilustrado** em vez de foto. Este guia é para
+levar ao próximo ensaio.
 
-> Este número já esteve errado aqui: o guia dizia cinco e listava só os cinco cujas imagens de
-> IA foram removidas. Os outros seis nunca tiveram foto nenhuma desde o começo do site, e
-> passaram despercebidos.
+> A contagem já esteve errada aqui duas vezes: primeiro dizia cinco, quando eram onze. Depois
+> caiu para dez, porque três buracos foram tapados com fotos que já existiam na pasta de
+> referências — e dois personagens novos entraram sem foto.
 
 > As imagens que existiam antes para alguns deles eram geradas por IA e foram removidas: não
 > mostravam a equipe de verdade. Quem reservava a Bela e a Fera vendo um salão renderizado
@@ -16,31 +16,38 @@ existe foto real deles. Este guia é para levar ao próximo ensaio.
 ### Prioridade 1 — o mundo que está sem nenhuma foto
 
 Quem abre **Brasil Encantado** hoje não vê o rosto de ninguém: a página não tem uma
-fotografia sequer, só o logo do site. Os três moradores estão sem foto.
+fotografia sequer, só o logo do site. E o problema **cresceu**: o mundo ganhou dois moradores
+novos, e os seis estão sem foto.
 
 | Personagem | Quem é |
 |---|---|
 | **Maria Bonita & Cangaceiro** | o casal do cangaço, chapéu de couro |
 | **Casal da Roça** | o casalzinho dos quadrinhos, descalço, do campo |
 | **Milhinho Junino** | o mascote espiga de milho da quermesse |
+| **Turma do Bairro** | o quarteto dos quadrinhos, com o coelho azul |
+| **Carreta da Alegria** | os mascotes que puxam a dança |
+| **Turma Junina** | chapéu de palha e vestido de chita |
+
+> Uma foto de qualquer um destes já resolve a página do mundo. Hoje ela é a única do site sem
+> nenhum rosto.
 
 ### Prioridade 2 — os que já apareciam com imagem de IA
 
 | Personagem | Quem é |
 |---|---|
-| Princesa do Baile | a do sapatinho de cristal |
 | Arqueira Valente | a arqueira ruiva de cachos |
 | **Bruxa do Mar** | **a vilã roxa de cabelo branco e tentáculos** |
 | Cavaleiro das Sombras | o herói de capa e máscara |
-| Heróis do Pijama | o trio de pijama |
+
+*(Princesa do Baile e Heróis do Pijama saíram desta lista: acharam-se fotos reais na pasta.)*
 
 ### Prioridade 3 — os que nunca tiveram foto
 
 | Personagem | Quem é | Quando fotografar |
 |---|---|---|
-| Gabby e Amigos | a menina da casa de bonecas e os gatinhos | qualquer época |
-| Turma Junina | chapéu de palha, vestido de chita, quadrilha | **numa junina de verdade, junho** |
 | Natal Encantado | o casal do Natal, sinos e vermelho | **dezembro** |
+
+*(Gabby e Amigos saiu desta lista: os gatinhos da casa de bonecas já têm foto no site.)*
 
 > ⏰ **Os sazonais valem a pena esperar.** Turma Junina e Milhinho Junino ficam muito melhores
 > num arraiá real, com bandeirinha e gente em volta, do que num ensaio montado em setembro. O
@@ -51,6 +58,10 @@ fotografia sequer, só o logo do site. Os três moradores estão sem foto.
 > ⚠️ **Bruxa do Mar é a bruxa roxa do fundo do mar**, a vilã da sereia. Já chegaram fotos da
 > Noiva Cadáver (pele azul, buquê branco) nomeadas como Bruxa do Mar — são personagens
 > diferentes, e a Noiva já está no site com o nome dela.
+>
+> **Isso aconteceu de novo.** Na pasta de referências existem dois arquivos chamados "Bruxa do
+> Mar 1" e "Bruxa do Mar 2" que são, os dois, a Noiva Cadáver. Ao mandar a foto da Bruxa,
+> confira: ela é **roxa, de cabelo branco e tentáculos** — não é a de pele azul com buquê.
 
 ---
 
@@ -157,7 +168,7 @@ Corpo inteiro, com árvore ou luzes ao fundo. Vale um retrato para o medalhão.
 
 **Foto em festa, com criança.** São as que mais convertem e alimentam a seção Momentos, que é
 onde o site prova que as festas aconteceram de verdade. Vale para qualquer personagem, não só
-para os onze desta lista.
+para os dez desta lista.
 
 ---
 

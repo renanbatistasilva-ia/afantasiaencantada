@@ -174,7 +174,15 @@ export const characters: Character[] = [
     story:
       "Da cinza do fogão ao salão de baile, ela provou que bondade e um pouquinho de magia mudam qualquer história. Chega de vestido reluzente e sapatinho de cristal, pronta para rodopiar com a aniversariante. E promete: nesta festa, a meia-noite pode esperar.",
     emblem: "coroa",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/princesa-baile.jpg",
+        alt: "Princesa do Baile de vestido azul e luvas, diante da decoração de castelo da festa",
+        position: "50% 25%",
+        width: 910,
+        height: 1600,
+      },
+    ],
   },
   {
     slug: "arqueira-valente",
@@ -185,6 +193,24 @@ export const characters: Character[] = [
       "Cabelos vermelhos indomáveis e um arco sempre a postos, ela escreve o próprio destino a cada flecha. Corajosa e brincalhona, prefere subir em árvores a esperar num castelo. Seu alvo favorito? Acertar em cheio o riso de cada criança.",
     emblem: "arco",
     photos: [],
+  },
+  {
+    slug: "fada-madrinha",
+    name: "Fada Madrinha",
+    worlds: ["reino-encantado"],
+    blurb: "Uma varinha, um pedido e a certeza de que ainda dá tempo.",
+    story:
+      "Ela aparece quando a esperança já estava quase no fim, e transforma o que tem à mão em algo que ninguém esperava: abóbora vira carruagem, pano velho vira vestido de baile. Na sua festa, chega para lembrar a aniversariante de que todo desejo merece uma chance — e que a magia costuma vir de quem menos se espera.",
+    emblem: "estrela",
+    photos: [
+      {
+        src: "/images/reino/fada-madrinha.jpg",
+        alt: "Fada Madrinha de capa azul, com varinha e a carruagem dourada nas mãos",
+        position: "50% 30%",
+        width: 1247,
+        height: 1600,
+      },
+    ],
   },
   {
     slug: "bela-e-a-fera",
@@ -261,6 +287,24 @@ export const characters: Character[] = [
     ],
   },
   {
+    slug: "time-de-herois",
+    name: "Time de Heróis",
+    worlds: ["herois-aventuras"],
+    blurb: "O escudo, a armadura e a teia — os três na mesma festa.",
+    story:
+      "Quando a ameaça é grande demais para um só, eles aparecem juntos. Um traz o escudo que nunca falha, outro a armadura que voa, o terceiro a teia que resolve o resto. Chegam em formação, tiram foto com cada convidado e saem deixando a criançada convencida de que também faz parte do time.",
+    emblem: "raio",
+    photos: [
+      {
+        src: "/images/herois/time-de-herois.jpg",
+        alt: "Três heróis lado a lado numa festa: um de escudo, um de armadura vermelha e dourada e um de teia",
+        position: "50% 35%",
+        width: 1233,
+        height: 1600,
+      },
+    ],
+  },
+  {
     slug: "cavaleiro-das-sombras",
     name: "Cavaleiro das Sombras",
     worlds: ["herois-aventuras"],
@@ -278,7 +322,15 @@ export const characters: Character[] = [
     story:
       "Quando a noite chega, três amiguinhos vestem seus pijamas mágicos e viram super-heróis. Ágeis, corajosos e do tamanho da criançada, eles resolvem qualquer perrengue com trabalho em equipe. Na sua festa, todo pequeno vira herói junto com eles.",
     emblem: "lua",
-    photos: [],
+    photos: [
+      {
+        src: "/images/herois/herois-pijama.jpg",
+        alt: "Os heróis de pijama enfileirados num jardim, ao fim da tarde",
+        position: "50% 40%",
+        width: 1303,
+        height: 1600,
+      },
+    ],
   },
 
   // ——— Mundo dos Mascotes ———
@@ -297,6 +349,24 @@ export const characters: Character[] = [
         position: "50% 30%",
         width: 1320,
         height: 1300,
+      },
+    ],
+  },
+  {
+    slug: "patrulha-dos-filhotes",
+    name: "Patrulha dos Filhotes",
+    worlds: ["mundo-dos-mascotes", "diversao-desenhos"],
+    blurb: "Seis filhotes, um chamado e a festa inteira sob controle.",
+    story:
+      "Cada um tem seu capacete, sua missão e sua teimosia: o do fogo, o da polícia, o do mergulho, o da reciclagem. Chegam juntos, em formação, e transformam qualquer bagunça em operação de resgate. Na sua festa a missão é só uma, e eles levam a sério: fazer a criançada rir até cansar.",
+    emblem: "patinha",
+    photos: [
+      {
+        src: "/images/mascotes/patrulha-filhotes.jpg",
+        alt: "Seis mascotes filhotes de capacete colorido posando com o menino da patrulha numa festa",
+        position: "50% 40%",
+        width: 1600,
+        height: 1382,
       },
     ],
   },
@@ -416,7 +486,15 @@ export const characters: Character[] = [
     story:
       "Ela tem a chave de uma casa de bonecas cheia de gatinhos mágicos e criatividade sem fim. Cada cômodo é uma surpresa, cada amiguinho felpudo tem um talento. Miau-ravilhoso é a palavra, e a imaginação, o único limite.",
     emblem: "gato",
-    photos: [],
+    photos: [
+      {
+        src: "/images/diversao/gabby-amigos.jpg",
+        alt: "Os dois gatinhos da casa de bonecas, o azul e a branca de bolsinha rosa, acenando",
+        position: "50% 35%",
+        width: 1306,
+        height: 1600,
+      },
+    ],
   },
 
   // ——— Datas Mágicas ———
@@ -494,6 +572,16 @@ export const characters: Character[] = [
 
   // ——— Brasil Encantado ———
   {
+    slug: "turma-do-bairro",
+    name: "Turma do Bairro",
+    worlds: ["brasil-encantado", "diversao-desenhos"],
+    blurb: "A rua mais famosa dos quadrinhos brasileiros vem inteira para o seu quintal.",
+    story:
+      "São quatro amigos e um coelho azul que não desgruda dela. Brigam, fazem as pazes e inventam brincadeira com o que estiver por perto — que é exatamente o que toda criança faz. Chegam com o jeito de quem cresceu em rua de bairro, e transformam a festa num daqueles dias de brincar até a mãe chamar para jantar.",
+    emblem: "estrela",
+    photos: [],
+  },
+  {
     slug: "maria-bonita-e-cangaceiro",
     name: "Maria Bonita & Cangaceiro",
     worlds: ["brasil-encantado"],
@@ -511,6 +599,16 @@ export const characters: Character[] = [
     story:
       "Descalços na rocinha e com o coração do tamanho do Brasil, o casalzinho mais querido dos quadrinhos chega para brincar. Trazem causos da vida no campo, pescaria e aquele jeitinho simples de ser feliz. Pura brasilidade, do chapéu de palha ao sorriso banguela.",
     emblem: "chapeu",
+    photos: [],
+  },
+  {
+    slug: "carreta-da-alegria",
+    name: "Carreta da Alegria",
+    worlds: ["brasil-encantado", "diversao-desenhos"],
+    blurb: "Chegou a hora de todo mundo dançar, e ninguém escapa.",
+    story:
+      "É a farra sobre rodas que todo mundo reconhece pela batida antes mesmo de ver. Vem com os mascotes mais animados que já pisaram numa festa, e a coreografia começa antes de alguém pedir. Não existe plateia: em cinco minutos está todo mundo no meio da roda, inclusive os adultos que juraram que não iam dançar.",
+    emblem: "presente",
     photos: [],
   },
   {
