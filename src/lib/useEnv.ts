@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 /** Detecta mobile por largura de viewport (SSR-safe). */
 export function useIsMobile(query = "(max-width: 768px)") {
@@ -40,3 +40,18 @@ export function useHasFinePointer() {
   }, []);
   return fine;
 }
+
+/**
+ * `useLayoutEffect` no navegador, `useEffect` na geração do site.
+ *
+ * Existe para uma coisa só: ler algo do navegador **antes da primeira pintura**.
+ * O `useEffect` roda depois de pintar, então quem o usa para corrigir o estado
+ * inicial mostra um quadro com o valor errado. O `useLayoutEffect` corrige antes
+ * — mas avisa no console quando roda na geração estática, onde não existe layout.
+ *
+ * Os outros ganchos deste arquivo deliberadamente aceitam esse quadro errado
+ * (começam em `false` e ajustam depois), porque para largura de tela e
+ * preferência de movimento isso é invisível. Para o estado de um formulário não é.
+ */
+export const useEfeitoAntesDePintar =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;

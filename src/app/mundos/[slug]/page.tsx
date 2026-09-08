@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!world) return {};
   const title = `${world.name} — Fantasia Encantada`;
   const description = `${world.tagline} ${world.invite} Personagens vivos para festas infantis em São Paulo.`;
-  const url = `https://afantasiaencantada.com/mundos/${world.slug}`;
+  const url = `https://afantasiaencantada.com/mundos/${world.slug}/`;
   return {
     title,
     description,

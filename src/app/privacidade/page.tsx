@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Privacidade — Fantasia Encantada",
   description:
     "Como a Fantasia Encantada trata os dados informados no formulário de reserva.",
-  alternates: { canonical: `${BASE}/privacidade` },
+  alternates: { canonical: `${BASE}/privacidade/` },
   robots: { index: true, follow: true },
 };
 

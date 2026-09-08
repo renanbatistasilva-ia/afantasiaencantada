@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import MagicCalendar from "./MagicCalendar";
 import CharacterMedallion from "@/components/character/CharacterMedallion";
 import type { Character } from "@/data/types";
+import { useEfeitoAntesDePintar } from "@/lib/useEnv";
 import { visibleWorlds } from "@/data/worlds";
 import { characterBySlug, visibleCharacters } from "@/data/characters";
 import { bookingMessage, formatPhone, isValidPhone, whatsappUrl } from "@/lib/whatsapp";
@@ -49,18 +49,27 @@ const PASSOS = ["abriu", "personagem", "data", "cenario", "estrela", "contato"];
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function BookingWizard() {
-  // Lidos no cliente para funcionar em host estático (output: export).
-  const params = useSearchParams();
-  const initialCharacter = params.get("personagem") ?? undefined;
-  const initialWorld = params.get("mundo") ?? undefined;
+  /**
+   * `?personagem=` e `?mundo=` são lidos do endereço, não por `useSearchParams`.
+   *
+   * Aquele gancho obrigava esta tela a viver dentro de um `<Suspense>`, e com
+   * exportação estática o limite não renderiza nada: o HTML de /reservar saía
+   * com 197 bytes e zero texto. O Google via uma página vazia e o visitante via
+   * roxo em branco até o JavaScript hidratar — na página onde ele decide comprar.
+   *
+   * Começa sempre no passo 0, que é o que vai para o HTML. Quem chega com
+   * personagem na URL salta para a data no efeito abaixo.
+   */
+  const [entrada, setEntrada] = useState<{ personagem?: string; mundo?: string }>({});
+  const initialCharacter = entrada.personagem;
+  const initialWorld = entrada.mundo;
 
-  // Se já chegou com personagem escolhido (via cartão de história), começa na data.
   const presetCharacter = !!(initialCharacter && characterBySlug(initialCharacter));
-  const [step, setStep] = useState(presetCharacter ? 1 : 0);
+  const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
   const reduced = useReducedMotion();
   const [draft, setDraft] = useState<Draft>({
-    characterSlug: presetCharacter ? initialCharacter! : "",
+    characterSlug: "",
     date: null,
     period: "",
     time: "",
@@ -78,6 +87,27 @@ export default function BookingWizard() {
   // encaminhamento aconteceu, e a tela final é redigida com esse limite em mente.
   const [sent, setSent] = useState(false);
   const maxPasso = useRef(-1);
+
+  /**
+   * Aplica o que vem no endereço ANTES da primeira pintura.
+   *
+   * Com `useEffect` (que roda depois de pintar) quem clica no link de um
+   * personagem veria um quadro da lista antes de saltar para o calendário. Antes
+   * de pintar, a hidratação casa com o HTML — que é o passo 0 — e o salto não
+   * aparece. Ver `useEfeitoAntesDePintar`.
+   */
+  useEfeitoAntesDePintar(() => {
+    const p = new URLSearchParams(window.location.search);
+    const personagem = p.get("personagem") ?? undefined;
+    const mundo = p.get("mundo") ?? undefined;
+    if (!personagem && !mundo) return;
+
+    setEntrada({ personagem, mundo });
+    if (personagem && characterBySlug(personagem)) {
+      setDraft((d) => ({ ...d, characterSlug: personagem }));
+      setStep(1);
+    }
+  }, []);
   const [busca, setBusca] = useState("");
   // Vive enquanto o formulário estiver montado, então "revisar os dados" e
   // enviar de novo atualiza o mesmo pedido em vez de criar outro.

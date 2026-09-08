@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Todos os personagens — Fantasia Encantada",
   description:
     "Princesas, heróis, mascotes, estrelas do pop e personagens brasileiros para festas infantis em São Paulo. Conheça o elenco completo.",
-  alternates: { canonical: `${BASE}/personagens` },
+  alternates: { canonical: `${BASE}/personagens/` },
   openGraph: {
     title: "Todos os personagens — Fantasia Encantada",
     description:

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = `${character.blurb} Personagem vivo para festas infantis em São Paulo${
     world ? `, do mundo ${world.name}` : ""
   }.`;
-  const url = `${BASE}/personagens/${character.slug}`;
+  const url = `${BASE}/personagens/${character.slug}/`;
   // A própria foto do personagem vende melhor que a imagem social genérica.
   const image = character.photos[0]?.src ?? "/og-v2.jpg";
 

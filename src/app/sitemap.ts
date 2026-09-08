@@ -5,26 +5,28 @@ export const dynamic = "force-static";
 import { visibleWorlds } from "@/data/worlds";
 import { visibleCharacters } from "@/data/characters";
 
+// Com trailingSlash: true o site publica /reservar/, não /reservar. O sitemap
+// e os canônicos falam a mesma forma para não dividir sinal por nada.
 const BASE = "https://afantasiaencantada.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const worldEntries = visibleWorlds.map((w) => ({
-    url: `${BASE}/mundos/${w.slug}`,
+    url: `${BASE}/mundos/${w.slug}/`,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const characterEntries = visibleCharacters.map((c) => ({
-    url: `${BASE}/personagens/${c.slug}`,
+    url: `${BASE}/personagens/${c.slug}/`,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   return [
     { url: `${BASE}/`, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${BASE}/reservar`, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/personagens`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/privacidade`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${BASE}/reservar/`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/personagens/`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/privacidade/`, changeFrequency: "yearly", priority: 0.2 },
     ...worldEntries,
     ...characterEntries,
   ];
