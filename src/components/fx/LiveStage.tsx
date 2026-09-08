@@ -26,6 +26,8 @@ interface Props {
   /** cor da poeira/brilho ao redor (rgb sem alpha) */
   glow?: string;
   className?: string;
+  /** estilo do contêiner externo — usado para deitar a moldura numa foto larga */
+  style?: React.CSSProperties;
   /** transição de portal compartilhada (View Transitions) */
   viewTransitionName?: string;
 }
@@ -47,6 +49,7 @@ export default function LiveStage({
   intensity = 1,
   glow = "233, 206, 156",
   className,
+  style,
   viewTransitionName,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -117,7 +120,7 @@ export default function LiveStage({
   }, [inView, reduced, px, py]);
 
   return (
-    <div ref={ref} className={`${styles.stage} ${className ?? ""}`}>
+    <div ref={ref} className={`${styles.stage} ${className ?? ""}`} style={style}>
       <motion.div
         className={styles.frame}
         style={{ rotateX: rotX, rotateY: rotY }}

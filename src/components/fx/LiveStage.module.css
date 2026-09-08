@@ -36,7 +36,16 @@
 
 .kenburns {
   position: absolute;
-  inset: -6% -4%;
+  /*
+    Sem folga negativa, de propósito.
+    Isto já foi `inset: -6% -4%`, o que somado à respiração deixava a foto 12% a
+    22% maior que a moldura — e o arco corta justamente os cantos de cima. Numa
+    dupla, onde as duas cabeças ficam no topo, o chapéu do cangaceiro sumia.
+    A cobertura durante a animação não depende mais daqui: o `scale` mínimo é
+    1.04 (2% de sobra por lado) e o maior deslocamento é 1,5%, então nenhuma
+    borda aparece.
+  */
+  inset: 0;
 }
 
 .breathing {
