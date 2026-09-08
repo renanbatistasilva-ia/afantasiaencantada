@@ -21,7 +21,21 @@
     "not_found_handling": "404-page",
     // Só estas rotas passam pelo Worker. Todo o resto do site continua sendo
     // servido direto pela camada de assets, sem tocar em código.
-    "run_worker_first": ["/api/*"]
+    //
+    // Os `/index.txt` são o payload interno do roteador do Next. Entram aqui por
+    // causa do vercel/next.js#59986: numa republicação, o Next manda o navegador
+    // direto para esse endereço e o visitante vê uma parede de código. O Worker
+    // devolve a página no lugar — ver a guarda em worker/index.ts.
+    //
+    // São três regras porque o casamento do curinga roda do lado da Cloudflare e
+    // não dá para provar aqui se `*` atravessa a barra. As rotas do site têm no
+    // máximo 2 segmentos, então estas três cobrem as duas semânticas possíveis.
+    // Uma regra só arriscaria não pegar as páginas de personagem, caladamente.
+    //
+    // Custo: cada troca de página passa a gastar requisição de Worker, do teto de
+    // 100 mil/dia que `/api/lead` compartilha. Com o tráfego de hoje (pico de 6
+    // visitas/dia) sobra folga; revisar se passar de ~2.000 visitas/dia.
+    "run_worker_first": ["/api/*", "/index.txt", "/*/index.txt", "/*/*/index.txt"]
   },
   // Freio para a rota de senha do painel. Fica fora do D1 de propósito: contar
   // tentativas no banco seria uma escrita por tentativa, e tentativa é coisa que

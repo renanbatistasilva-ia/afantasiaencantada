@@ -362,6 +362,36 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
+    // Bug conhecido do Next em exportação estática (vercel/next.js#59986,
+    // fechado sem correção): quando o site é republicado com alguém navegando,
+    // o build ID do JS já carregado deixa de bater com o do payload novo, e o
+    // roteador força recarga PARA O ENDEREÇO QUE ESTAVA BUSCANDO — o `.txt`
+    // interno. O visitante vê uma parede de código no lugar do site.
+    //
+    // Aqui, navegação de verdade para um `.txt` vira a página correspondente.
+    // As buscas do próprio roteador passam intactas, então a navegação sem
+    // recarga continua. `Sec-Fetch-Dest` separa os dois casos; o `Accept` é
+    // reserva para navegador antigo que não mande esse cabeçalho — a busca do
+    // Next pede `text/x-component`, nunca `text/html`, então não há confusão.
+    // De brinde, tira robô de cima do payload: o robots.txt libera tudo.
+    if (url.pathname.endsWith("/index.txt")) {
+      const destino = request.headers.get("Sec-Fetch-Dest");
+      const aceita = request.headers.get("Accept") ?? "";
+      const navegando = destino === "document" || (!destino && aceita.includes("text/html"));
+      if (navegando) {
+        const pagina = url.pathname.slice(0, -"index.txt".length);
+        return new Response(null, {
+          status: 302,
+          headers: {
+            // Sem a query `?_rsc=`, que é assunto interno do roteador.
+            Location: new URL(pagina, url).pathname,
+            // Sem isto o próprio redirecionamento gruda no navegador.
+            "Cache-Control": "no-store",
+          },
+        });
+      }
+    }
+
     // Tudo que não é API é o site: devolve para os assets sem interferir.
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
