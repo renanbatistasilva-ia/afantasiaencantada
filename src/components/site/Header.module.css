@@ -70,8 +70,61 @@
   .navLink {
     display: none;
   }
+
   .logoImg {
     height: 62px;
     margin: 0 0 -16px;
+  }
+}
+
+/*
+  A pastilha do elenco, e a faixa onde ela cabe.
+
+  No celular sobrava só o logo e o Reservar: não havia como chegar aos
+  personagens sem rolar a home inteira.
+
+  É pastilha, e não texto solto, por causa do contraste. No topo da página o
+  cabeçalho ainda é transparente — o fundo só entra depois de 40px de rolagem —
+  e este texto é quase branco. Sobre o rosa do Reino Encantado media 1,09:1 e
+  sobre o creme do Brasil Encantado 1,05:1, contra os 4,5:1 exigidos: nasceria
+  invisível justamente nas páginas para onde ele leva. Com fundo próprio, mede
+  7,7:1 e 7,6:1.
+
+  Caixa normal, e não alta como no desktop: "PERSONAGENS" em caixa alta pede
+  116px e a 375px sobram 111px na barra.
+
+  O piso de 360px não é gosto. Abaixo dele o flex começa a espremer o logo — a
+  320px ele cai de 119px para 84px e encosta na pastilha. A medição mostrou que
+  a barra fecha exatamente em 360px, que é a largura comum de Android; abaixo
+  disso o cabeçalho volta a ser o de antes.
+*/
+@media (min-width: 360px) and (max-width: 640px) {
+  .navElenco {
+    display: inline-flex;
+    align-items: center;
+    /* Mesma altura do Reservar (42px), para os dois lerem como um par e o
+       alvo de toque ficar confortável. */
+    min-height: 42px;
+    padding: 0 0.7rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--porcelana);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--noite) 76%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ouro-claro) 30%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Dois itens só: o respiro do desktop sobraria de espaço aqui. */
+  .nav {
+    gap: 0.55rem;
+  }
+
+  /* Um pouco mais estreito para a pastilha caber a 360px, largura comum de
+     Android. Mantém a altura, então o botão não muda de peso. */
+  .cta {
+    padding: 0.6rem 1.05rem;
   }
 }

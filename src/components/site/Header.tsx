@@ -40,7 +40,10 @@ export default function Header() {
         <Link href="/#mundos" className={styles.navLink}>
           Mundos
         </Link>
-        <Link href="/personagens" className={styles.navLink}>
+        {/* Segunda classe só para o celular: é o único item do menu que sobrevive
+            lá, porque é a única página de verdade (Mundos e Momentos são âncoras
+            da home) e não havia como chegar nela sem rolar a home inteira. */}
+        <Link href="/personagens" className={`${styles.navLink} ${styles.navElenco}`}>
           Personagens
         </Link>
         <Link href="/#momentos" className={styles.navLink}>
