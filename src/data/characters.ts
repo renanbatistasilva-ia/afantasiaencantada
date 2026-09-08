@@ -246,7 +246,29 @@ export const characters: Character[] = [
     story:
       "Poderosa, teatral e absolutamente inesquecível, a vilã dos mares faz uma entrada digna de espetáculo. Vem barganhar desejos e roubar a cena com aquela risada que dá um delicioso arrepio. Pode não ser mocinha, mas é, disparado, a mais divertida da festa.",
     emblem: "tridente",
-    photos: [],
+    photos: [
+      {
+        src: "/images/reino/bruxa-mar-retrato.jpg",
+        alt: "Bruxa do Mar em close: cabelo branco armado, sombra verde-água e batom vermelho",
+        position: "50% 25%",
+        width: 884,
+        height: 1222,
+      },
+      {
+        src: "/images/reino/bruxa-mar-corpo.jpg",
+        alt: "Bruxa do Mar de vestido preto, com os tentáculos roxos abertos ao redor",
+        position: "50% 25%",
+        width: 1028,
+        height: 1314,
+      },
+      {
+        src: "/images/reino/bruxa-mar-fantasia.jpg",
+        alt: "Detalhe da fantasia: o vestido de veludo preto e os tentáculos roxos com ventosas",
+        position: "50% 50%",
+        width: 924,
+        height: 1238,
+      },
+    ],
   },
 
   {
@@ -525,11 +547,47 @@ export const characters: Character[] = [
     slug: "turma-junina",
     name: "Turma Junina",
     worlds: ["datas-magicas", "brasil-encantado"],
-    blurb: "Quadrilha, bandeirinha e aquele arraiá que ninguém esquece.",
+    blurb: "O chapéu de palha, o couro do cangaço e a espiga de milho — os três no mesmo arraiá.",
     story:
-      "Chapéu de palha, vestido de chita e o pé quentinho para a quadrilha: chegou a turma do arraiá. Trazem bandeirinha, dança de roda e aquela alegria de festa junina de rua. Anarriê! Todo mundo de mãos dadas para o forró começar.",
+      "Quando junho chega, eles descem juntos para o mesmo arraiá: o Chico Bento e a Rosinha, direto da rocinha; a Maria Bonita e o cangaceiro, de chapéu de couro; e o Milhinho Junino, o mascote que puxa a quadrilha. Trazem bandeirinha, dança de roda e aquela alegria de festa junina de rua. Anarriê! Todo mundo de mãos dadas para o forró começar.",
     emblem: "fogueira",
-    photos: [],
+    members: ["casal-da-roca", "maria-bonita-e-cangaceiro", "milhinho-junino"],
+    /*
+      A primeira é o grupo inteiro, e é `wide`: com 1,50 de proporção, a moldura
+      retrato do palco guardaria só 47% da largura e o Chico Bento sumiria. As
+      outras três mostram cada ato sozinho e preenchem a grade da galeria.
+    */
+    photos: [
+      {
+        src: "/images/brasil/turma-junina.jpg",
+        alt: "A turma junina reunida no arraiá: o Chico Bento, a Maria Bonita, o Milhinho Junino e o cangaceiro, entre girassóis e bandeirinhas",
+        position: "50% 50%",
+        wide: true,
+        width: 1536,
+        height: 1024,
+      },
+      {
+        src: "/images/brasil/milhinho-junino.jpg",
+        alt: "O Milhinho Junino, um dos três da turma, no arraiá com bandeirinhas e a placa Viva São João",
+        position: "50% 35%",
+        width: 1106,
+        height: 1422,
+      },
+      {
+        src: "/images/brasil/casal-roca.jpg",
+        alt: "O Chico Bento e a Rosinha, outros dois da turma, com duas crianças numa festa junina ao ar livre",
+        position: "50% 35%",
+        width: 1322,
+        height: 1198,
+      },
+      {
+        src: "/images/brasil/maria-bonita-casal.jpg",
+        alt: "A Maria Bonita e o cangaceiro, que fecham a turma, de chapéu de couro e cartucheira",
+        position: "50% 8%",
+        width: 1024,
+        height: 1536,
+      },
+    ],
   },
   {
     slug: "natal-encantado",
@@ -620,11 +678,43 @@ export const characters: Character[] = [
     story:
       "Vindos direto do sertão, o casal mais valente do cangaço traz couro, coragem e muita história de aventura. Ela, dona do próprio destino; ele, guardião de um coração corajoso. Juntos, mostram às crianças um pedaço encantado da nossa terra.",
     emblem: "chapeu",
-    photos: [],
+    photos: [
+      {
+        src: "/images/brasil/maria-bonita-casal.jpg",
+        alt: "Maria Bonita e o cangaceiro de chapéu de couro e cartucheira, sorrindo num cenário nordestino",
+        position: "50% 8%",
+        width: 1024,
+        height: 1536,
+      },
+      {
+        src: "/images/brasil/cangaco-figurinos.jpg",
+        alt: "Os dois figurinos do cangaço lado a lado: chapéus de couro com estrelas e medalhas, cartucheiras e saia de chita",
+        position: "50% 0%",
+        width: 1079,
+        height: 1457,
+      },
+      {
+        src: "/images/brasil/maria-bonita-figurino.jpg",
+        alt: "O figurino de Maria Bonita em detalhe: saia de chita com babados, renda e girassóis",
+        position: "50% 0%",
+        width: 1079,
+        height: 1457,
+      },
+      {
+        src: "/images/brasil/cangaceiro-figurino.jpg",
+        alt: "O figurino do cangaceiro em detalhe: colete, cartucheira cruzada e calça com bordado de fogo",
+        position: "50% 0%",
+        width: 1024,
+        height: 1536,
+      },
+    ],
   },
   {
+    // O slug continua "casal-da-roca" de propósito: o endereço já está no ar e
+    // trocá-lo quebraria quem tem o link. Nome e slug já divergem em outros seis
+    // personagens, então isto não é exceção.
     slug: "casal-da-roca",
-    name: "Casal da Roça",
+    name: "Chico Bento e Rosinha",
     worlds: ["brasil-encantado"],
     blurb: "Direto da rocinha, o casal mais querido dos quadrinhos brasileiros.",
     story:
@@ -633,7 +723,7 @@ export const characters: Character[] = [
     photos: [
       {
         src: "/images/brasil/casal-roca.jpg",
-        alt: "O casal da roça posando com duas crianças numa festa junina ao ar livre",
+        alt: "Chico Bento e Rosinha, em boneco, posando com duas crianças numa festa junina ao ar livre",
         position: "50% 35%",
         width: 1322,
         height: 1198,

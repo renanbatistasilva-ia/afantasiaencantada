@@ -38,6 +38,13 @@ export interface CharacterPhoto {
   alt: string;
   /** object-position para o enquadramento no arco */
   position?: string;
+  /**
+   * Paisagem que precisa aparecer inteira: a moldura deita em vez de cortar as
+   * pontas. Ligue só quando o assunto ocupa a largura toda — a foto da Turma
+   * Junina perde o Chico Bento inteiro no palco retrato. As paisagens com
+   * assunto centrado (Família Tubarão, Patrulha) não precisam disto.
+   */
+  wide?: boolean;
   width: number;
   height: number;
 }
@@ -78,5 +85,11 @@ export interface Character {
   /** Símbolo do medalhão quando não há foto (default derivado do 1º mundo) */
   emblem?: EmblemKey;
   photos: CharacterPhoto[];
+  /**
+   * Slugs de quem vem junto, quando a ficha é um pacote e não um personagem só.
+   * A Turma Junina é isso: não existe uma fantasia "turma junina", existem três
+   * atrações que saem juntas num arraiá.
+   */
+  members?: string[];
   hidden?: boolean;
 }

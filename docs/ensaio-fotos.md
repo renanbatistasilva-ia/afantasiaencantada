@@ -1,34 +1,43 @@
 # Guia de ensaio — fotos que faltam no site
 
-**Quatro personagens** estão no site com **medalhão ilustrado** em vez de foto. Este guia é
-para levar ao próximo ensaio.
+**Um personagem** está no site com **medalhão ilustrado** em vez de foto, e ele só existe em
+dezembro. Este guia é para levar ao próximo ensaio.
 
-> A contagem já esteve errada aqui três vezes: dizia cinco quando eram onze, depois dez, e
-> agora são quatro. A última queda veio de uma releitura da pasta de referências, onde havia
-> foto real de cinco personagens que eu tinha descartado por olhar a dimensão do arquivo em
-> vez de abrir a imagem.
+> A contagem já esteve errada aqui quatro vezes: dizia cinco quando eram onze, depois dez,
+> depois quatro, depois dois. Uma das quedas veio de uma releitura da pasta de referências,
+> onde havia foto real de cinco personagens que eu tinha descartado por olhar a dimensão do
+> arquivo em vez de abrir a imagem. A última nem foi foto nova: a Turma Junina não era uma
+> fantasia esperando ensaio, e sim três atrações que já tinham foto saindo juntas.
 
 > As imagens que existiam antes para alguns deles eram geradas por IA e foram removidas: não
 > mostravam a equipe de verdade. Quem reservava a Bela e a Fera vendo um salão renderizado
 > recebia uma máscara de pelúcia. É o oposto do que o site promete em "personagens vivos".
 
+> 📐 **A dimensão do arquivo não diz a origem.** Várias fotos reais da equipe chegam em
+> 1024×1536 ou 1536×1024, que por acaso são as medidas de saída de um gerador conhecido.
+> Levantei essa suspeita uma vez sobre a foto da Turma Junina e da Maria Bonita, e a dona
+> confirmou que as duas são de evento real. Fica registrado para ninguém tropeçar nisso de
+> novo: para decidir, **abra a imagem** — como já estava escrito acima.
+
 ## Quem precisa
 
-### Os quatro que faltam
+### O único que falta
 
 | Personagem | Quem é | Quando fotografar |
 |---|---|---|
-| **Bruxa do Mar** | **a vilã roxa de cabelo branco e tentáculos** | qualquer época |
-| Maria Bonita & Cangaceiro | o casal do cangaço, chapéu de couro | qualquer época |
-| Turma Junina | chapéu de palha, vestido de chita, quadrilha | **numa junina de verdade, junho** |
 | Natal Encantado | o casal do Natal, sinos e vermelho | **dezembro** |
 
-> O Brasil Encantado **deixou de ser o mundo sem nenhuma foto**: o Casal da Roça, o Milhinho
-> Junino e a Turma do Bairro ganharam imagem. Falta a Maria Bonita e a Turma Junina.
+> O Brasil Encantado **está completo**: todos os personagens dele têm foto.
 
-> ⏰ **Dois são sazonais.** A Turma Junina fica muito melhor num arraiá real, em junho, e o
-> Natal Encantado em dezembro. Se a próxima festa dessas já está no calendário, essas duas se
-> resolvem sozinhas — basta alguém lembrar de fotografar direito no dia.
+> ⏰ **Não sobrou nada para "qualquer época".** Tudo o que dava para fotografar a qualquer
+> momento já está no site. O que falta é dezembro. Se a próxima festa de Natal já está no
+> calendário, ela se resolve sozinha — basta alguém lembrar de fotografar direito no dia.
+
+> ⚠️ **Cuidado com o nome "Bruxa do Mar" na pasta de referências.** Os arquivos
+> `Bruxa do Mar 1.JPG` e `Bruxa do Mar 2.JPG` **não são ela**: são a Noiva Cadáver — pele
+> azul, tranças azuis, véu e buquê. A Bruxa do Mar é a de cabelo branco armado e tentáculos
+> roxos, nos arquivos `Bruxa do Mar Ursula 1/2/3`. Agora que ela tem foto publicada, mandar a
+> Noiva no lugar dela passaria despercebido com mais facilidade, não menos.
 
 ---
 
@@ -98,7 +107,8 @@ Vestido de baile pede corpo inteiro com a saia aberta. Escada ou parede clara ao
 Corpo inteiro com o arco visível — é o que identifica a personagem à primeira vista.
 
 **Bruxa do Mar** *(a vilã roxa, de cabelo branco)*
-Retrato dramático. A fantasia tem volume, então três quartos funciona melhor que corpo
+Já resolvida — está no site com retrato, corpo inteiro e um detalhe da fantasia. Se render
+foto nova, retrato dramático: a fantasia tem volume, e três quartos funciona melhor que corpo
 inteiro.
 
 **Cavaleiro das Sombras**
@@ -108,12 +118,14 @@ Corpo inteiro; contraluz combina com o personagem. Vale um retrato fechado da m�
 Os três juntos, corpo inteiro. Um retrato de cada, se der tempo.
 
 **Maria Bonita & Cangaceiro**
-Os dois juntos, corpo inteiro, com o chapéu de couro bem visível — é o que identifica o
+Já resolvida — está no site com a foto do casal e três fotos de figurino. Se render foto
+nova, os dois juntos, corpo inteiro, com o chapéu de couro bem visível: é o que identifica o
 cangaço à primeira vista. Fim de tarde combina especialmente com essa fantasia.
 
-**Casal da Roça**
-Os dois juntos. Verde ao fundo, se houver. O pé descalço faz parte do personagem: não corte
-na altura do joelho.
+**Chico Bento e Rosinha**
+Os dois juntos. Verde ao fundo, se houver. São bonecos de cabeça grande, não ator com
+maquiagem: enquadre de corpo inteiro, porque cabeça de boneco em retrato fechado fica
+estranha — mesma regra do Milhinho Junino.
 
 **Milhinho Junino**
 Mascote de corpo inteiro, sempre. Cabeça de mascote em retrato fechado fica estranha. De pé,
@@ -122,9 +134,13 @@ em movimento, melhor ainda.
 **Gabby e Amigos**
 Corpo inteiro com os gatinhos à vista. Se forem bonecos de mão, enquadre para aparecerem.
 
-**Turma Junina**
-O grupo em roda ou de mãos dadas, no arraiá. Bandeirinha ao fundo é bem-vinda aqui — é o
-único caso em que fundo carregado ajuda em vez de atrapalhar.
+**Turma Junina** *(pacote, não fantasia)*
+Não existe uma fantasia "turma junina": são o Chico Bento e a Rosinha, a Maria Bonita e o
+cangaceiro, e o Milhinho Junino saindo juntos. **Resolvida:** a foto dos quatro no arraiá
+chegou e é a principal; a galeria mostra cada ato sozinho. Bandeirinha ao fundo é bem-vinda
+aqui — é o único caso em que fundo carregado ajuda em vez de atrapalhar.
+> Se for repetir esse tipo de foto de grupo, saiba que **foto deitada precisa da marca `wide`**
+> na ficha, senão a moldura retrato corta quem está nas pontas.
 
 **Natal Encantado**
 Corpo inteiro, com árvore ou luzes ao fundo. Vale um retrato para o medalhão.
@@ -135,7 +151,7 @@ Corpo inteiro, com árvore ou luzes ao fundo. Vale um retrato para o medalhão.
 
 **Foto em festa, com criança.** São as que mais convertem e alimentam a seção Momentos, que é
 onde o site prova que as festas aconteceram de verdade. Vale para qualquer personagem, não só
-para os quatro desta lista.
+para o único desta lista.
 
 ---
 

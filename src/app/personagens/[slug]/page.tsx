@@ -61,6 +61,13 @@ export default async function CharacterPage({ params }: Props) {
   const [principal, ...galeria] = character.photos;
   const isNight = world?.atmosphere.mood === "night";
 
+  // Pacote: a ficha reúne outros personagens em vez de ser um só. Resolvo aqui
+  // para a página poder linkar cada um — sem isso, quem quisesse só o Milhinho
+  // não teria como chegar na ficha dele a partir da Turma Junina.
+  const membros = (character.members ?? [])
+    .map((s) => characterBySlug(s))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+
   return (
     <main
       className={styles.page}
@@ -96,7 +103,14 @@ export default async function CharacterPage({ params }: Props) {
               src={principal.src}
               alt={principal.alt}
               position={principal.position}
-              className={styles.stage}
+              className={`${styles.stage} ${principal.wide ? styles.stageLargo : ""}`}
+              // A proporção vem do próprio dado, não de um número fixo: assim
+              // qualquer foto larga futura deita na medida dela.
+              style={
+                principal.wide
+                  ? { aspectRatio: `${principal.width} / ${principal.height}` }
+                  : undefined
+              }
             />
           ) : (
             // Sem foto, o medalhão ilustrado assume — mesmo tratamento do resto do site.
@@ -126,6 +140,28 @@ export default async function CharacterPage({ params }: Props) {
               />
             </Reveal>
           ))}
+        </section>
+      )}
+
+      {membros.length > 0 && (
+        <section className={styles.members} aria-labelledby="quem-vem-junto">
+          <Reveal>
+            <h2 id="quem-vem-junto" className={`script ${styles.membersTitle}`}>
+              Quem vem junto
+            </h2>
+          </Reveal>
+          <ul className={styles.membersList}>
+            {membros.map((m, i) => (
+              <li key={m.slug}>
+                <Reveal delay={i * 0.06}>
+                  <Link href={`/personagens/${m.slug}`} className={styles.memberLink}>
+                    <CharacterMedallion character={m} size={56} />
+                    <span className={styles.memberName}>{m.name}</span>
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 

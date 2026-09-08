@@ -54,6 +54,14 @@
   width: min(90vw, 26rem);
 }
 
+/* Foto larga com o grupo ocupando a largura toda: a moldura retrato cortaria
+   as pontas — na Turma Junina sumia o Chico Bento inteiro. A altura vem da
+   proporção da própria foto, passada inline pela página. */
+.stageLargo {
+  width: min(94vw, 44rem);
+  height: auto;
+}
+
 .medalhaoWrap {
   display: flex;
   flex-direction: column;
@@ -90,13 +98,86 @@
   max-width: 64rem;
   margin: clamp(3rem, 9vh, 5rem) auto 0;
   padding: 0 var(--gutter);
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Flex em vez de grid para a última fileira ficar centrada. Com
+     `repeat(3, 1fr)` as três faixas sempre ocupavam a largura toda, então quem
+     tem uma ou duas fotos ficava encostado à esquerda com um vão à direita — e
+     esse é o caso de 9 dos 12 personagens que têm galeria. */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+/* O filho direto aqui é a div que o Reveal cria, não o arco. Por isso a largura
+   da coluna mora num seletor de filho, e não em .galleryItem — mesma pegadinha
+   anotada no .ctaGroup. */
+.gallery > * {
+  flex: 0 1 calc((100% - 2 * clamp(1rem, 2.5vw, 2rem)) / 3);
+  min-width: 0;
 }
 
 .galleryItem {
   height: min(42vh, 24rem);
+}
+
+/* ——— quem vem junto (pacotes) ——— */
+
+.members {
+  position: relative;
+  z-index: 2;
+  max-width: 46rem;
+  margin: clamp(3rem, 9vh, 4.5rem) auto 0;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.membersTitle {
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
+  color: var(--w-accent);
+}
+
+/* O flex mora no <ul> porque os <li> são filhos diretos dele. Dentro de cada
+   <li> há uma div do Reveal, então nada de layout pode depender do <a> ser
+   filho do <li> — é a mesma pegadinha anotada no .ctaGroup. */
+.membersList {
+  list-style: none;
+  margin-top: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.2rem, 4vw, 2.4rem);
+}
+
+.memberLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 7.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+@media (hover: hover) {
+  .memberLink:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.memberLink:hover .memberName,
+.memberLink:focus-visible .memberName {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.memberName {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 520;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  text-wrap: balance;
 }
 
 /* ——— chamada ——— */
@@ -125,9 +206,9 @@
 }
 
 @media (max-width: 860px) {
-  .gallery {
-    /* Em duas colunas as fotos ainda respiram; três ficariam ilegíveis no celular. */
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Em duas colunas as fotos ainda respiram; três ficariam ilegíveis no celular. */
+  .gallery > * {
+    flex-basis: calc((100% - clamp(1rem, 2.5vw, 2rem)) / 2);
   }
 
   .galleryItem {
@@ -137,5 +218,11 @@
   .stage {
     height: min(56vh, 30rem);
     width: min(88vw, 24rem);
+  }
+
+  /* Precisa vir depois de .stage para a altura continuar vindo da proporção. */
+  .stageLargo {
+    width: 92vw;
+    height: auto;
   }
 }
