@@ -8,6 +8,8 @@ next-env.d.ts
 
 # fontes originais pesadas (fotos em alta e vídeos) — manter backup local, fora do deploy
 /Prints-referencias-instagram
+# Arte de origem da fadinha: 5 MB de PNG que viram WebP em public/images/marca/fadinha/
+/Fadinha
 
 # ambiente / segredos
 .env

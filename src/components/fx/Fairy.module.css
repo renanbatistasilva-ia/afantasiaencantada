@@ -7,18 +7,14 @@
   will-change: transform, opacity;
 }
 
-.mobile {
-  position: fixed;
-  right: 0;
-  pointer-events: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
+/*
+  60px, e não os 52px de antes, porque as poses vêm numa tela de tamanho único
+  com folga em volta da figura — é essa folga que impede a fadinha de mudar de
+  tamanho ao trocar de pose. Medido: 60px aqui dá a mesma figura que 52px dava
+  no PNG antigo, que era colado na borda.
+*/
 .img {
-  width: 52px;
+  width: 60px;
   height: auto;
   display: block;
   user-select: none;
@@ -69,12 +65,40 @@
 
 @media (max-width: 640px) {
   .img {
-    width: 44px;
+    width: 51px;
+  }
+}
+
+/*
+  O anel por onde ela chega e vai embora. Centro vazado, e ela é desenhada por
+  cima com z-index menor que o dela — o efeito de "sair do buraco" vem daí.
+
+  `pointer-events: none` pelo mesmo motivo da fadinha: são 280px de imagem
+  aparecendo sobre o conteúdo, e engolir um toque no celular seria pior que não
+  ter portal nenhum.
+*/
+.portal {
+  position: fixed;
+  z-index: 64;
+  width: 160px;
+  height: auto;
+  margin: -80px 0 0 -80px;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 18px rgba(233, 206, 156, 0.4));
+}
+
+@media (max-width: 640px) {
+  .portal {
+    width: 128px;
+    margin: -64px 0 0 -64px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fairy {
+  .fairy,
+  .portal {
     display: none;
   }
 }
