@@ -16,10 +16,19 @@ export const metadata: Metadata = {
   // que é a home — quem compartilhava o link da reserva no WhatsApp via a
   // página inicial aparecer na prévia.
   alternates: { canonical: `${BASE}/reservar/` },
+  // Atenção: `openGraph` aninhado SUBSTITUI o do layout inteiro, não mistura
+  // campo a campo. Quando esta chave nasceu, só com url/title/description, ela
+  // levou junto o `images`, o `siteName`, o `locale` e o `type` — e a página de
+  // reserva, que é a mais compartilhada no WhatsApp, ficou sem prévia nenhuma.
+  // Se mexer aqui, repita os campos herdados.
   openGraph: {
     url: `${BASE}/reservar/`,
     title: titulo,
     description: descricao,
+    siteName: "Fantasia Encantada",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "/og-v2.jpg", width: 1200, height: 630, alt: "Fantasia Encantada" }],
   },
 };
 
