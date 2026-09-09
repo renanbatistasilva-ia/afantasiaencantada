@@ -1,65 +1,27 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import CartaoLead, { type Status } from "./CartaoLead";
 import PainelTrafego from "./PainelTrafego";
-import { formatPhone, mensagemDeResposta, whatsappUrlPara } from "@/lib/whatsapp";
+import { agrupar, choques, resumo, rotuloDia, rotuloMes, hojeEmSaoPaulo, type Lead } from "./agenda";
 import styles from "./PainelAdmin.module.css";
 
 /**
- * Painel de leads.
+ * Painel de pedidos.
  *
  * Nada aqui usa dangerouslySetInnerHTML nem script de terceiro, e não é
  * frescura: o cookie de sessão é HttpOnly, o que impede um XSS de LÊ-LO, mas não
  * de usá-lo num fetch da mesma origem. Nesta página, XSS seria acesso total.
+ *
+ * A tela é uma agenda, não uma lista: em cima o que precisa de resposta, embaixo
+ * o calendário das festas. A ordem por `criado_em` que o banco entrega serve
+ * para saber o que chegou; não serve para saber o que vem por aí — e num negócio
+ * que vende datas é a segunda pergunta que se faz de manhã. Ver ./agenda.ts.
  */
 
-const STATUS = ["novo", "respondido", "fechado", "perdido"] as const;
-type Status = (typeof STATUS)[number];
-
-interface Lead {
-  id: string;
-  criado_em: string;
-  responsavel_nome: string | null;
-  responsavel_telefone: string | null;
-  personagem_nome: string | null;
-  mundo_nome: string | null;
-  data_festa: string | null;
-  periodo: string | null;
-  horario: string | null;
-  endereco: string | null;
-  tipo_local: string | null;
-  crianca_nome: string | null;
-  crianca_idade: string | null;
-  observacao: string | null;
-  utm_source: string | null;
-  referrer: string | null;
-  pagina_entrada: string | null;
-  status: string;
-}
-
-const fmtData = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
-const fmtCurto = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
-
-/** A data da festa é YYYY-MM-DD puro; `new Date()` nela assumiria UTC e voltaria um dia. */
-function dataDaFesta(iso: string | null): string | null {
-  if (!iso) return null;
-  const [a, m, d] = iso.split("-").map(Number);
-  if (!a || !m || !d) return null;
-  return fmtData.format(new Date(a, m - 1, d));
-}
-
-function origemDe(l: Lead): string {
-  if (l.utm_source) return l.utm_source;
-  if (l.referrer) {
-    try {
-      return new URL(l.referrer).hostname.replace(/^www\./, "");
-    } catch {
-      return l.referrer;
-    }
-  }
-  return "direto";
-}
+/** O teto que `listarLeads` aceita. Acima disto a faixa de resumo avisa. */
+const LIMITE = 200;
 
 export default function PainelAdmin() {
   const [fase, setFase] = useState<"conferindo" | "senha" | "lista">("conferindo");
@@ -67,13 +29,13 @@ export default function PainelAdmin() {
   const [erro, setErro] = useState<string | null>(null);
   const [entrando, setEntrando] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [apagando, setApagando] = useState<string | null>(null);
+  const [verPassados, setVerPassados] = useState(false);
   // Aba fica fora de `fase` de propósito: `carregar()` trata qualquer valor
   // diferente de "lista" como sessão expirada e voltaria para a senha.
-  const [aba, setAba] = useState<"leads" | "trafego">("leads");
+  const [aba, setAba] = useState<"pedidos" | "trafego">("pedidos");
 
   const carregar = useCallback(async () => {
-    const r = await fetch("/api/admin/leads");
+    const r = await fetch(`/api/admin/leads?limite=${LIMITE}`);
     if (!r.ok) {
       setFase("senha");
       return;
@@ -122,7 +84,8 @@ export default function PainelAdmin() {
 
   async function mudarStatus(id: string, novo: Status) {
     const antes = leads;
-    // Otimista: o toque responde na hora e desfaz se o servidor recusar.
+    // Otimista: o toque responde na hora e desfaz se o servidor recusar. É o que
+    // faz o pedido sair da caixa de entrada e cair no dia dele sem recarregar.
     setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status: novo } : l)));
     const r = await fetch(`/api/admin/leads/${id}`, {
       method: "PATCH",
@@ -135,8 +98,23 @@ export default function PainelAdmin() {
   async function apagar(id: string) {
     const r = await fetch(`/api/admin/leads/${id}`, { method: "DELETE" }).catch(() => null);
     if (r?.ok) setLeads((ls) => ls.filter((l) => l.id !== id));
-    setApagando(null);
   }
+
+  const hoje = hojeEmSaoPaulo();
+  const grupos = useMemo(() => agrupar(leads, hoje), [leads, hoje]);
+  const disputas = useMemo(() => choques(leads), [leads]);
+  const numeros = useMemo(() => resumo(leads), [leads]);
+
+  const cartao = (l: Lead, mostrarData: boolean) => (
+    <CartaoLead
+      key={l.id}
+      lead={l}
+      mostrarData={mostrarData}
+      choque={disputas.get(l.id)}
+      onStatus={mudarStatus}
+      onApagar={apagar}
+    />
+  );
 
   if (fase === "conferindo") {
     return (
@@ -173,9 +151,7 @@ export default function PainelAdmin() {
           <button className={`btn btn-ouro ${styles.acaoPrincipal}`} type="submit" disabled={entrando}>
             {entrando ? "conferindo…" : "Entrar"}
           </button>
-          <p className={styles.ajuda}>
-            Esqueceu a senha? A troca é feita por quem cuida do site.
-          </p>
+          <p className={styles.ajuda}>Esqueceu a senha? A troca é feita por quem cuida do site.</p>
           <Link href="/" className={styles.voltar}>
             ← início
           </Link>
@@ -203,11 +179,11 @@ export default function PainelAdmin() {
       <div className={styles.abas} role="group" aria-label="O que mostrar">
         <button
           type="button"
-          className={`${styles.chip} ${aba === "leads" ? styles.chipAtivo : ""}`}
-          aria-pressed={aba === "leads"}
-          onClick={() => setAba("leads")}
+          className={`${styles.chip} ${aba === "pedidos" ? styles.chipAtivo : ""}`}
+          aria-pressed={aba === "pedidos"}
+          onClick={() => setAba("pedidos")}
         >
-          pedidos
+          agenda
         </button>
         <button
           type="button"
@@ -221,131 +197,118 @@ export default function PainelAdmin() {
 
       {aba === "trafego" && <PainelTrafego />}
 
-      {aba === "leads" && (
-        <>
-
-      {leads.length === 0 && (
+      {aba === "pedidos" && leads.length === 0 && (
         <p className={styles.vazio}>
           Quando alguém preencher o formulário de reserva, o pedido aparece aqui — mesmo que a
           pessoa desista antes de enviar a mensagem no WhatsApp.
         </p>
       )}
 
-      <ul className={styles.lista}>
-        {leads.map((l) => {
-          const nome = l.responsavel_nome ?? "sem nome";
-          const festa = dataDaFesta(l.data_festa);
-          return (
-            <li key={l.id} className={styles.cartao}>
-              <div className={styles.cabecalho}>
-                <span className={styles.responsavel}>{nome}</span>
-                <span className={styles.quando}>{fmtCurto.format(new Date(l.criado_em))}</span>
-              </div>
+      {aba === "pedidos" && leads.length > 0 && (
+        <>
+          <section className={styles.resumo} aria-label="Resumo">
+            <div className={styles.numero}>
+              <span className={styles.numeroValor}>{numeros.noMes}</span>
+              <span className={styles.numeroNota}>
+                {numeros.noMes === 1 ? "pedido" : "pedidos"} em {numeros.mesAtual}
+              </span>
+            </div>
+            <div className={styles.numero}>
+              <span
+                className={`${styles.numeroValor} ${
+                  numeros.esperaMaisAntiga >= 2 ? styles.numeroAlerta : ""
+                }`}
+              >
+                {numeros.aResponder}
+              </span>
+              <span className={styles.numeroNota}>
+                esperando resposta
+                {numeros.aResponder > 0 && numeros.esperaMaisAntiga >= 1
+                  ? ` · há ${numeros.esperaMaisAntiga} ${
+                      numeros.esperaMaisAntiga === 1 ? "dia" : "dias"
+                    }`
+                  : ""}
+              </span>
+            </div>
+            <div className={styles.numero}>
+              <span className={styles.numeroValor}>{numeros.festas30}</span>
+              <span className={styles.numeroNota}>festas nos próximos 30 dias</span>
+            </div>
+            <div className={styles.numero}>
+              <span className={styles.numeroTexto}>{numeros.campeao?.[0] ?? "—"}</span>
+              <span className={styles.numeroNota}>
+                {numeros.campeao ? `mais pedido · ${numeros.campeao[1]}×` : "sem pedidos"}
+              </span>
+            </div>
+          </section>
 
-              <dl className={styles.dados}>
-                {l.responsavel_telefone && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>WhatsApp</dt>
-                    <dd className={styles.valor}>{formatPhone(l.responsavel_telefone)}</dd>
-                  </div>
-                )}
-                {l.personagem_nome && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>Personagem</dt>
-                    <dd className={styles.valor}>{l.personagem_nome}</dd>
-                  </div>
-                )}
-                {festa && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>Festa</dt>
-                    <dd className={styles.valor}>
-                      {festa}
-                      {l.periodo ? `, ${l.periodo}` : ""}
-                      {l.horario ? ` — ${l.horario}` : ""}
-                    </dd>
-                  </div>
-                )}
-                {l.crianca_nome && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>Criança</dt>
-                    <dd className={styles.valor}>
-                      {l.crianca_nome}
-                      {l.crianca_idade ? `, ${l.crianca_idade} anos` : ""}
-                    </dd>
-                  </div>
-                )}
-                {l.endereco && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>Local</dt>
-                    <dd className={styles.valor}>
-                      {l.endereco}
-                      {l.tipo_local ? ` (${l.tipo_local})` : ""}
-                    </dd>
-                  </div>
-                )}
-                {l.observacao && (
-                  <div className={styles.linha}>
-                    <dt className={styles.rotulo}>Observação</dt>
-                    <dd className={styles.valor}>{l.observacao}</dd>
-                  </div>
-                )}
-                <div className={styles.linha}>
-                  <dt className={styles.rotulo}>Veio de</dt>
-                  <dd className={styles.valor}>{origemDe(l)}</dd>
+          {/* Um painel que mente sobre o próprio total é pior que um simples. */}
+          {leads.length >= LIMITE && (
+            <p className={styles.rodapeResumo}>
+              Os números cobrem os {LIMITE} pedidos mais recentes.
+            </p>
+          )}
+
+          {grupos.aResponder.length > 0 && (
+            <section className={styles.grupo}>
+              <h2 className={styles.grupoTitulo}>
+                Precisam de resposta
+                <span className={styles.grupoContagem}>{grupos.aResponder.length}</span>
+              </h2>
+              <ul className={styles.lista}>{grupos.aResponder.map((l) => cartao(l, true))}</ul>
+            </section>
+          )}
+
+          {grupos.proximos.length > 0 && (
+            <section className={styles.grupo}>
+              <h2 className={styles.grupoTitulo}>Próximos 7 dias</h2>
+              {grupos.proximos.map((d) => (
+                <div key={d.data} className={styles.dia}>
+                  <h3 className={styles.diaTitulo}>{rotuloDia(d.data)}</h3>
+                  <ul className={styles.lista}>{d.leads.map((l) => cartao(l, false))}</ul>
                 </div>
-              </dl>
+              ))}
+            </section>
+          )}
 
-              {l.responsavel_telefone && (
-                <a
-                  className={`btn btn-ouro ${styles.responder}`}
-                  href={whatsappUrlPara(
-                    l.responsavel_telefone,
-                    mensagemDeResposta(nome, l.crianca_nome),
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
+          {grupos.adiante.length > 0 && (
+            <section className={styles.grupo}>
+              <h2 className={styles.grupoTitulo}>Mais para frente</h2>
+              {grupos.adiante.map((m) => (
+                <div key={m.chave} className={styles.dia}>
+                  <h3 className={styles.diaTitulo}>{rotuloMes(`${m.chave}-01`, hoje)}</h3>
+                  <ul className={styles.lista}>{m.leads.map((l) => cartao(l, true))}</ul>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {grupos.semData.length > 0 && (
+            <section className={styles.grupo}>
+              <h2 className={styles.grupoTitulo}>Sem data marcada</h2>
+              <ul className={styles.lista}>{grupos.semData.map((l) => cartao(l, true))}</ul>
+            </section>
+          )}
+
+          {grupos.passados.length > 0 && (
+            <section className={styles.grupo}>
+              <h2 className={styles.grupoTitulo}>
+                Já passou
+                <span className={styles.grupoContagem}>{grupos.passados.length}</span>
+                <button
+                  type="button"
+                  className={styles.recolher}
+                  aria-expanded={verPassados}
+                  onClick={() => setVerPassados((v) => !v)}
                 >
-                  Responder no WhatsApp
-                </a>
-              )}
-
-              <div className={styles.chips} role="group" aria-label={`Situação do pedido de ${nome}`}>
-                {STATUS.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    className={`${styles.chip} ${l.status === s ? styles.chipAtivo : ""}`}
-                    aria-pressed={l.status === s}
-                    onClick={() => mudarStatus(l.id, s)}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-
-              {apagando === l.id ? (
-                <div className={styles.confirma}>
-                  <p className={styles.confirmaTexto}>
-                    Apagar o pedido de <strong>{nome}</strong>? Some do painel na hora.
-                  </p>
-                  <div className={styles.confirmaBotoes}>
-                    <button type="button" className={styles.cancelar} onClick={() => setApagando(null)}>
-                      cancelar
-                    </button>
-                    <button type="button" className={styles.apagarMesmo} onClick={() => apagar(l.id)}>
-                      apagar
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button type="button" className={styles.apagar} onClick={() => setApagando(l.id)}>
-                  apagar
+                  {verPassados ? "esconder" : "mostrar"}
                 </button>
+              </h2>
+              {verPassados && (
+                <ul className={styles.lista}>{grupos.passados.map((l) => cartao(l, true))}</ul>
               )}
-            </li>
-          );
-        })}
-      </ul>
+            </section>
+          )}
         </>
       )}
     </main>

@@ -140,6 +140,124 @@
   text-wrap: pretty;
 }
 
+/* ——— faixa de resumo ——— */
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 0.9rem;
+  border: 1px solid rgba(233, 206, 156, 0.25);
+  border-radius: 20px;
+  background: rgba(250, 243, 236, 0.04);
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+@media (min-width: 34rem) {
+  .resumo {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.numero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.numeroValor {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--porcelana);
+}
+
+/* O campeão é nome, não número: mesma linha da grade, tipografia de texto. */
+.numeroTexto {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--ouro-claro);
+  overflow-wrap: anywhere;
+}
+
+.numeroAlerta {
+  color: var(--rosa);
+}
+
+.numeroNota {
+  /* 62% mede 5,85:1 sobre o cartão. */
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+  text-wrap: pretty;
+}
+
+.rodapeResumo {
+  margin: -1rem 0 1.6rem;
+  font-size: 0.76rem;
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+}
+
+/* ——— grupos da agenda ——— */
+
+.grupo {
+  margin-bottom: 2rem;
+}
+
+.grupoTitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ouro-claro);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(233, 206, 156, 0.18);
+}
+
+.grupoContagem {
+  font-family: var(--font-body), sans-serif;
+  font-style: normal;
+  font-size: 0.75rem;
+  min-width: 1.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  text-align: center;
+  background: rgba(233, 206, 156, 0.16);
+  color: var(--ouro-claro);
+}
+
+.recolher {
+  margin-left: auto;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  font-family: var(--font-body), sans-serif;
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+}
+
+.dia + .dia {
+  margin-top: 1.4rem;
+}
+
+.diaTitulo {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* 72% mede 7,1:1 — é rótulo pequeno, não pode ficar no limite. */
+  color: color-mix(in srgb, var(--porcelana) 72%, transparent);
+  margin-bottom: 0.7rem;
+}
+
 /* ——— cartão de lead ——— */
 
 .lista {
@@ -156,26 +274,81 @@
   padding: 1.1rem 1.2rem 1.2rem;
 }
 
+/* Pedido recusado não ocupa data — continua visível para consulta, sem competir
+   com as festas de verdade no mesmo dia. */
+.cartaoApagado {
+  opacity: 0.55;
+}
+
 .cabecalho {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.identidade {
+  min-width: 0;
+}
+
+/* A festa é a identidade do registro, não quem preencheu o formulário. */
+.quando {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  color: var(--ouro-claro);
+  text-wrap: pretty;
+}
+
+.crianca {
+  font-size: 0.9rem;
+  margin-top: 0.1rem;
+  color: color-mix(in srgb, var(--porcelana) 78%, transparent);
+}
+
+.selo {
+  flex-shrink: 0;
+  font-size: 0.76rem;
+  /* 58% mede 5,28:1 sobre o cartão. */
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+}
+
+/* Único sinal de urgência da tela: pedido por responder que já dormiu. */
+.seloUrgente {
+  color: var(--rosa);
+  font-weight: 650;
+}
+
+.personagem {
+  font-size: 1rem;
+  font-weight: 550;
+  color: color-mix(in srgb, var(--porcelana) 92%, transparent);
   margin-bottom: 0.9rem;
 }
 
-.responsavel {
-  font-family: var(--font-display), Georgia, serif;
-  font-style: italic;
-  font-size: 1.25rem;
-  color: var(--ouro-claro);
+.choqueForte,
+.choqueLeve {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  margin-bottom: 0.9rem;
+  text-wrap: pretty;
 }
 
-.quando {
-  flex-shrink: 0;
-  font-size: 0.78rem;
-  /* 58% mede 5,28:1 sobre o cartão; a 50% ficava em 4,29 e reprovava no AA. */
-  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+/* Duas famílias no mesmo dia E período: não dá para atender as duas. */
+.choqueForte {
+  border: 1px solid color-mix(in srgb, var(--rosa) 45%, transparent);
+  background: color-mix(in srgb, var(--rosa-profundo) 18%, transparent);
+  color: var(--porcelana);
+}
+
+/* Mesmo dia em períodos diferentes cabe na agenda; é nota, não alarme. */
+.choqueLeve {
+  padding-left: 0;
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
 }
 
 .dados {
@@ -208,20 +381,70 @@
 
 .responder {
   width: 100%;
-  margin-bottom: 1rem;
+}
+
+/* No celular ele ocupa a largura toda porque é o alvo do polegar. Num monitor
+   de 46rem isso vira uma faixa dourada atravessando cada cartão. */
+@media (min-width: 34rem) {
+  .responder {
+    width: auto;
+    display: inline-flex;
+  }
 }
 
 /* ——— situação ——— */
 
-.chips {
+.situacao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+/* Fechada mostra a situação; aberta oferece as outras três. Vinte pedidos eram
+   oitenta botões iguais — era o grosso do peso visual do painel. */
+.pilula {
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pilulaNovo {
+  background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
+  color: #3c2812;
+  font-weight: 650;
+}
+
+.pilulaRespondido {
+  border-color: rgba(233, 206, 156, 0.45);
+  color: var(--ouro-claro);
+}
+
+.pilulaFechado {
+  background: rgba(250, 243, 236, 0.14);
+  color: var(--porcelana);
+}
+
+.pilulaPerdido {
+  border-color: rgba(233, 206, 156, 0.2);
+  color: color-mix(in srgb, var(--porcelana) 62%, transparent);
+}
+
+.opcoes {
   display: grid;
   /* Os quatro não cabem numa linha em 375px e quebravam 3+1. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.45rem;
+  width: 100%;
 }
 
 @media (min-width: 30rem) {
-  .chips {
+  .opcoes {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
@@ -249,8 +472,8 @@
 
 .apagar {
   min-height: 44px;
-  margin-top: 0.9rem;
-  font-size: 0.8rem;
+  padding: 0 0.4rem;
+  font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   /* Discreto, não invisível: 58% mede 5,28:1. Contra o toque errado quem
@@ -442,11 +665,14 @@
 
 @media (hover: hover) {
   .sair:hover,
+  .pilula:hover,
+  .recolher:hover,
   .chip:hover {
     background: rgba(250, 243, 236, 0.12);
   }
 
-  .chipAtivo:hover {
+  .chipAtivo:hover,
+  .pilulaNovo:hover {
     background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
   }
 

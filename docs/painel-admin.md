@@ -3,7 +3,7 @@
 O painel fica em **afantasiaencantada.com/admin** e mostra os pedidos que chegaram pelo
 formulário do site, mesmo os de quem desistiu antes de mandar a mensagem no WhatsApp.
 
-Este documento cobre só a parte de acesso. Tudo aqui se faz no terminal, na pasta do projeto.
+Tudo aqui se faz no terminal, na pasta do projeto.
 
 ---
 
@@ -133,6 +133,36 @@ npx wrangler tail
 
 e procurar a linha `aviso de pedido falhou`. As causas comuns são o endereço de destino ter
 sido removido da lista de verificados, ou o segredo `AVISO_EMAIL_PARA` não existir.
+
+---
+
+## Abrir o painel na sua máquina
+
+`npm run dev` **não serve o painel**. Ele roda `next dev`, que entrega as páginas mas não as
+rotas `/api/*` — elas moram no Worker (`worker/index.ts`). Sem elas, `POST /api/admin/sessao`
+não existe e **nenhuma senha entra**, o que se parece com senha errada e não é.
+
+O comando certo é:
+
+```
+npm run dev:painel
+```
+
+Ele roda `wrangler dev`: gera o site, serve o `out/`, liga o D1 local e lê o `.dev.vars`.
+
+**A senha local é outra.** `npm run senha` envia o hash para a Cloudflare, isto é, **para a
+produção** — ele não escreve no `.dev.vars`. Para ter uma senha só de desenvolvimento, gere o
+hash e cole no arquivo à mão:
+
+```
+node -e 'const c=require("crypto"),s=c.randomBytes(16),i=210000,b=x=>x.toString("base64url");c.pbkdf2("SUA-SENHA-LOCAL".normalize("NFC"),s,i,32,"sha256",(e,d)=>console.log(`PAINEL_SENHA_HASH=pbkdf2$${i}$${b(s)}$${b(d)}`))'
+```
+
+O `.dev.vars` precisa dos três: `PAINEL_SENHA_HASH`, `PAINEL_SESSAO_SEGREDO` (32 caracteres ou
+mais) e, se quiser testar o aviso, `AVISO_EMAIL_PARA`. O arquivo é ignorado pelo git.
+
+Banco local vazio? `npm run db:local` cria as tabelas. Os pedidos ficam em
+`.wrangler/state/`, separados da produção — dá para inventar dados à vontade ali sem risco.
 
 ## O que este sistema não faz
 
