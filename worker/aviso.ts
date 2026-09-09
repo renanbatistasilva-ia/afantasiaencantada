@@ -16,7 +16,12 @@
  */
 
 const PAINEL = "https://afantasiaencantada.com/admin/";
-const REMETENTE = "avisos@afantasiaencantada.com";
+/**
+ * Com nome de exibição: na caixa aparece "Fantasia Encantada" em vez do
+ * endereço cru. Não é o que decide spam — isso é DNS e reputação —, mas custa
+ * uma linha e a mensagem parece menos automática.
+ */
+const REMETENTE = { name: "Fantasia Encantada", email: "avisos@afantasiaencantada.com" };
 
 /** Campos do pedido, na ordem em que fazem sentido para quem vai retornar. */
 const CAMPOS: [chave: string, rotulo: string][] = [

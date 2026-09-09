@@ -93,6 +93,34 @@ muda o destino.
 **Enquanto os três passos não estiverem feitos**, o site funciona normalmente e o pedido
 continua sendo gravado; só o aviso não sai.
 
+### O primeiro aviso caiu no spam — e por quê
+
+Aconteceu em 09/09/2026, no iCloud, com a mensagem chegando íntegra. Duas causas, nesta ordem:
+
+**1. O Email Routing cria SPF e DKIM, mas não cria DMARC.** O painel da Cloudflare avisa
+("Block fake emails sent from @afantasiaencantada.com addresses"). Sem DMARC, o filtro não tem
+política para consultar, e isso conta contra. O registro é gratuito:
+
+```
+Nome:      _dmarc
+Tipo:      TXT
+Conteúdo:  v=DMARC1; p=none;
+```
+
+Começar em `p=none` é de propósito: ele apenas observa. Uma política restritiva sem saber se o
+SPF ou o DKIM alinham derrubaria a entrega em vez de melhorar.
+
+**2. O domínio nunca tinha enviado e-mail.** Aquela foi a primeira mensagem da vida dele.
+Caixa nenhuma confia num remetente sem histórico, mesmo autenticado — a reputação se constrói
+com o tempo e com o destinatário tirando do spam.
+
+Por isso, **marcar "não é lixo eletrônico" e adicionar `avisos@afantasiaencantada.com` aos
+contatos** pesa mais, numa caixa pessoal, que qualquer registro de DNS.
+
+> Para diagnosticar de verdade, olhe o cabeçalho da mensagem (`Authentication-Results`,
+> `Return-Path`). É lá que se lê se o SPF e o DKIM alinharam com o domínio — e não dá para
+> descobrir isso por fora.
+
 ### Se os avisos pararem de chegar
 
 O pedido **não se perde**: ele continua no painel. O aviso é que atrasa.
