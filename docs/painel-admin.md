@@ -34,6 +34,78 @@ A senha **não** muda com este comando. Se ela também vazou, rode `npm run senh
 
 ---
 
+## Aviso por e-mail quando entra um pedido
+
+Sem isto, um pedido novo só aparece para quem abrir o painel — e o site promete
+"respondemos em minutos". Ligar é uma vez só, e depende de dois cliques no painel da
+Cloudflare que nenhum comando faz por você.
+
+**1. Habilitar o envio** para o domínio: painel da Cloudflare → **Compute → Email Service →
+Email Sending → Onboard Domain**, escolhendo `afantasiaencantada.com`.
+
+> **Email Sending e Email Routing são serviços separados.** Ativar só o Routing não habilita o
+> envio — o Worker falharia com `E_SENDER_NOT_VERIFIED`. É preciso o onboarding de envio para
+> o remetente `avisos@afantasiaencantada.com` ser aceito.
+
+A Cloudflare acrescenta os registros sozinha (SPF, DKIM, DMARC e MX de devolução no subdomínio
+`cf-bounce`). Conferido em 09/09/2026: **o domínio não tinha nenhum MX nem TXT**, então não há
+e-mail existente para quebrar. Se um dia passar a ter, reveja isto antes.
+
+**2. Verificar o endereço que vai receber.** Em *Destination addresses*, cadastrar a caixa que
+recebe os avisos — hoje, `fantasiaencantadaa@gmail.com`. Gmail funciona normalmente; é para
+isso que o Email Routing existe.
+
+> ⚠️ **A confirmação chega naquela caixa.** A Cloudflare manda um e-mail com um link, e **quem
+> tem a senha dela precisa clicar**. Não há como fazer isso do lado de fora — é o único passo
+> que depende do cliente.
+
+**3. Guardar o endereço como segredo**, no terminal:
+
+```
+npx wrangler secret put AVISO_EMAIL_PARA
+```
+
+Vai em segredo, e não no `wrangler.jsonc`, porque este repositório é público: e-mail em texto
+puro vira alvo de robô de spam.
+
+### Mais de um destinatário, e como começar sem esperar o clique
+
+O segredo aceita **vários endereços separados por vírgula**:
+
+```
+seu-email@exemplo.com, fantasiaencantadaa@gmail.com
+```
+
+Isso resolve o impasse de quem monta o site não ter a caixa do cliente. Verifique um endereço
+seu, ponha no segredo e o aviso passa a funcionar hoje — e dá para **provar** que funciona,
+o que não daria se o destino fosse só uma caixa que você não abre. Quando o cliente clicar no
+link dele, é só rodar o comando de novo com os dois endereços.
+
+Trocar quem recebe **não exige mexer em código nem publicar de novo**: o segredo sozinho já
+muda o destino.
+
+> Quem monta o site recebendo nome de criança, telefone e endereço a cada pedido é decisão do
+> cliente, não conveniência técnica. Por isso sair da lista é o mesmo comando.
+
+> É o quarto recurso da Cloudflare aqui que exige clique no painel antes de o binding
+> funcionar — R2, Analytics Engine e Zero Trust foram os outros três.
+
+**Enquanto os três passos não estiverem feitos**, o site funciona normalmente e o pedido
+continua sendo gravado; só o aviso não sai.
+
+### Se os avisos pararem de chegar
+
+O pedido **não se perde**: ele continua no painel. O aviso é que atrasa.
+
+Para ver o motivo, com o site publicado:
+
+```
+npx wrangler tail
+```
+
+e procurar a linha `aviso de pedido falhou`. As causas comuns são o endereço de destino ter
+sido removido da lista de verificados, ou o segredo `AVISO_EMAIL_PARA` não existir.
+
 ## O que este sistema não faz
 
 **Não dá para desconectar um aparelho só.** O acesso é provado por um cookie assinado, sem

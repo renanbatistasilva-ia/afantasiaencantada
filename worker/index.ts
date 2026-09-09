@@ -17,6 +17,7 @@
  */
 
 import { diaEmSaoPaulo, lerAnalitica, receberEventos } from "./analitica";
+import { avisarPedido } from "./aviso";
 import {
   conferirSessao,
   cookieVazio,
@@ -70,7 +71,7 @@ function telefoneValido(v: string | null): boolean {
   return d.length === 11 && Number(d.slice(0, 2)) >= 11 && d[2] === "9";
 }
 
-async function gravarLead(request: Request, env: Env): Promise<Response> {
+async function gravarLead(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   if (request.method !== "POST") {
     return Response.json({ erro: "método não permitido" }, { status: 405 });
   }
@@ -115,17 +116,34 @@ async function gravarLead(request: Request, env: Env): Promise<Response> {
     .map((c) => `${c} = excluded.${c}`)
     .join(", ");
 
+  const agora = valores[1] as string;
+  let novo = true;
+
   try {
-    await env.DB.prepare(
+    // `RETURNING criado_em` distingue pedido novo de correção sem consulta a
+    // mais: como `criado_em` fica fora do DO UPDATE, ele só é igual à hora que
+    // acabei de gerar quando a linha nasceu agora.
+    const linha = await env.DB.prepare(
       `INSERT INTO leads (${colunas.join(", ")}) VALUES (${colunas.map(() => "?").join(", ")})
-         ON CONFLICT(id) DO UPDATE SET ${atualiza}`,
+         ON CONFLICT(id) DO UPDATE SET ${atualiza}
+       RETURNING criado_em`,
     )
       .bind(...valores)
-      .run();
+      .first<{ criado_em: string }>();
+    novo = linha?.criado_em === agora;
   } catch {
     // Nunca quebrar a experiência de quem está reservando por causa do banco.
     return Response.json({ erro: "falha ao gravar" }, { status: 500 });
   }
+
+  // Fora do caminho da resposta, de propósito: o 201 não espera a rede do
+  // correio, e um envio que falhe não pode transformar pedido gravado em erro.
+  // O pior caso é aviso atrasado — o pedido continua no painel.
+  ctx.waitUntil(
+    avisarPedido(env, campos, novo).catch((e) => {
+      console.error("aviso de pedido falhou:", e instanceof Error ? e.message : e);
+    }),
+  );
 
   return Response.json({ ok: true }, { status: 201 });
 }
@@ -287,12 +305,12 @@ async function rotearLeads(request: Request, env: Env, url: URL, rota: string): 
   return erro("rota não encontrada", 404);
 }
 
-async function rotearApi(request: Request, env: Env, url: URL): Promise<Response> {
+async function rotearApi(request: Request, env: Env, url: URL, ctx: ExecutionContext): Promise<Response> {
   const rota = url.pathname;
 
   // Captura de lead: intocada, e nenhuma checagem nova antes desta linha. O
   // formulário público não pode regredir por causa do painel.
-  if (rota === "/api/lead") return gravarLead(request, env);
+  if (rota === "/api/lead") return gravarLead(request, env, ctx);
 
   // Contagem de tráfego: pública como a captura, e igualmente antes de
   // qualquer coisa do painel. Ela nunca devolve erro nem toca no que é do
@@ -359,7 +377,7 @@ async function descartarAntigos(env: Env): Promise<void> {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // Bug conhecido do Next em exportação estática (vercel/next.js#59986,
@@ -396,7 +414,7 @@ export default {
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     try {
-      return await rotearApi(request, env, url);
+      return await rotearApi(request, env, url, ctx);
     } catch {
       // Sem isto, uma exceção devolveria a página de erro da Cloudflare, em
       // inglês e em HTML, para quem esperava JSON.

@@ -15,6 +15,17 @@
   // passo no painel — confirmar no primeiro deploy, porque R2, Analytics Engine
   // e Zero Trust também "moravam aqui" e os três exigiram clique.
   "triggers": { "crons": ["0 7 * * *"] },
+  // Aviso de pedido novo. O envio da Cloudflare é gratuito e não consome cota
+  // quando o destino é um endereço verificado da conta — é o caso, porque o
+  // aviso vai para a caixa da dona. Sem destino fixado aqui de propósito: o
+  // endereço vem do segredo AVISO_EMAIL_PARA, já que este repositório é público
+  // e e-mail em texto puro vira alvo de robô de spam.
+  //
+  // Exige, ANTES, dois cliques no painel da Cloudflare: ativar o Email Routing
+  // no domínio e verificar o endereço de destino. É o quarto recurso aqui com
+  // esse padrão, depois de R2, Analytics Engine e Zero Trust. Passo a passo em
+  // docs/painel-admin.md.
+  "send_email": [{ "name": "EMAIL" }],
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
