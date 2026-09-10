@@ -26,11 +26,32 @@ const PASSOS: [string, string][] = [
 ];
 
 const fmtDia = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit" });
+const fmtDiaLongo = new Intl.DateTimeFormat("pt-BR", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+});
 
 /** A data vem como YYYY-MM-DD puro; `new Date()` nela assumiria UTC e voltaria um dia. */
-function diaCurto(iso: string): string {
+function comoData(iso: string): Date | null {
   const [a, m, d] = iso.split("-").map(Number);
-  return a && m && d ? fmtDia.format(new Date(a, m - 1, d)) : iso;
+  return a && m && d ? new Date(a, m - 1, d) : null;
+}
+
+function diaCurto(iso: string): string {
+  const d = comoData(iso);
+  return d ? fmtDia.format(d) : iso;
+}
+
+/** 2026-09-06 → "sábado, 6 de setembro". */
+function diaLongo(iso: string): string {
+  const d = comoData(iso);
+  return d ? fmtDiaLongo.format(d) : iso;
+}
+
+/** "3 visitas", "1 visita". */
+function visitas(n: number): string {
+  return `${n} ${n === 1 ? "visita" : "visitas"}`;
 }
 
 /** `/personagens/princesa-da-neve/` vira "Princesa da Neve". */
@@ -62,6 +83,14 @@ function maiores(m: Map<string, number>, n: number): [string, number][] {
 export default function PainelTrafego() {
   const [linhas, setLinhas] = useState<Linha[] | null>(null);
   const [falhou, setFalhou] = useState(false);
+  /**
+   * O dia que a pessoa tocou no gráfico.
+   *
+   * As barras tinham só um `title`, que aparece no hover do desktop e NUNCA no
+   * toque — no celular os números simplesmente não existiam. E o gráfico era
+   * `aria-hidden`, então não existiam para leitor de tela em lugar nenhum.
+   */
+  const [diaEscolhido, setDiaEscolhido] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/analitica?dias=30")
@@ -101,6 +130,9 @@ export default function PainelTrafego() {
       ultimos,
       anteriores,
       origens: maiores(somarPor(linhas, "origem"), 6),
+      // Já vinha na resposta e era descartada. Comparada com quem é mais
+      // PEDIDO, na aba de agenda, é a conta que decide a próxima fantasia.
+      paginas: maiores(somarPor(linhas, "paginas"), 6),
       atencao: maiores(atencao, 6),
       funil,
       enviados,
@@ -119,6 +151,7 @@ export default function PainelTrafego() {
   }
 
   const pico = Math.max(...dados.dias.map(([, v]) => v), 1);
+  const escolhido = dados.dias.find(([d]) => d === diaEscolhido) ?? null;
   const variacao =
     dados.anteriores > 0
       ? Math.round(((dados.ultimos - dados.anteriores) / dados.anteriores) * 100)
@@ -141,15 +174,31 @@ export default function PainelTrafego() {
             {" "}({dados.anteriores})
           </p>
         )}
-        <div className={styles.barras} aria-hidden="true">
+        <div className={styles.barras} role="group" aria-label="Visitas por dia">
           {dados.dias.map(([dia, v]) => (
-            <div key={dia} className={styles.barraCol} title={`${diaCurto(dia)}: ${v}`}>
-              <div className={styles.barra} style={{ height: `${Math.max((v / pico) * 100, 3)}%` }} />
-            </div>
+            <button
+              key={dia}
+              type="button"
+              className={`${styles.barraCol} ${diaEscolhido === dia ? styles.barraColAtiva : ""}`}
+              // Tocar de novo na mesma barra volta para a legenda do período.
+              onClick={() => setDiaEscolhido((d) => (d === dia ? null : dia))}
+              aria-pressed={diaEscolhido === dia}
+              aria-label={`${diaLongo(dia)}: ${visitas(v)}`}
+              // Fica para quem está no mouse; no toque quem responde é a legenda.
+              title={`${diaCurto(dia)}: ${v}`}
+            >
+              <span className={styles.barra} style={{ height: `${Math.max((v / pico) * 100, 3)}%` }} />
+            </button>
           ))}
         </div>
-        <p className={styles.legenda}>
-          {dados.dias.length > 0 && `${diaCurto(dados.dias[0][0])} até ${diaCurto(dados.dias[dados.dias.length - 1][0])}`}
+        {/* Legenda fixa em vez de balão flutuante: funciona igual no toque, no
+            mouse e no teclado, e não corre o risco de sair da tela numa barra
+            da ponta. */}
+        <p className={styles.legenda} aria-live="polite">
+          {escolhido
+            ? `${diaLongo(escolhido[0])} · ${visitas(escolhido[1])}`
+            : dados.dias.length > 0 &&
+              `${diaCurto(dados.dias[0][0])} até ${diaCurto(dados.dias[dados.dias.length - 1][0])}`}
         </p>
       </section>
 
@@ -159,6 +208,19 @@ export default function PainelTrafego() {
           {dados.origens.map(([fonte, v]) => (
             <div key={fonte} className={styles.linha}>
               <dt className={styles.rotulo}>{fonte}</dt>
+              <dd className={styles.valor}>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className={styles.bloco}>
+        <h2 className={styles.blocoTitulo}>Páginas mais vistas</h2>
+        <dl className={styles.dados}>
+          {dados.paginas.length === 0 && <p className={styles.legenda}>ainda sem dados</p>}
+          {dados.paginas.map(([caminho, v]) => (
+            <div key={caminho} className={styles.linha}>
+              <dt className={styles.rotulo}>{nomeDaPagina(caminho)}</dt>
               <dd className={styles.valor}>{v}</dd>
             </div>
           ))}

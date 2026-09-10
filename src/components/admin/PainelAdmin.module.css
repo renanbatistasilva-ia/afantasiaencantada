@@ -597,20 +597,57 @@
   height: 5rem;
 }
 
+/* A coluna é o ALVO DE TOQUE e preenche o espaço; o teto de largura vive na
+   barra de dentro. Antes o teto estava aqui, então a coluna era a barra e o
+   alvo tinha 14px — no celular, quase impossível de acertar. O visual não muda:
+   mesma barra fina, área de toque do tamanho da coluna. */
 .barraCol {
   flex: 1;
-  /* Com um dia só de dados, sem teto a barra vira um bloco ocupando a largura
-     inteira — parece defeito, não gráfico. */
-  max-width: 14px;
   height: 100%;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 .barra {
   width: 100%;
+  /* Com um dia só de dados, sem teto a barra vira um bloco ocupando a largura
+     inteira — parece defeito, não gráfico. */
+  max-width: 14px;
   border-radius: 2px 2px 0 0;
   background: linear-gradient(180deg, var(--ouro-claro), var(--ouro));
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+/* Com um dia escolhido, os outros recuam de leve — 0,75, e não menos.
+   Medido contra o fundo do cartão (#40303b): a 0,42 a barra caía para 2,71:1 no
+   topo do gradiente e 1,96:1 na base, abaixo dos 3:1 que a WCAG 1.4.11 pede de
+   um gráfico que carrega informação. 0,75 é a primeira parada em que as duas
+   pontas passam (5,27 e 3,21). */
+.barras:has(.barraColAtiva) .barra {
+  opacity: 0.75;
+}
+
+/* Por isso o destaque não pode depender só do recuo: a escolhida troca o
+   gradiente por ouro-claro cheio e ganha brilho. Some o degradê, e a diferença
+   se lê mesmo com os outros quase na mesma opacidade.
+
+   O seletor repete `.barras:has(...)` de propósito — sem isso a regra acima tem
+   especificidade maior e a escolhida recuava junto. */
+.barras:has(.barraColAtiva) .barraColAtiva .barra {
+  opacity: 1;
+  background: var(--ouro-claro);
+  filter: drop-shadow(0 0 6px rgba(233, 206, 156, 0.65));
+}
+
+.barraCol:focus-visible {
+  outline: 2px solid var(--ouro-claro);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 /* ——— funil ——— */
