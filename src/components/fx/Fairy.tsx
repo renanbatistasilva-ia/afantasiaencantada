@@ -65,6 +65,62 @@ function emitDust(x: number, y: number, count = 18, speed = 1.8) {
   );
 }
 
+/**
+ * Piso e teto da varredura vertical, em pixels de viewport.
+ *
+ * O cabeçalho fixo mede 4,5rem no celular e o botão do WhatsApp mora no canto de
+ * baixo: a faixa começa abaixo de um e termina acima do outro. Sem isso ela
+ * disputaria espaço com o único botão flutuante da tela — e `pousoAceitavel`
+ * sozinho não bastaria, porque ele cede quando a tela inteira é conteúdo.
+ */
+const MARGEM_TOPO = 96;
+/**
+ * O rodapé precisa de folga para o CORPO dela, não para o ponto de pouso: o
+ * ponto é o alto da cabeça e ela desce mais uns 58px. Medido a 375×812, o botão
+ * do WhatsApp ocupa y 745–794; com 110 de margem o pouso ia até 702 e o pé dela
+ * chegava a 760, em cima do botão em 17% das amostras.
+ *
+ * Isso não podia ficar por conta de `melhorPouso`: escolhendo a menor cobertura,
+ * ele PREFERE o botão — pequeno, cobri-lo custa menos área que encostar num
+ * parágrafo. O único botão flutuante da tela tem que ser regra, não custo.
+ */
+const MARGEM_RODAPE = 150;
+
+/** Abaixo disto os poleiros não oferecem altura e a varredura assume. */
+const ESPALHAMENTO_MINIMO = 0.25;
+
+/**
+ * Doze destinos espalhados, e não um.
+ *
+ * Dois filtros comem essa lista antes de sobrar um pouso: quem chama descarta os
+ * que estão a menos de 120px dela, e `pousoAceitavel` descarta os que cobrem
+ * texto demais. Com poucos candidatos os dois rejeitam tudo e o recurso de
+ * emergência — "aceita qualquer um" — vira a regra em vez da exceção.
+ *
+ * Medido no topo da home, no celular: com 5 candidatos ela passava 32% do tempo
+ * em cima do `h1` "Era uma vez", cobrindo 35% de texto em média. Sortear mais é
+ * de graça (são doze pares de números a cada 5–9 segundos) e devolve ao filtro o
+ * poder de escolher — as laterais da coluna central ficam livres, mas só dá para
+ * encontrá-las tentando.
+ */
+const CANDIDATOS = 12;
+
+function faixaVarrida(vw: number, vh: number): Perch[] {
+  // O terço de cima de uma tela de celular é sempre a mesma coisa: cabeçalho
+  // fixo e o título da página. Mapeando a cobertura de texto no topo da home a
+  // cada 25px, de y=60 a y=180 só as duas colunas das pontas ficam livres; de
+  // y=220 para baixo, a tela inteira está livre. Deixar ela tentar lá em cima é
+  // pedir para o filtro escolher entre ruim e ruim — e o ponto de pouso é o
+  // peito dela, com uns 50px de corpo acima, então mirar em 96 punha a cabeça
+  // dela dentro do "Era uma vez".
+  const piso = Math.max(Math.min(MARGEM_TOPO, vh * 0.15), vh * 0.3);
+  const teto = Math.max(piso + 40, vh - MARGEM_RODAPE);
+  return Array.from({ length: CANDIDATOS }, () => ({
+    x: vw * (0.12 + Math.random() * 0.76),
+    y: piso + Math.random() * (teto - piso),
+  }));
+}
+
 /** Gathers perch positions in viewport coordinates (not absolute). */
 function gatherVisiblePerches(): Perch[] {
   const perches: Perch[] = [];
@@ -75,6 +131,9 @@ function gatherVisiblePerches(): Perch[] {
   // 375 — 4% da largura, contra 51% no desktop. Aqui a altura continua vindo do
   // conteúdo, mas a posição horizontal varre a tela inteira.
   const estreito = vw < 860;
+  // Quando há altura de sobra nos poleiros, ela é melhor que qualquer sorteio:
+  // pousar na borda de um título parece intenção, e é o que acontece assim que a
+  // pessoa rola. A varredura abaixo só entra quando essa altura não existe.
   for (const sel of PERCH_SELECTORS) {
     document.querySelectorAll(sel).forEach((el) => {
       const r = el.getBoundingClientRect();
@@ -93,6 +152,21 @@ function gatherVisiblePerches(): Perch[] {
         });
       }
     });
+  }
+  // A correção de setembro deu largura a ela e eu parei aí — porque medi
+  // rolando a página, onde há poleiro de sobra. No TOPO da home, no celular,
+  // existe um poleiro só: com um só, todo destino nasce na mesma altura. Medido
+  // na produção em 10/09/2026, 56 segundos parada ali: sete teletransportes,
+  // cinco poses, 67% da largura varrida — e uma faixa vertical de 32px numa tela
+  // de 812, colada no rodapé, ao lado do botão do WhatsApp. Sete mudanças que
+  // ninguém vê, porque nenhuma delas muda a altura.
+  if (estreito) {
+    const alturas = perches.map((p) => p.y);
+    const espalhamento =
+      alturas.length > 1 ? (Math.max(...alturas) - Math.min(...alturas)) / vh : 0;
+    if (perches.length < 3 || espalhamento < ESPALHAMENTO_MINIMO) {
+      return faixaVarrida(vw, vh);
+    }
   }
   if (perches.length === 0) {
     perches.push({ x: vw * 0.6, y: vh * 0.3 });
@@ -113,7 +187,8 @@ function gatherVisiblePerches(): Perch[] {
  */
 const TOLERANCIA_SOBREPOSICAO = 0.22;
 
-function pousoAceitavel(p: Perch, alvos: DOMRect[]): boolean {
+/** Que fatia do corpo dela cairia sobre texto, de 0 a 1. */
+function coberturaDeTexto(p: Perch, alvos: DOMRect[]): number {
   const meia = 34;
   const cx0 = p.x - meia,
     cx1 = p.x + meia,
@@ -126,7 +201,33 @@ function pousoAceitavel(p: Perch, alvos: DOMRect[]): boolean {
     const h = Math.min(cy1, r.bottom) - Math.max(cy0, r.top);
     if (w > 0 && h > 0) coberto += w * h;
   }
-  return coberto / area <= TOLERANCIA_SOBREPOSICAO;
+  return coberto / area;
+}
+
+function pousoAceitavel(p: Perch, alvos: DOMRect[]): boolean {
+  return coberturaDeTexto(p, alvos) <= TOLERANCIA_SOBREPOSICAO;
+}
+
+/**
+ * Um pouso livre, sorteado; e quando nenhum é livre, o MENOS ruim.
+ *
+ * O sorteio entre os livres é o que dá imprevisibilidade. Mas o recurso de
+ * emergência sorteava entre TODOS quando nenhum passava — e no topo da home, no
+ * celular, nenhum passa: a tela ali é título, parágrafo e dois botões. Medido,
+ * isso punha ela em cima do "Era uma vez" em 28% das amostras, com 31% do corpo
+ * dela sobre texto em média.
+ *
+ * Escolher o mínimo em vez de um qualquer não custa nada e é sempre melhor:
+ * quando há espaço livre o comportamento é idêntico, e quando não há ela procura
+ * a brecha em vez de sentar no meio da frase.
+ */
+function melhorPouso(candidatos: Perch[], alvos: DOMRect[]): Perch | undefined {
+  if (candidatos.length === 0) return undefined;
+  const livres = candidatos.filter((p) => pousoAceitavel(p, alvos));
+  if (livres.length) return livres[Math.floor(Math.random() * livres.length)];
+  return candidatos.reduce((melhor, p) =>
+    coberturaDeTexto(p, alvos) < coberturaDeTexto(melhor, alvos) ? p : melhor,
+  );
 }
 
 /** Só o texto que de fato aparece agora, medido uma vez por troca. */
@@ -438,12 +539,15 @@ export default function Fairy() {
       const candidatos = longe.length ? longe : vis;
 
       // Prefere pousar onde não há texto embaixo. Se a tela inteira for texto,
-      // aceita qualquer um: sumir de vez seria pior que atrapalhar um pouco.
-      const alvos = textosVisiveis();
-      const livres = candidatos.filter((p) => pousoAceitavel(p, alvos));
-      const lista = livres.length ? livres : candidatos;
-      const destino = lista[Math.floor(Math.random() * lista.length)];
-      if (!destino) return;
+      // procura a menor sobreposição: sumir de vez seria pior que atrapalhar um
+      // pouco, mas atrapalhar o mínimo é melhor que atrapalhar por sorteio.
+      const destino = melhorPouso(candidatos, textosVisiveis());
+      if (!destino) {
+        // Sem destino ela ficaria invisível para sempre — nada mais restaura o
+        // `visible` a não ser uma troca de rota. Volta para onde estava.
+        setVisible(true);
+        return;
+      }
       const outras = POSES.filter((f) => f !== atualPose);
       setPos(destino);
       setPose(outras[Math.floor(Math.random() * outras.length)]);
