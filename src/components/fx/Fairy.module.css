@@ -77,22 +77,32 @@
   aparecendo sobre o conteúdo, e engolir um toque no celular seria pior que não
   ter portal nenhum.
 */
+/* Mesma largura e mesmo recuo da fadinha, de propósito.
+ *
+ * O anel desenhado media 160px e ela 60px — o portal era 2,7x ela. Nas cenas
+ * filmadas o anel tem o tamanho do corpo dela, e as duas foram montadas na mesma
+ * tela de 160x236 das poses, com o corpo centrado no mesmo ponto. Então a
+ * geometria que serve para uma serve para a outra, e é isso que faz ela terminar
+ * a entrada exatamente onde a pose começa.
+ *
+ * O recuo de 26px vai no `left`/`top` do componente, junto com o da fadinha, em
+ * vez de virar margem negativa aqui. */
 .portal {
   position: fixed;
   z-index: 64;
-  width: 160px;
+  width: 60px;
   height: auto;
-  margin: -80px 0 0 -80px;
   pointer-events: none;
   user-select: none;
-  will-change: transform, opacity;
-  filter: drop-shadow(0 0 18px rgba(233, 206, 156, 0.4));
+  /* Só opacidade: quem cresce e fecha agora é o próprio arquivo. */
+  will-change: opacity;
+  filter: drop-shadow(0 0 10px rgba(233, 206, 156, 0.35))
+    drop-shadow(0 0 4px rgba(233, 206, 156, 0.25));
 }
 
 @media (max-width: 640px) {
   .portal {
-    width: 128px;
-    margin: -64px 0 0 -64px;
+    width: 51px;
   }
 }
 

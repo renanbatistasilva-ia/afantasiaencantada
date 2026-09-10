@@ -173,7 +173,25 @@ scripts/fadinha-loop.sh 1 2.40 2.5 paira
 scripts/fadinha-loop.sh 4 3.58 2.0 serena
 scripts/fadinha-loop.sh 3 5.15 1.0 giro    --vaievem
 scripts/fadinha-loop.sh 2 4.40 1.0 coracao --segura 8000
+scripts/fadinha-loop.sh 4 0.00 1.30 entrada --segura 6000
+scripts/fadinha-loop.sh 4 8.70 1.05 saida   --segura 6000
 ```
+
+**A entrada e a saída substituíram o anel ilustrado** (`portal.webp`, que saiu do projeto; o PNG
+de origem continua em `Fadinha/Portal Fadinha.png` e o arquivo está no histórico do git). São do
+mesmo clipe 4 para o anel ter o mesmo desenho nos dois.
+
+Três coisas precisaram casar para isso funcionar:
+
+- **A cena JÁ CONTÉM a fadinha**, então ela não pode ser desenhada por cima enquanto a cena
+  toca. Na entrada ela só fica visível no fim; na saída, some no começo. Medido depois: zero
+  quadros com duas fadinhas em 107 segundos.
+- **A pose depois da entrada é sempre a `serena`**, do mesmo clipe. Os centros do corpo ficam a
+  3px um do outro na tela de 160×236 — na tela real, um pixel.
+- **A mola que fazia ela nascer com 35% do tamanho teve que sair nesse caso.** Ela existia para
+  parecer que a fadinha saía do anel; com a cena filmada fazendo isso, a pose entrava com 19px
+  em vez de 51 e crescia depois de o anel já ter sumido. Um sinalizador (`peloPortal`) escolhe
+  entre nascer pronta (vindo do portal) e nascer pequena (vindo da poeira).
 
 **Como as janelas foram escolhidas.** Um loop só funciona se o último quadro puder emendar no
 primeiro. O método é medir a diferença entre esses dois e comparar com a variação média entre

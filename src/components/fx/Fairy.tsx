@@ -76,6 +76,16 @@ const POSES_VIVAS = [
 ];
 
 /**
+ * A pose que segue toda entrada pelo portal.
+ *
+ * Ela sai do mesmo clipe 4 que a cena de entrada, então corpo, luz e atitude
+ * batem com o último quadro dela — os centros do corpo ficam a 3px um do outro
+ * na tela de 160×236, menos de um pixel depois de reduzida. Qualquer outra pose
+ * daria um pulo bem na hora em que a pessoa está olhando.
+ */
+const POSE_SERENA = POSES_VIVAS[1];
+
+/**
  * Cena especial: a varinha estoura em faíscas e vira um coração de luz.
  *
  * Ela cresce e não volta, então em loop daria um solavanco. A solução não está
@@ -115,7 +125,21 @@ function outraPose(atual: string): string {
   return paradas[Math.floor(Math.random() * paradas.length)];
 }
 
-const PORTAL_MS = 1400;
+/**
+ * O portal deixou de ser um anel desenhado que o CSS aumentava: agora são duas
+ * cenas filmadas, do mesmo clipe 4, em que ela sai de dentro do anel e depois
+ * entra nele. As durações são as dos arquivos, não números escolhidos — antes
+ * era 1400ms para tudo, então o ritmo praticamente não muda.
+ *
+ * Como as cenas JÁ CONTÊM a fadinha, ela não pode ser desenhada por cima
+ * enquanto elas tocam, senão aparecem duas. Daí as regras de visibilidade
+ * mudarem nos três lugares onde o portal abre: na entrada ela só surge no FIM,
+ * na saída ela some no COMEÇO.
+ */
+const ENTRADA = "/images/marca/fadinha/entrada.webp";
+const SAIDA = "/images/marca/fadinha/saida.webp";
+const ENTRADA_MS = 1300;
+const SAIDA_MS = 1050;
 
 interface Perch {
   x: number;
@@ -325,7 +349,8 @@ export default function Fairy() {
   // carrega durante o trajeto e chega pronta.
   const [pose, setPose] = useState(POSES[0]);
   const proxima = useRef(POSES[0]);
-  const [portal, setPortal] = useState<Perch | null>(null);
+  /** Onde o portal abre e qual das duas cenas toca. */
+  const [portal, setPortal] = useState<{ at: Perch; tipo: "entrada" | "saida" } | null>(null);
   const flees = useRef(0);
   const lastFlee = useRef(0);
   const cursorRef = useRef({ x: -9999, y: -9999 });
@@ -338,6 +363,15 @@ export default function Fairy() {
   const fechaTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const sumicoTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const prevPos = useRef<Perch>({ x: -100, y: -100 });
+  /**
+   * Se a aparição atual vem logo depois da cena de entrada.
+   *
+   * A mola que fazia ela nascer com 35% do tamanho e crescer existia para
+   * parecer que ela saía do anel. A cena filmada já faz isso, e inteira: medido
+   * na troca de rota, a pose entrava com 19px em vez de 51 e só crescia depois
+   * de o anel ter sumido. Vindo pelo portal, ela nasce pronta.
+   */
+  const peloPortal = useRef(false);
 
   /**
    * Espelho do estado, lido pelo agendador.
@@ -456,18 +490,21 @@ export default function Fairy() {
       setPose(POSE_REVERENCIA);
       emitDust(pos.x, pos.y, 60, 3);
       bowTimer.current = setTimeout(() => {
-        // Saída pelo portal: o anel abre em volta dela e ela entra, em vez de
-        // simplesmente sumir.
-        setPortal(pos);
+        // Saída pelo portal: a cena mostra o anel fechando em volta dela e ela
+        // encolhendo para dentro. Ela some AGORA, junto com o portal abrindo —
+        // esperando o meio da cena, apareceriam duas fadinhas.
+        setPortal({ at: pos, tipo: "saida" });
+        setBowing(false);
+        setVisible(false);
         portalTimer.current = setTimeout(() => {
-          setBowing(false);
-          setVisible(false);
           setPortal(null);
-          hideTimer.current = setTimeout(
-            () => setVisible(true),
-            EASTER_HIDE_MS,
-          );
-        }, PORTAL_MS * 0.6);
+          hideTimer.current = setTimeout(() => {
+            // Quinze segundos depois ela volta SEM portal, então nasce pequena e
+            // cresce como sempre. Sem limpar o sinalizador, ela estalaria na tela.
+            peloPortal.current = false;
+            setVisible(true);
+          }, EASTER_HIDE_MS);
+        }, SAIDA_MS);
       }, 1800);
       return;
     }
@@ -486,14 +523,15 @@ export default function Fairy() {
       setPos(onde);
       // Sem pose anterior na estreia: a string vazia não bate com nenhum
       // arquivo, então o sorteio tem as dez à disposição.
-      setPose(outraPose(""));
-      setPortal(onde);
+      setPose(POSE_SERENA);
+      setPortal({ at: onde, tipo: "entrada" });
       emitDust(onde.x, onde.y, 26, 1.2);
-      portalTimer.current = setTimeout(
-        () => setVisible(true),
-        PORTAL_MS * 0.35,
-      );
-      fechaTimer.current = setTimeout(() => setPortal(null), PORTAL_MS);
+      // Só no FIM: a cena inteira já mostra ela chegando.
+      portalTimer.current = setTimeout(() => {
+        peloPortal.current = true;
+        setVisible(true);
+      }, ENTRADA_MS);
+      fechaTimer.current = setTimeout(() => setPortal(null), ENTRADA_MS);
     }, APPEAR_DELAY_MS);
 
     return () => clearTimeout(timer);
@@ -612,6 +650,7 @@ export default function Fairy() {
         setVisible(true);
         return;
       }
+      peloPortal.current = false;
       setPos(destino);
       setPose(outraPose(atualPose));
       setVisible(true);
@@ -660,15 +699,16 @@ export default function Fairy() {
     const vis = gatherVisiblePerches();
     const onde = vis[Math.floor(Math.random() * vis.length)];
     if (!onde) return;
-    const proximaDoPortal = outraPose(estado.current.pose);
-
     setVisible(false);
     setPos(onde);
-    setPose(proximaDoPortal);
-    setPortal(onde);
+    setPose(POSE_SERENA);
+    setPortal({ at: onde, tipo: "entrada" });
     emitDust(onde.x, onde.y, 26, 1.2);
-    portalTimer.current = setTimeout(() => setVisible(true), PORTAL_MS * 0.35);
-    fechaTimer.current = setTimeout(() => setPortal(null), PORTAL_MS);
+    portalTimer.current = setTimeout(() => {
+      peloPortal.current = true;
+      setVisible(true);
+    }, ENTRADA_MS);
+    fechaTimer.current = setTimeout(() => setPortal(null), ENTRADA_MS);
   }, [pathname, reduced]);
 
   // O portal pode estar aberto antes de ela existir (chegada) — por isso ele é
@@ -686,18 +726,19 @@ export default function Fairy() {
 
   return (
     <>
-      {portal && <Portal at={portal} />}
+      {portal && <Portal at={portal.at} tipo={portal.tipo} />}
       {visible && (
         <motion.div
           className={`${styles.fairy} ${resting ? styles.resting : ""} ${bowing ? styles.bowing : ""}`}
-          // Nasce JÁ na boca do portal e pequena, crescendo — é o que faz
-          // parecer que saiu de dentro. Sem o x/y aqui, a mola partia de 0,0 e
-          // ela vinha voando do canto da tela até o anel, o que entrega o truque.
+          // Vindo pelo portal ela nasce pronta: a cena já mostrou a chegada
+          // inteira. Nos outros casos — a poeira — continua nascendo pequena e
+          // crescendo. Sem o x/y aqui, a mola partia de 0,0 e ela vinha voando
+          // do canto da tela, o que entrega o truque.
           initial={{
-            opacity: 0,
+            opacity: peloPortal.current ? 0.72 : 0,
             x: screenX - 26,
             y: screenY - 26,
-            scale: 0.35,
+            scale: peloPortal.current ? 1 : 0.35,
           }}
           animate={{
             x: screenX - 26,
@@ -711,7 +752,7 @@ export default function Fairy() {
             stiffness: 32,
             damping: 14,
             mass: 1.1,
-            opacity: { duration: 2 },
+            opacity: { duration: peloPortal.current ? 0 : 2 },
           }}
           aria-hidden="true"
         >
@@ -728,25 +769,34 @@ function FairyImg({ src }: { src: string }) {
   );
 }
 
-/** O anel com o centro vazado. Ela fica atrás dele e parece sair do buraco. */
-function Portal({ at }: { at: Perch }) {
+/**
+ * A cena do portal — ela saindo do anel, ou entrando nele.
+ *
+ * Sem `scale` nem `rotate` do motion: quem cresce e fecha é o próprio arquivo, e
+ * manter os dois duplicaria o movimento. Fica só uma opacidade curta para o
+ * primeiro e o último quadro não entrarem secos.
+ *
+ * A geometria é a MESMA da fadinha — 60px de largura e o mesmo recuo de 26px —
+ * porque as cenas foram montadas na tela de 160×236 das poses, com o corpo dela
+ * centrado em (79, 125) contra (76, 125) da `serena`. Três pixels de diferença
+ * na tela do arquivo, que a 60px viram menos de um. Alinhar assim é o que faz
+ * ela terminar a entrada exatamente onde a pose começa.
+ */
+function Portal({ at, tipo }: { at: Perch; tipo: "entrada" | "saida" }) {
   return (
     <motion.img
-      src="/images/marca/fadinha/portal.webp"
+      key={tipo}
+      src={tipo === "entrada" ? ENTRADA : SAIDA}
       alt=""
       className={styles.portal}
-      initial={{ opacity: 0, scale: 0.35, rotate: -25 }}
-      animate={{
-        opacity: [0, 1, 1, 0],
-        scale: [0.35, 1, 1, 0.5],
-        rotate: [-25, 0, 0, 18],
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 1, 1, 0] }}
       transition={{
-        duration: PORTAL_MS / 1000,
-        times: [0, 0.3, 0.7, 1],
-        ease: "easeOut",
+        duration: (tipo === "entrada" ? ENTRADA_MS : SAIDA_MS) / 1000,
+        times: [0, 0.12, 0.88, 1],
+        ease: "linear",
       }}
-      style={{ left: at.x, top: at.y }}
+      style={{ left: at.x - 26, top: at.y - 26 }}
       draggable={false}
       aria-hidden="true"
     />
