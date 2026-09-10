@@ -161,3 +161,45 @@ O encaixe é rápido: as fotos são processadas para no máximo 1600px e 150–3
 array `photos` em `src/data/characters.ts` com o enquadramento ajustado, e eles saem do
 medalhão de uma vez — na página do mundo, na página de elenco, na página individual e nos
 chips do formulário de reserva.
+
+## As cenas animadas da fadinha
+
+Quatro arquivos em `public/images/marca/fadinha/` saem dos vídeos em fundo verde guardados em
+`Fadinha/Videos Fadinha/` — pasta ignorada pelo git, então `scripts/fadinha-loop.sh` é o único
+registro de como cada um nasceu.
+
+```
+scripts/fadinha-loop.sh 1 2.40 2.5 paira
+scripts/fadinha-loop.sh 4 3.58 2.0 serena
+scripts/fadinha-loop.sh 3 5.15 1.0 giro    --vaievem
+scripts/fadinha-loop.sh 2 4.40 1.0 coracao --segura 8000
+```
+
+**Como as janelas foram escolhidas.** Um loop só funciona se o último quadro puder emendar no
+primeiro. O método é medir a diferença entre esses dois e comparar com a variação média entre
+quadros vizinhos: emenda igual ou menor que essa média não se percebe.
+
+Três armadilhas, todas encontradas na prática:
+
+- **Medir em resolução baixa esconde a varinha.** No primeiro rastreio, a 188×104, o `serena`
+  parecia fechar bem; ampliado, a varinha saltava do alto para o lado. A janela foi recuada para
+  terminar antes de ela levantar a varinha.
+- **Quem está sempre à deriva não fecha.** No clipe 3, nem o trecho mais estável descia de 1,5×
+  a variação entre vizinhos, e a virada de orientação se via. Para esses serve `--vaievem`: o
+  trecho toca de ida e de volta, e a emenda é perfeita por construção.
+- **Cena que cresce e não volta** — o coração de luz — não vira loop. `--segura` faz o último
+  quadro durar 8 segundos; ela troca de pose antes disso e o reinício quase nunca aparece.
+
+**A chave de croma é feita em Python, dentro do script, e não no ffmpeg.** O filtro `despill` do
+ffmpeg é global e apaga o vestido verde-oliva dela — uma fada verde sobre fundo verde é
+justamente o caso em que ele destrói o sujeito. A receita do script só encosta no excesso de
+verde sobre o maior entre vermelho e azul, então o vestido sobrevive e as asas translúcidas
+atravessam sem franja.
+
+**A escala vem da altura, nunca da largura.** Ajustando pela largura, um clipe de asas abertas
+encolhia o corpo dela e ela mudava de tamanho ao trocar de pose. O que sobra de largura são
+pontas de asa e faísca, e essas podem sair pela borda.
+
+**Para conferir se anima, capture a tela em instantes diferentes.** `drawImage` num canvas
+devolve sempre o primeiro quadro de um WebP animado e já me fez concluir duas vezes que o
+arquivo estava parado. `webpmux -info arquivo.webp` mostra a verdade sobre o arquivo.

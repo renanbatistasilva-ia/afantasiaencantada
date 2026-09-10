@@ -53,43 +53,66 @@ const POSE_DESCANSO = POSES[4];
 const POSE_REVERENCIA = POSES[8];
 
 /**
- * A décima pose é a única que se mexe: dez quadros a 12 q/s dela pairando, com
- * as asas e os braços em movimento, recortados do vídeo em fundo verde.
+ * As cenas que se mexem, recortadas dos vídeos em fundo verde.
  *
- * Fica FORA de `POSES` de propósito — `POSE_DESCANSO` e `POSE_REVERENCIA` são
- * índices desse array, e enfiar um item no meio trocaria as duas caladamente.
+ * Ficam FORA de `POSES` de propósito — `POSE_DESCANSO` e `POSE_REVERENCIA` são
+ * índices daquele array, e enfiar itens no meio trocaria as duas caladamente.
  *
- * Pesa 73 KB contra os ~15 KB de uma pose parada, e carrega só quando é
- * sorteada. É o preço de ter intervalos entre as posturas: as nove estáticas
- * saem de uma colagem de fotos, então dá para trocar de atitude, nunca para
- * bater asa. Como o site é uma vitrine e a fadinha é a marca dele, vale.
+ * A primeira tentativa tinha 0,83 segundo e repetia rápido demais para parecer
+ * vida. Estas duram de 1,8 a 2,5 segundos, e cada janela foi escolhida medindo o
+ * salto entre o último quadro e o primeiro contra a variação média entre quadros
+ * vizinhos. `scripts/fadinha-loop.sh` refaz qualquer uma.
+ *
+ *   paira    clipe 1, 2,40s   sobe, gira, abre as asas e pisca
+ *   serena   clipe 4, 3,58s   de frente, parada — a janela termina ANTES de ela
+ *                             levantar a varinha, senão a varinha teleportava
+ *   giro     clipe 3, 5,15s   voando; vai e volta, porque ela está sempre à
+ *                             deriva e nem o trecho mais estável fechava
  */
-const POSE_VIVA = "/images/marca/fadinha/viva.webp";
+const POSES_VIVAS = [
+  "/images/marca/fadinha/paira.webp",
+  "/images/marca/fadinha/serena.webp",
+  "/images/marca/fadinha/giro.webp",
+];
 
 /**
- * Peso do sorteio da pose animada — NÃO é a fração de tempo que ela aparece.
+ * Cena especial: a varinha estoura em faíscas e vira um coração de luz.
  *
- * Como a animada nunca sai duas vezes seguidas, o regime é `p / (1 + p)`:
- * 0,45 aqui dá **31%** do tempo em movimento. Conferido simulando a própria
- * função 200 mil vezes, porque eu tinha escrito "perto da metade" de cabeça e
- * estava errado.
+ * Ela cresce e não volta, então em loop daria um solavanco. A solução não está
+ * aqui e sim no arquivo: o último quadro dura 8 segundos, e como ela troca de
+ * pose a cada 5–9 segundos, quase nunca chega a reiniciar. Sai mais barato que
+ * qualquer truque de JavaScript para tocar uma vez só.
+ */
+const CENA_CORACAO = "/images/marca/fadinha/coracao.webp";
+
+/**
+ * Pesos do sorteio — NÃO são a fração de tempo em que cada uma aparece.
  *
- * Sorteio uniforme entre dez daria 11% e o arquivo de 73 KB quase nunca se
- * pagaria. Subir muito acima disto faz ela alternar animada–parada–animada, um
- * ritmo que se percebe e parece mecânico. Um terço é o meio-termo.
+ * Simulando a própria função 300 mil vezes: **45,9%** num dos três loops,
+ * **9,2%** no coração e 44,9% nas nove fotos paradas. Simulo em vez de estimar
+ * porque na versão anterior eu escrevi "perto da metade" de cabeça e o número
+ * real era 31%.
  */
 const PESO_VIVA = 0.45;
+const PESO_CORACAO = 0.1;
 
 /**
  * A próxima pose, nunca igual à atual.
  *
- * A animada não repete em seguida: dois sorteios seguidos nela não teriam
- * transição nenhuma, já que o arquivo é o mesmo e o `key={src}` não remontaria.
+ * Repetir o mesmo arquivo não teria transição: o `key={src}` não mudaria e a
+ * animação nem reiniciaria. Mas pular de uma cena animada para OUTRA vale — são
+ * arquivos diferentes, e é o que faz ela ficar em movimento mais da metade do
+ * tempo sem parecer um GIF preso.
  */
 function outraPose(atual: string): string {
-  if (atual !== POSE_VIVA && Math.random() < PESO_VIVA) return POSE_VIVA;
-  const outras = POSES.filter((f) => f !== atual);
-  return outras[Math.floor(Math.random() * outras.length)];
+  const sorte = Math.random();
+  if (sorte < PESO_CORACAO && atual !== CENA_CORACAO) return CENA_CORACAO;
+  if (sorte < PESO_CORACAO + PESO_VIVA) {
+    const vivas = POSES_VIVAS.filter((f) => f !== atual);
+    if (vivas.length) return vivas[Math.floor(Math.random() * vivas.length)];
+  }
+  const paradas = POSES.filter((f) => f !== atual);
+  return paradas[Math.floor(Math.random() * paradas.length)];
 }
 
 const PORTAL_MS = 1400;
