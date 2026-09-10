@@ -52,6 +52,46 @@ const POSES = Array.from(
 const POSE_DESCANSO = POSES[4];
 const POSE_REVERENCIA = POSES[8];
 
+/**
+ * A décima pose é a única que se mexe: dez quadros a 12 q/s dela pairando, com
+ * as asas e os braços em movimento, recortados do vídeo em fundo verde.
+ *
+ * Fica FORA de `POSES` de propósito — `POSE_DESCANSO` e `POSE_REVERENCIA` são
+ * índices desse array, e enfiar um item no meio trocaria as duas caladamente.
+ *
+ * Pesa 73 KB contra os ~15 KB de uma pose parada, e carrega só quando é
+ * sorteada. É o preço de ter intervalos entre as posturas: as nove estáticas
+ * saem de uma colagem de fotos, então dá para trocar de atitude, nunca para
+ * bater asa. Como o site é uma vitrine e a fadinha é a marca dele, vale.
+ */
+const POSE_VIVA = "/images/marca/fadinha/viva.webp";
+
+/**
+ * Peso do sorteio da pose animada — NÃO é a fração de tempo que ela aparece.
+ *
+ * Como a animada nunca sai duas vezes seguidas, o regime é `p / (1 + p)`:
+ * 0,45 aqui dá **31%** do tempo em movimento. Conferido simulando a própria
+ * função 200 mil vezes, porque eu tinha escrito "perto da metade" de cabeça e
+ * estava errado.
+ *
+ * Sorteio uniforme entre dez daria 11% e o arquivo de 73 KB quase nunca se
+ * pagaria. Subir muito acima disto faz ela alternar animada–parada–animada, um
+ * ritmo que se percebe e parece mecânico. Um terço é o meio-termo.
+ */
+const PESO_VIVA = 0.45;
+
+/**
+ * A próxima pose, nunca igual à atual.
+ *
+ * A animada não repete em seguida: dois sorteios seguidos nela não teriam
+ * transição nenhuma, já que o arquivo é o mesmo e o `key={src}` não remontaria.
+ */
+function outraPose(atual: string): string {
+  if (atual !== POSE_VIVA && Math.random() < PESO_VIVA) return POSE_VIVA;
+  const outras = POSES.filter((f) => f !== atual);
+  return outras[Math.floor(Math.random() * outras.length)];
+}
+
 const PORTAL_MS = 1400;
 
 interface Perch {
@@ -352,8 +392,7 @@ export default function Fairy() {
 
       // Sorteia agora, sem repetir a atual, e aplica só quando pousa. O
       // navegador busca o arquivo durante o voo, então não há piscada.
-      const outras = POSES.filter((f) => f !== pose);
-      proxima.current = outras[Math.floor(Math.random() * outras.length)];
+      proxima.current = outraPose(pose);
 
       dustTimer.current = setTimeout(
         () => emitDust(target.x, target.y, 10, 0.8),
@@ -422,7 +461,9 @@ export default function Fairy() {
       const vis = gatherVisiblePerches();
       const onde = vis[Math.floor(Math.random() * vis.length)];
       setPos(onde);
-      setPose(POSES[Math.floor(Math.random() * POSES.length)]);
+      // Sem pose anterior na estreia: a string vazia não bate com nenhum
+      // arquivo, então o sorteio tem as dez à disposição.
+      setPose(outraPose(""));
       setPortal(onde);
       emitDust(onde.x, onde.y, 26, 1.2);
       portalTimer.current = setTimeout(
@@ -548,9 +589,8 @@ export default function Fairy() {
         setVisible(true);
         return;
       }
-      const outras = POSES.filter((f) => f !== atualPose);
       setPos(destino);
-      setPose(outras[Math.floor(Math.random() * outras.length)]);
+      setPose(outraPose(atualPose));
       setVisible(true);
       emitDust(destino.x, destino.y, 28, 1.6);
     }, SUMICO_MS);
@@ -597,11 +637,11 @@ export default function Fairy() {
     const vis = gatherVisiblePerches();
     const onde = vis[Math.floor(Math.random() * vis.length)];
     if (!onde) return;
-    const outras = POSES.filter((f) => f !== estado.current.pose);
+    const proximaDoPortal = outraPose(estado.current.pose);
 
     setVisible(false);
     setPos(onde);
-    setPose(outras[Math.floor(Math.random() * outras.length)]);
+    setPose(proximaDoPortal);
     setPortal(onde);
     emitDust(onde.x, onde.y, 26, 1.2);
     portalTimer.current = setTimeout(() => setVisible(true), PORTAL_MS * 0.35);
