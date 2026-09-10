@@ -15,8 +15,14 @@
   margin-top: 2.6rem;
 }
 
+/* Largura igual para os dois, e não a do texto de cada um.
+ *
+ * "Todos os personagens" é mais comprido que "Começar a reserva"; empilhados e
+ * centrados sem isto, um ficava visivelmente mais largo que o outro. A
+ * hierarquia continua clara pela cor — o dourado é sólido, o secundário é véu. */
 .mainCta {
-  padding: 1.1rem 2.8rem;
+  width: min(20rem, 100%);
+  padding: 1.1rem 2rem;
   font-size: 1.02rem;
 }
 

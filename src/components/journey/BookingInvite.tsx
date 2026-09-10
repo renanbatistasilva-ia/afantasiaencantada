@@ -21,6 +21,13 @@ export default function BookingInvite() {
         <Link href="/reservar" className={`btn btn-ouro ${styles.mainCta}`}>
           Começar a reserva
         </Link>
+        {/* O corpo da home não tinha nenhum link para o elenco — só o do
+            cabeçalho. Quem rolava até aqui sem ter decidido o personagem só
+            encontrava um formulário. O rótulo é o mesmo `h1` da página de
+            destino, então o botão entrega o que promete. */}
+        <Link href="/personagens" className={`btn btn-veu ${styles.mainCta}`}>
+          Todos os personagens
+        </Link>
         <a
           href={whatsappUrl(quickMessage)}
           target="_blank"
