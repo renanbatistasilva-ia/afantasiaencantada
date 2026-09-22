@@ -13,10 +13,25 @@ Tudo aqui se faz no terminal, na pasta do projeto.
 npm run senha
 ```
 
-Ele pergunta a senha nova duas vezes, sem mostrar o que você digita, e envia para a
-Cloudflare. A senha antiga deixa de valer na hora.
+Ele pergunta a senha nova duas vezes, sem mostrar o que você digita, envia para a
+Cloudflare e **confere no painel de verdade que ela entra** antes de dizer que terminou. A
+senha antiga deixa de valer na hora.
+
+Só entregue a senha a alguém depois de ver o `✓ conferida`. Se aparecer o aviso de que ainda
+não entrou, quase sempre é a propagação do segredo demorando — espere um minuto e confirme com
+o comando abaixo.
 
 **Quando fazer:** esqueceu a senha, ou desconfia que alguém viu.
+
+## Conferir uma senha sem trocar nada
+
+```
+npm run senha:conferir
+```
+
+Pergunta a senha e responde se ela entra ou não. Não altera nada. Serve para o caso mais comum
+do dia a dia: alguém diz "não consigo entrar" e você descobre em cinco segundos se é a senha
+dela ou se é o painel.
 
 Quem já estava com o painel aberto **continua aberto** — o cookie de sessão não depende da
 senha. Se o motivo da troca for alguém ter conseguido entrar, rode o comando de baixo também.
@@ -197,7 +212,14 @@ decorada: você nunca digita.
 Ao criar, o iPhone e o Android oferecem "senha forte" e guardam sozinhos. Aceite a oferta.
 
 Acento funciona normalmente — `senhã` digitada no celular confere com a mesma senha gerada no
-computador. Espaço no começo ou no fim é ignorado.
+computador. Espaço no começo ou no fim é ignorado, **dos dois lados**: ao definir a senha e ao
+entrar com ela.
+
+> Esse "dos dois lados" foi caro. Até 22/09/2026 só o lado de entrar aparava os espaços; o
+> `senha.sh` gravava o hash da senha **com** o espaço. Quando isso acontecia, não existia mais
+> nada que a dona pudesse digitar para entrar — nem a senha com o espaço, porque o painel
+> apara antes de conferir. Ela ficou trancada fora com a senha certa na mão. É também por
+> isso que o `npm run senha` agora só termina depois de provar que a senha entra.
 
 ---
 
