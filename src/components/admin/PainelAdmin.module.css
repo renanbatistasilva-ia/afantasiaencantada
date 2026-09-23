@@ -442,14 +442,23 @@
   font-weight: 650;
 }
 
-.pilulaRespondido {
+.pilulaConversa {
   border-color: rgba(233, 206, 156, 0.45);
   color: var(--ouro-claro);
 }
 
-.pilulaFechado {
+/* O sinal entrou e a data está ocupada — o momento que paga a conta. É o único
+   estado além de `novo` que se lê de longe. */
+.pilulaReservado {
   background: rgba(250, 243, 236, 0.14);
   color: var(--porcelana);
+}
+
+/* Já aconteceu: é histórico, não pede nada de ninguém. Recua para o mesmo tom
+   do `perdido` sem a leitura de fracasso. */
+.pilulaRealizado {
+  border-color: rgba(233, 206, 156, 0.22);
+  color: color-mix(in srgb, var(--porcelana) 70%, transparent);
 }
 
 .pilulaPerdido {
@@ -459,7 +468,9 @@
 
 .opcoes {
   display: grid;
-  /* Os quatro não cabem numa linha em 375px e quebravam 3+1. */
+  /* Cinco estados não cabem numa linha em 375px. Em duas colunas o último fica
+     sozinho na terceira — e é `perdido`, que é justamente o que não se quer
+     acertar sem querer com o polegar. A sobra virou separação. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.45rem;
   width: 100%;
@@ -467,7 +478,7 @@
 
 @media (min-width: 30rem) {
   .opcoes {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 

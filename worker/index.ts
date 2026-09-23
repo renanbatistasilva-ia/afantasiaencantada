@@ -151,7 +151,19 @@ async function gravarLead(request: Request, env: Env, ctx: ExecutionContext): Pr
 /* ——— painel ——— */
 
 const PREFIXO_LEAD = "/api/admin/leads/";
-const STATUS_VALIDOS = new Set(["novo", "respondido", "fechado", "perdido"]);
+/**
+ * O ciclo de vida do pedido, na ordem em que acontece. Ver migrations/0002.
+ *
+ *   novo → conversa → reservado → realizado     e `perdido` a qualquer momento
+ *
+ * `reservado` é o único que OCUPA a data: é o estado em que o sinal foi pago.
+ * A distinção entre ele e `realizado` existe porque festa que ainda vai
+ * acontecer e festa que já aconteceu pedem coisas opostas do painel.
+ */
+const STATUS_VALIDOS = new Set(["novo", "conversa", "reservado", "realizado", "perdido"]);
+
+/** Virou festa: fica guardado enquanto for cliente, como promete /privacidade. */
+const STATUS_DE_CLIENTE = ["reservado", "realizado"];
 
 /**
  * Resposta do painel nunca pode ser guardada em cache: são nomes e idades de
@@ -365,8 +377,14 @@ async function rotearApi(request: Request, env: Env, url: URL, ctx: ExecutionCon
 async function descartarAntigos(env: Env): Promise<void> {
   const doze = new Date();
   doze.setMonth(doze.getMonth() - 12);
-  await env.DB.prepare(`DELETE FROM leads WHERE status <> 'fechado' AND criado_em < ?`)
-    .bind(doze.toISOString())
+  // Quem virou festa não entra no descarte — é o que /privacidade promete. Antes
+  // a regra olhava só para `fechado`; com o ciclo novo são dois estados.
+  await env.DB.prepare(
+    `DELETE FROM leads
+      WHERE status NOT IN (${STATUS_DE_CLIENTE.map(() => "?").join(", ")})
+        AND criado_em < ?`,
+  )
+    .bind(...STATUS_DE_CLIENTE, doze.toISOString())
     .run();
 
   const vinteCinco = new Date();

@@ -130,6 +130,20 @@ export function diasDesde(criadoEm: string, agora: Date = new Date()): number {
   return Math.floor((agora.getTime() - new Date(criadoEm).getTime()) / 86400000);
 }
 
+/* ——— o ciclo de vida ——— */
+
+/**
+ * Estados que significam "isto é uma festa que vai acontecer ou aconteceu".
+ *
+ * `novo` e `conversa` são pedidos: alguém perguntou. Contá-los como festa
+ * inflaria a agenda com o que ninguém confirmou — e era o que acontecia quando
+ * a única exclusão era `perdido`. Só `reservado` tem sinal pago.
+ */
+export const EH_FESTA = new Set(["reservado", "realizado"]);
+
+/** Ocupa a data de verdade. `realizado` já passou; não disputa nada. */
+export const OCUPA_DATA = new Set(["reservado"]);
+
 /* ——— choque de agenda ——— */
 
 /**
@@ -155,7 +169,7 @@ export interface Choque {
 /**
  * Quem disputa o mesmo dia com quem.
  *
- * `perdido` fica de fora — pedido recusado não ocupa data. `fechado` contra
+ * `perdido` fica de fora — pedido recusado não ocupa data. `reservado` contra
  * `novo` CONTA: é justamente a hora de avisar a segunda família que o dia já
  * foi. E o cálculo roda sobre a lista inteira, não sobre o grupo da tela: os
  * pedidos por responder moram na caixa de entrada, e sem isso o choque mais
@@ -307,8 +321,10 @@ export function resumo(leads: Lead[], agora: Date = new Date()): Resumo {
   const novos = leads.filter((l) => l.status === "novo");
   const esperaMaisAntiga = novos.reduce((max, l) => Math.max(max, diasDesde(l.criado_em, agora)), 0);
 
+  // Só festa confirmada entra na conta. Antes qualquer pedido com data contava,
+  // e o número dizia "quantas pessoas pediram", não "quantas festas eu tenho".
   const festas30 = leads.filter(
-    (l) => l.status !== "perdido" && l.data_festa && l.data_festa >= hoje && l.data_festa <= daqui30,
+    (l) => EH_FESTA.has(l.status) && l.data_festa && l.data_festa >= hoje && l.data_festa <= daqui30,
   ).length;
 
   const contagem = new Map<string, number>();

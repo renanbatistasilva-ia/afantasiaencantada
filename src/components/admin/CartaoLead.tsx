@@ -14,14 +14,37 @@ import {
 } from "./agenda";
 import styles from "./PainelAdmin.module.css";
 
-export const STATUS = ["novo", "respondido", "fechado", "perdido"] as const;
+/**
+ * O ciclo de vida do pedido, na ordem em que acontece — `perdido` fecha a lista
+ * porque pode vir de qualquer ponto. Ver migrations/0002_ciclo_de_vida.sql.
+ */
+export const STATUS = ["novo", "conversa", "reservado", "realizado", "perdido"] as const;
 export type Status = (typeof STATUS)[number];
 
-/** Um tom por situação, só com a paleta do site — nenhuma cor nova. */
+/**
+ * O que a tela diz. O valor guardado é curto para caber no chip a 375px; o
+ * rótulo pode ser mais claro que ele onde há espaço.
+ */
+export const ROTULO: Record<string, string> = {
+  novo: "novo",
+  conversa: "em conversa",
+  reservado: "reservado",
+  realizado: "realizado",
+  perdido: "perdido",
+};
+
+/**
+ * Um tom por situação, só com a paleta do site — nenhuma cor nova.
+ *
+ * `reservado` é o mais forte: é o estado em que o sinal entrou, o momento que
+ * paga a conta. `realizado` recua para o tom de histórico — já aconteceu, não
+ * pede nada de ninguém.
+ */
 const PILULA: Record<string, string> = {
   novo: styles.pilulaNovo,
-  respondido: styles.pilulaRespondido,
-  fechado: styles.pilulaFechado,
+  conversa: styles.pilulaConversa,
+  reservado: styles.pilulaReservado,
+  realizado: styles.pilulaRealizado,
   perdido: styles.pilulaPerdido,
 };
 
@@ -165,7 +188,7 @@ export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApag
                   setAbrindoStatus(false);
                 }}
               >
-                {s}
+                {ROTULO[s] ?? s}
               </button>
             ))}
           </div>
@@ -176,7 +199,7 @@ export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApag
             aria-expanded={false}
             onClick={() => setAbrindoStatus(true)}
           >
-            {lead.status}
+            {ROTULO[lead.status] ?? lead.status}
             <span aria-hidden="true"> ▾</span>
           </button>
         )}

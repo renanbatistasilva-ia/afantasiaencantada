@@ -308,7 +308,11 @@ export async function resumoDoDia(env: Env, hoje: string): Promise<void> {
   const para = destinatarios(env);
   if (para.length === 0) return;
 
-  // `perdido` não ocupa o dia: pedido recusado não é festa que vai acontecer.
+  // Festa é o que tem sinal pago (`reservado`) ou já aconteceu (`realizado`).
+  // Um `novo` ou `conversa` marcado para hoje é pedido, não festa — e aparece
+  // logo abaixo, em "esperando resposta". Dizer "HOJE: 2 festas" para algo que
+  // ninguém confirmou seria pior que não dizer nada.
+  //
   // A ordem coloca quem não informou horário no fim — `~` vem depois dos
   // dígitos, o mesmo truque de ordenação que a agenda da tela usa.
   const [festas, esperando, proxima] = await Promise.all([
@@ -316,7 +320,7 @@ export async function resumoDoDia(env: Env, hoje: string): Promise<void> {
       `SELECT crianca_nome, personagem_nome, horario, periodo, endereco,
               responsavel_nome, responsavel_telefone
          FROM leads
-        WHERE data_festa = ? AND status <> 'perdido'
+        WHERE data_festa = ? AND status IN ('reservado', 'realizado')
         ORDER BY COALESCE(NULLIF(horario, ''), '~'), criado_em`,
     )
       .bind(hoje)
@@ -328,7 +332,7 @@ export async function resumoDoDia(env: Env, hoje: string): Promise<void> {
     env.DB.prepare(
       `SELECT data_festa, crianca_nome, personagem_nome
          FROM leads
-        WHERE data_festa > ? AND status <> 'perdido'
+        WHERE data_festa > ? AND status = 'reservado'
         ORDER BY data_festa LIMIT 1`,
     )
       .bind(hoje)
