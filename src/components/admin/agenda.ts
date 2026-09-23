@@ -25,6 +25,7 @@ export interface Lead {
   crianca_nome: string | null;
   crianca_idade: string | null;
   observacao: string | null;
+  notas: string | null;
   personagem_slug: string | null;
   utm_source: string | null;
   utm_medium: string | null;
@@ -143,6 +144,38 @@ export const EH_FESTA = new Set(["reservado", "realizado"]);
 
 /** Ocupa a data de verdade. `realizado` já passou; não disputa nada. */
 export const OCUPA_DATA = new Set(["reservado"]);
+
+/* ——— linha do tempo ——— */
+
+export interface Evento {
+  lead_id: string;
+  em: string;
+  tipo: string;
+  detalhe: string | null;
+}
+
+/**
+ * "chegou 3/set · em conversa 4/set · reservado 6/set".
+ *
+ * O painel sabia em que estado o pedido está e nada sobre como chegou lá:
+ * `conversa` não tem data própria, então não dava para saber se a resposta saiu
+ * ontem ou há duas semanas — só há quanto tempo o pedido existe. Uma linha
+ * resolve, e cabe num cartão de celular.
+ *
+ * Pedido antigo não tem histórico nenhum, e isso é honesto: a linha mostra só
+ * "chegou", porque é tudo o que se sabe. Inventar transições seria pior.
+ */
+export function linhaDoTempo(lead: Lead, eventos: Evento[], rotulo: (s: string) => string): string {
+  const meus = eventos
+    .filter((e) => e.lead_id === lead.id && e.tipo === "status" && e.detalhe)
+    .sort((a, b) => a.em.localeCompare(b.em));
+
+  const partes = [`chegou ${diaCurto(hojeEmSaoPaulo(new Date(lead.criado_em)))}`];
+  for (const e of meus) {
+    partes.push(`${rotulo(e.detalhe as string)} ${diaCurto(hojeEmSaoPaulo(new Date(e.em)))}`);
+  }
+  return partes.join(" · ");
+}
 
 /* ——— choque de agenda ——— */
 

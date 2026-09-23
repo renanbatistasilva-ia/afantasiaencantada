@@ -6,10 +6,12 @@ import {
   diasDesde,
   horaBonita,
   idadeEmTexto,
+  linhaDoTempo,
   origemDoLead,
   periodoBonito,
   rotuloDia,
   type Choque,
+  type Evento,
   type Lead,
 } from "./agenda";
 import styles from "./PainelAdmin.module.css";
@@ -62,13 +64,25 @@ interface Props {
    */
   mostrarData: boolean;
   choque?: Choque;
+  eventos: Evento[];
   onStatus: (id: string, status: Status) => void;
+  onNotas: (id: string, notas: string) => void;
   onApagar: (id: string) => void;
 }
 
-export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApagar }: Props) {
+export default function CartaoLead({
+  lead,
+  mostrarData,
+  choque,
+  eventos,
+  onStatus,
+  onNotas,
+  onApagar,
+}: Props) {
   const [abrindoStatus, setAbrindoStatus] = useState(false);
   const [confirmando, setConfirmando] = useState(false);
+  const [anotando, setAnotando] = useState(false);
+  const [rascunho, setRascunho] = useState(lead.notas ?? "");
 
   const nome = lead.responsavel_nome ?? "sem nome";
   const hora = horaBonita(lead.horario) ?? periodoBonito(lead.periodo);
@@ -159,6 +173,59 @@ export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApag
           </div>
         )}
       </dl>
+
+      {/* O que foi combinado no WhatsApp vivia exclusivamente no WhatsApp, onde
+          ninguém acha seis meses depois. Este é o primeiro campo do painel que a
+          dona escreve — por isso salva com botão, e não ao perder o foco: em
+          celular, perder o foco acontece sem querer o tempo todo. */}
+      <div className={styles.notas}>
+        {anotando ? (
+          <>
+            <label className="visually-hidden" htmlFor={`notas-${lead.id}`}>
+              Anotações sobre o pedido de {nome}
+            </label>
+            <textarea
+              id={`notas-${lead.id}`}
+              className={styles.notasCampo}
+              value={rascunho}
+              rows={3}
+              placeholder="valor combinado, horário confirmado, o que a criança gosta…"
+              onChange={(e) => setRascunho(e.target.value)}
+            />
+            <div className={styles.confirmaBotoes}>
+              <button
+                type="button"
+                className={styles.cancelar}
+                onClick={() => {
+                  setRascunho(lead.notas ?? "");
+                  setAnotando(false);
+                }}
+              >
+                cancelar
+              </button>
+              <button
+                type="button"
+                className={styles.salvar}
+                onClick={() => {
+                  onNotas(lead.id, rascunho);
+                  setAnotando(false);
+                }}
+              >
+                salvar
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {lead.notas && <p className={styles.notasTexto}>{lead.notas}</p>}
+            <button type="button" className={styles.anotar} onClick={() => setAnotando(true)}>
+              {lead.notas ? "editar anotação" : "anotar"}
+            </button>
+          </>
+        )}
+      </div>
+
+      <p className={styles.tempo}>{linhaDoTempo(lead, eventos, (st) => ROTULO[st] ?? st)}</p>
 
       {lead.responsavel_telefone && (
         <a

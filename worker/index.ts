@@ -266,7 +266,7 @@ async function listarLeads(env: Env, url: URL): Promise<Response> {
   const { results } = await env.DB.prepare(
     `SELECT id, criado_em, responsavel_nome, responsavel_telefone, personagem_slug,
             personagem_nome, mundo_nome, data_festa, periodo, horario, endereco,
-            tipo_local, crianca_nome, crianca_idade, observacao,
+            tipo_local, crianca_nome, crianca_idade, observacao, notas,
             utm_source, utm_medium, utm_campaign, referrer, pagina_entrada, status
        FROM leads ${onde}
       ORDER BY criado_em DESC
@@ -275,19 +275,73 @@ async function listarLeads(env: Env, url: URL): Promise<Response> {
     .bind(...valores, limite)
     .all();
 
-  return semCache(Response.json({ leads: results }));
+  // O histórico vem inteiro, numa consulta só, em vez de um pedido por cartão:
+  // são poucas linhas por pedido e a tela já carrega tudo de uma vez. Filtrar
+  // por `lead_id IN (...)` esbarraria no teto de 100 parâmetros do D1 assim que
+  // a lista passasse de cem pedidos.
+  const { results: eventos } = await env.DB.prepare(
+    `SELECT lead_id, em, tipo, detalhe FROM historico ORDER BY em LIMIT 2000`,
+  ).all();
+
+  return semCache(Response.json({ leads: results, historico: eventos }));
 }
 
-async function mudarStatus(request: Request, env: Env, id: string): Promise<Response> {
+/** A anotação é da dona, não do formulário: cabe mais que a observação pública. */
+const LIMITE_NOTAS = 4000;
+
+/**
+ * Muda o estado e/ou grava a anotação.
+ *
+ * Um endpoint só para os dois porque são a mesma ação do ponto de vista de quem
+ * usa — "atualizar este pedido" — e porque manter duas rotas que escrevem na
+ * mesma linha convida a divergirem.
+ */
+async function atualizarLead(request: Request, env: Env, id: string): Promise<Response> {
   if (!ehJson(request)) return erro("formato inválido", 415);
 
-  const corpo = (await request.json().catch(() => null)) as { status?: unknown } | null;
-  const status = typeof corpo?.status === "string" ? corpo.status : "";
-  if (!STATUS_VALIDOS.has(status)) return erro("status inválido", 400);
+  const corpo = (await request.json().catch(() => null)) as
+    | { status?: unknown; notas?: unknown }
+    | null;
 
-  const r = await env.DB.prepare("UPDATE leads SET status = ? WHERE id = ?").bind(status, id).run();
-  if (r.meta.changes === 0) return erro("lead não encontrado", 404);
-  return semCache(Response.json({ ok: true, status }));
+  const status = typeof corpo?.status === "string" ? corpo.status : null;
+  // String vazia é apagar a anotação, e é diferente de não mandar o campo —
+  // por isso o teste é de tipo, não de conteúdo.
+  const notas = typeof corpo?.notas === "string" ? corpo.notas.slice(0, LIMITE_NOTAS) : null;
+
+  if (status === null && notas === null) return erro("nada para atualizar", 400);
+  if (status !== null && !STATUS_VALIDOS.has(status)) return erro("status inválido", 400);
+
+  const campos: string[] = [];
+  const valores: unknown[] = [];
+  if (status !== null) {
+    campos.push("status = ?");
+    valores.push(status);
+  }
+  if (notas !== null) {
+    campos.push("notas = ?");
+    valores.push(notas.trim() || null);
+  }
+
+  const escritas = [
+    env.DB.prepare(`UPDATE leads SET ${campos.join(", ")} WHERE id = ?`).bind(...valores, id),
+  ];
+
+  // Só a mudança de estado vira linha do tempo. Anotação não entra: o texto
+  // atual já está no pedido, e registrar "editou a nota" encheria o histórico
+  // de eventos que não contam nada sobre a festa.
+  if (status !== null) {
+    escritas.push(
+      env.DB.prepare(
+        "INSERT INTO historico (id, lead_id, em, tipo, detalhe) VALUES (?, ?, ?, 'status', ?)",
+      ).bind(crypto.randomUUID(), id, new Date().toISOString(), status),
+    );
+  }
+
+  // Em lote para o histórico não descrever um estado que a linha não tem.
+  const [atualizacao] = await env.DB.batch(escritas);
+  if (atualizacao.meta.changes === 0) return erro("lead não encontrado", 404);
+
+  return semCache(Response.json({ ok: true, status, notas }));
 }
 
 async function apagarLead(env: Env, id: string): Promise<Response> {
@@ -309,7 +363,7 @@ async function rotearLeads(request: Request, env: Env, url: URL, rota: string): 
   if (rota.startsWith(PREFIXO_LEAD)) {
     const id = rota.slice(PREFIXO_LEAD.length);
     if (!UUID.test(id)) return erro("id inválido", 400);
-    if (request.method === "PATCH") return mudarStatus(request, env, id);
+    if (request.method === "PATCH") return atualizarLead(request, env, id);
     if (request.method === "DELETE") return apagarLead(env, id);
     return erro("método não permitido", 405);
   }

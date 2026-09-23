@@ -4,7 +4,16 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import CartaoLead, { type Status } from "./CartaoLead";
 import PainelTrafego from "./PainelTrafego";
-import { agrupar, choques, resumo, rotuloDia, rotuloMes, hojeEmSaoPaulo, type Lead } from "./agenda";
+import {
+  agrupar,
+  choques,
+  resumo,
+  rotuloDia,
+  rotuloMes,
+  hojeEmSaoPaulo,
+  type Evento,
+  type Lead,
+} from "./agenda";
 import styles from "./PainelAdmin.module.css";
 
 /**
@@ -29,6 +38,7 @@ export default function PainelAdmin() {
   const [erro, setErro] = useState<string | null>(null);
   const [entrando, setEntrando] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [eventos, setEventos] = useState<Evento[]>([]);
   const [verPassados, setVerPassados] = useState(false);
   // Aba fica fora de `fase` de propósito: `carregar()` trata qualquer valor
   // diferente de "lista" como sessão expirada e voltaria para a senha.
@@ -40,8 +50,9 @@ export default function PainelAdmin() {
       setFase("senha");
       return;
     }
-    const dados = (await r.json()) as { leads: Lead[] };
+    const dados = (await r.json()) as { leads: Lead[]; historico?: Evento[] };
     setLeads(dados.leads ?? []);
+    setEventos(dados.historico ?? []);
     setFase("lista");
   }, []);
 
@@ -79,6 +90,7 @@ export default function PainelAdmin() {
   async function sair() {
     await fetch("/api/admin/sessao", { method: "DELETE" }).catch(() => {});
     setLeads([]);
+    setEventos([]);
     setFase("senha");
   }
 
@@ -91,6 +103,27 @@ export default function PainelAdmin() {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novo }),
+    }).catch(() => null);
+    if (!r?.ok) {
+      setLeads(antes);
+      return;
+    }
+    // O servidor gravou a linha do tempo; espelha aqui para o cartão mostrar a
+    // transição agora, sem recarregar a lista inteira.
+    setEventos((es) => [
+      ...es,
+      { lead_id: id, em: new Date().toISOString(), tipo: "status", detalhe: novo },
+    ]);
+  }
+
+  async function mudarNotas(id: string, notas: string) {
+    const antes = leads;
+    const limpo = notas.trim();
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, notas: limpo || null } : l)));
+    const r = await fetch(`/api/admin/leads/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ notas: limpo }),
     }).catch(() => null);
     if (!r?.ok) setLeads(antes);
   }
@@ -111,7 +144,9 @@ export default function PainelAdmin() {
       lead={l}
       mostrarData={mostrarData}
       choque={disputas.get(l.id)}
+      eventos={eventos}
       onStatus={mudarStatus}
+      onNotas={mudarNotas}
       onApagar={apagar}
     />
   );

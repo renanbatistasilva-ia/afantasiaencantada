@@ -164,6 +164,28 @@ sido removido da lista de verificados, ou o segredo `AVISO_EMAIL_PARA` não exis
 
 ---
 
+## Mudar o banco de dados
+
+As mudanças de estrutura ficam em `migrations/`, numeradas. Para aplicar:
+
+```
+npm run db:remoto
+```
+
+E `npm run db:pendentes` mostra o que ainda falta aplicar. O local é
+`npm run db:local`.
+
+**Aplique a migração ANTES de publicar o código novo.** Na ordem inversa, o
+código procura colunas ou estados que o banco ainda não tem — nada quebra de
+forma permanente, mas o painel fica estranho por alguns minutos.
+
+> Antes existia um `worker/schema.sql` rodado inteiro a cada vez. Ele só sabia
+> criar o que não existia (`CREATE TABLE IF NOT EXISTS`), então a primeira
+> mudança de coluna não teria como ser aplicada. As migrações resolvem isso e
+> guardam sozinhas o que já rodou.
+
+---
+
 ## Abrir o painel na sua máquina
 
 `npm run dev` **não serve o painel**. Ele roda `next dev`, que entrega as páginas mas não as

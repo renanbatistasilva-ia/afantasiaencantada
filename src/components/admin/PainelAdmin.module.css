@@ -350,6 +350,68 @@
   color: color-mix(in srgb, var(--porcelana) 42%, transparent);
 }
 
+/* A anotação é o primeiro campo que a dona ESCREVE no painel. Fica depois dos
+   dados do pedido e antes do botão do WhatsApp — é o que ela quer reler
+   segundos antes de responder. */
+.notas {
+  margin-bottom: 0.9rem;
+}
+
+.notasTexto {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: color-mix(in srgb, var(--porcelana) 86%, transparent);
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  background: rgba(250, 243, 236, 0.05);
+  margin-bottom: 0.45rem;
+}
+
+.notasCampo {
+  width: 100%;
+  /* 1rem exato: abaixo disso o iOS dá zoom ao focar, como no campo de senha. */
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--porcelana);
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid rgba(233, 206, 156, 0.28);
+  background: rgba(250, 243, 236, 0.05);
+  resize: vertical;
+  margin-bottom: 0.5rem;
+}
+
+.anotar {
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px dashed rgba(233, 206, 156, 0.3);
+  background: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--porcelana) 66%, transparent);
+}
+
+.salvar {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(160deg, var(--ouro-claro), var(--ouro));
+  color: #3c2812;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+/* A linha do tempo é contexto, não ação: some no fundo até ser procurada. */
+.tempo {
+  font-size: 0.74rem;
+  color: color-mix(in srgb, var(--porcelana) 48%, transparent);
+  margin-bottom: 0.9rem;
+}
+
 .choqueForte,
 .choqueLeve {
   font-size: 0.82rem;
