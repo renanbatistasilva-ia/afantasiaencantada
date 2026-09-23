@@ -321,18 +321,21 @@ export async function resumoDoDia(env: Env, hoje: string): Promise<void> {
               responsavel_nome, responsavel_telefone
          FROM leads
         WHERE data_festa = ? AND status IN ('reservado', 'realizado')
+          AND arquivado_em IS NULL
         ORDER BY COALESCE(NULLIF(horario, ''), '~'), criado_em`,
     )
       .bind(hoje)
       .all(),
     env.DB.prepare(
       `SELECT criado_em, responsavel_nome, crianca_nome, personagem_nome, data_festa
-         FROM leads WHERE status = 'novo' ORDER BY criado_em`,
+         FROM leads WHERE status = 'novo' AND arquivado_em IS NULL
+        ORDER BY criado_em`,
     ).all(),
     env.DB.prepare(
       `SELECT data_festa, crianca_nome, personagem_nome
          FROM leads
         WHERE data_festa > ? AND status = 'reservado'
+          AND arquivado_em IS NULL
         ORDER BY data_festa LIMIT 1`,
     )
       .bind(hoje)

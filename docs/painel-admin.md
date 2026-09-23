@@ -175,14 +175,44 @@ npm run db:remoto
 E `npm run db:pendentes` mostra o que ainda falta aplicar. O local é
 `npm run db:local`.
 
-**Aplique a migração ANTES de publicar o código novo.** Na ordem inversa, o
-código procura colunas ou estados que o banco ainda não tem — nada quebra de
-forma permanente, mas o painel fica estranho por alguns minutos.
+**A ordem é conferida sozinha.** `npm run deploy` recusa publicar enquanto houver
+migração pendente — não depende de ninguém lembrar. Publique com:
+
+```
+npm run deploy
+```
+
+e não com `npx wrangler deploy`, que pula a conferência. O `npm run build` antes
+é desnecessário: o próprio wrangler roda o build.
+
+**Por que a trava existe:** em 23/09/2026 o código
+novo subiu antes da migração e o painel parou de listar pedidos por alguns
+minutos — a consulta pedia uma coluna que o banco ainda não tinha. A ordem certa
+estava escrita aqui e ninguém leu, inclusive quem escreveu. Documentação não é
+trava.
+
+Para pular, se a API do D1 estiver fora e a publicação for urgente:
+`PULAR_CONFERENCIA=1 npm run deploy`.
 
 > Antes existia um `worker/schema.sql` rodado inteiro a cada vez. Ele só sabia
 > criar o que não existia (`CREATE TABLE IF NOT EXISTS`), então a primeira
 > mudança de coluna não teria como ser aplicada. As migrações resolvem isso e
 > guardam sozinhas o que já rodou.
+
+---
+
+## Arquivar um pedido
+
+O botão do painel **arquiva**: o pedido some da tela na hora e uma faixa oferece
+trazer de volta. Passados 30 dias, o cron das 4h apaga de vez.
+
+Antes esse botão apagava direto, sem volta — num painel usado com o polegar,
+entre uma festa e outra, isso era um registro de família perdido por um encosto
+na tela.
+
+Para apagar de verdade na hora (um pedido de exclusão pela LGPD, por exemplo),
+a API aceita `DELETE /api/admin/leads/<id>?definitivo=1`. Não há botão para isso
+de propósito.
 
 ---
 

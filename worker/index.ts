@@ -260,13 +260,21 @@ async function listarLeads(env: Env, url: URL): Promise<Response> {
     valores.push(status);
   }
 
+  // Arquivado sai da tela por padrão — é o efeito que a dona espera ao arquivar.
+  // `?arquivados=1` traz só eles, que é como o arquivo vai ser lido um dia.
+  filtros.push(
+    url.searchParams.get("arquivados") === "1"
+      ? "arquivado_em IS NOT NULL"
+      : "arquivado_em IS NULL",
+  );
+
   const limite = Math.min(Math.max(Number(url.searchParams.get("limite")) || 100, 1), 200);
   const onde = filtros.length ? `WHERE ${filtros.join(" AND ")}` : "";
 
   const { results } = await env.DB.prepare(
     `SELECT id, criado_em, responsavel_nome, responsavel_telefone, personagem_slug,
             personagem_nome, mundo_nome, data_festa, periodo, horario, endereco,
-            tipo_local, crianca_nome, crianca_idade, observacao, notas,
+            tipo_local, crianca_nome, crianca_idade, observacao, notas, arquivado_em,
             utm_source, utm_medium, utm_campaign, referrer, pagina_entrada, status
        FROM leads ${onde}
       ORDER BY criado_em DESC
@@ -344,8 +352,34 @@ async function atualizarLead(request: Request, env: Env, id: string): Promise<Re
   return semCache(Response.json({ ok: true, status, notas }));
 }
 
-async function apagarLead(env: Env, id: string): Promise<Response> {
-  const r = await env.DB.prepare("DELETE FROM leads WHERE id = ?").bind(id).run();
+/**
+ * Arquiva — e só apaga de verdade com `?definitivo=1`.
+ *
+ * O botão do painel manda arquivar. O DELETE continua existindo porque um dia
+ * alguém precisa apagar na hora (um pedido de exclusão pela LGPD, por exemplo),
+ * mas deixou de ser o que acontece por um encosto de polegar.
+ */
+async function apagarLead(env: Env, url: URL, id: string): Promise<Response> {
+  if (url.searchParams.get("definitivo") === "1") {
+    const r = await env.DB.prepare("DELETE FROM leads WHERE id = ?").bind(id).run();
+    if (r.meta.changes === 0) return erro("lead não encontrado", 404);
+    return semCache(Response.json({ ok: true, apagado: true }));
+  }
+
+  const r = await env.DB.prepare(
+    "UPDATE leads SET arquivado_em = ? WHERE id = ? AND arquivado_em IS NULL",
+  )
+    .bind(new Date().toISOString(), id)
+    .run();
+  if (r.meta.changes === 0) return erro("lead não encontrado", 404);
+  return semCache(Response.json({ ok: true, arquivado: true }));
+}
+
+/** Desfazer, enquanto o cron não levou. */
+async function desarquivarLead(env: Env, id: string): Promise<Response> {
+  const r = await env.DB.prepare("UPDATE leads SET arquivado_em = NULL WHERE id = ?")
+    .bind(id)
+    .run();
   if (r.meta.changes === 0) return erro("lead não encontrado", 404);
   return semCache(Response.json({ ok: true }));
 }
@@ -364,7 +398,8 @@ async function rotearLeads(request: Request, env: Env, url: URL, rota: string): 
     const id = rota.slice(PREFIXO_LEAD.length);
     if (!UUID.test(id)) return erro("id inválido", 400);
     if (request.method === "PATCH") return atualizarLead(request, env, id);
-    if (request.method === "DELETE") return apagarLead(env, id);
+    if (request.method === "DELETE") return apagarLead(env, url, id);
+    if (request.method === "PUT") return desarquivarLead(env, id);
     return erro("método não permitido", 405);
   }
 
@@ -439,6 +474,14 @@ async function descartarAntigos(env: Env): Promise<void> {
         AND criado_em < ?`,
   )
     .bind(...STATUS_DE_CLIENTE, doze.toISOString())
+    .run();
+
+  // Arquivado tem 30 dias para ser desfeito. Passou disso, sai de vez — e é a
+  // mesma promessa que /privacidade faz sobre pedido que não virou festa.
+  const trinta = new Date();
+  trinta.setDate(trinta.getDate() - 30);
+  await env.DB.prepare("DELETE FROM leads WHERE arquivado_em IS NOT NULL AND arquivado_em < ?")
+    .bind(trinta.toISOString())
     .run();
 
   const vinteCinco = new Date();

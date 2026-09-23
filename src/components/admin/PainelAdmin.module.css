@@ -350,6 +350,31 @@
   color: color-mix(in srgb, var(--porcelana) 42%, transparent);
 }
 
+/* A faixa de desfazer. Discreta mas não apagada: é uma oferta com prazo, e
+   quem tocou sem querer precisa vê-la sem procurar. */
+.desfazer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  margin-bottom: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(233, 206, 156, 0.3);
+  background: rgba(250, 243, 236, 0.06);
+}
+
+.desfazerTexto {
+  font-size: 0.86rem;
+  color: color-mix(in srgb, var(--porcelana) 84%, transparent);
+}
+
+.desfazerBotoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* A anotação é o primeiro campo que a dona ESCREVE no painel. Fica depois dos
    dados do pedido e antes do botão do WhatsApp — é o que ela quer reler
    segundos antes de responder. */

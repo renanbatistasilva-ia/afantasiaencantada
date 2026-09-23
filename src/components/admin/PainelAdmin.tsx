@@ -39,6 +39,7 @@ export default function PainelAdmin() {
   const [entrando, setEntrando] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [eventos, setEventos] = useState<Evento[]>([]);
+  const [desfazer, setDesfazer] = useState<Lead | null>(null);
   const [verPassados, setVerPassados] = useState(false);
   // Aba fica fora de `fase` de propósito: `carregar()` trata qualquer valor
   // diferente de "lista" como sessão expirada e voltaria para a senha.
@@ -128,9 +129,22 @@ export default function PainelAdmin() {
     if (!r?.ok) setLeads(antes);
   }
 
-  async function apagar(id: string) {
+  async function arquivar(id: string) {
+    const guardado = leads.find((l) => l.id === id) ?? null;
     const r = await fetch(`/api/admin/leads/${id}`, { method: "DELETE" }).catch(() => null);
-    if (r?.ok) setLeads((ls) => ls.filter((l) => l.id !== id));
+    if (!r?.ok) return;
+    setLeads((ls) => ls.filter((l) => l.id !== id));
+    // A faixa de desfazer é o que torna arquivar seguro de verdade: sem ela, a
+    // diferença entre arquivar e apagar existe só no banco, e quem tocou sem
+    // querer continua achando que perdeu o pedido.
+    setDesfazer(guardado);
+  }
+
+  async function desarquivar(id: string) {
+    const r = await fetch(`/api/admin/leads/${id}`, { method: "PUT" }).catch(() => null);
+    if (!r?.ok) return;
+    setDesfazer(null);
+    carregar();
   }
 
   const hoje = hojeEmSaoPaulo();
@@ -147,7 +161,7 @@ export default function PainelAdmin() {
       eventos={eventos}
       onStatus={mudarStatus}
       onNotas={mudarNotas}
-      onApagar={apagar}
+      onArquivar={arquivar}
     />
   );
 
@@ -210,6 +224,33 @@ export default function PainelAdmin() {
           sair
         </button>
       </header>
+
+      {/* Fica logo abaixo do cabeçalho, onde o olho já está depois de tocar em
+          arquivar, e some no próximo carregamento — não é histórico, é a chance
+          de consertar o toque errado. */}
+      {desfazer && (
+        <div className={styles.desfazer} role="status">
+          <p className={styles.desfazerTexto}>
+            Pedido de <strong>{desfazer.responsavel_nome ?? "sem nome"}</strong> arquivado.
+          </p>
+          <div className={styles.desfazerBotoes}>
+            <button
+              type="button"
+              className={styles.salvar}
+              onClick={() => desarquivar(desfazer.id)}
+            >
+              trazer de volta
+            </button>
+            <button
+              type="button"
+              className={styles.cancelar}
+              onClick={() => setDesfazer(null)}
+            >
+              ok
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className={styles.abas} role="group" aria-label="O que mostrar">
         <button

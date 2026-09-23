@@ -67,7 +67,7 @@ interface Props {
   eventos: Evento[];
   onStatus: (id: string, status: Status) => void;
   onNotas: (id: string, notas: string) => void;
-  onApagar: (id: string) => void;
+  onArquivar: (id: string) => void;
 }
 
 export default function CartaoLead({
@@ -77,7 +77,7 @@ export default function CartaoLead({
   eventos,
   onStatus,
   onNotas,
-  onApagar,
+  onArquivar,
 }: Props) {
   const [abrindoStatus, setAbrindoStatus] = useState(false);
   const [confirmando, setConfirmando] = useState(false);
@@ -273,7 +273,7 @@ export default function CartaoLead({
 
         {!abrindoStatus && !confirmando && (
           <button type="button" className={styles.apagar} onClick={() => setConfirmando(true)}>
-            apagar
+            arquivar
           </button>
         )}
       </div>
@@ -281,14 +281,15 @@ export default function CartaoLead({
       {confirmando && (
         <div className={styles.confirma}>
           <p className={styles.confirmaTexto}>
-            Apagar o pedido de <strong>{nome}</strong>? Some do painel na hora.
+            Arquivar o pedido de <strong>{nome}</strong>? Some do painel na hora, e dá para
+            trazer de volta por 30 dias.
           </p>
           <div className={styles.confirmaBotoes}>
             <button type="button" className={styles.cancelar} onClick={() => setConfirmando(false)}>
               cancelar
             </button>
-            <button type="button" className={styles.apagarMesmo} onClick={() => onApagar(lead.id)}>
-              apagar
+            <button type="button" className={styles.apagarMesmo} onClick={() => onArquivar(lead.id)}>
+              arquivar
             </button>
           </div>
         </div>
