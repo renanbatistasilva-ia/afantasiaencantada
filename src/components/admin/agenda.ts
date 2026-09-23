@@ -25,7 +25,10 @@ export interface Lead {
   crianca_nome: string | null;
   crianca_idade: string | null;
   observacao: string | null;
+  personagem_slug: string | null;
   utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
   referrer: string | null;
   pagina_entrada: string | null;
   status: string;
@@ -325,4 +328,66 @@ export function resumo(leads: Lead[], agora: Date = new Date()): Resumo {
     festas30,
     campeao,
   };
+}
+
+/* ——— de onde veio o pedido ——— */
+
+/**
+ * Canal legível de um pedido.
+ *
+ * Estes campos já eram gravados em toda linha da tabela e nunca apareciam na
+ * tela — dava para ver quantas VISITAS vieram do Instagram, mas não de onde
+ * veio o pedido que virou festa. Visita é curiosidade; pedido é dinheiro, e é
+ * essa razão que decide onde investir.
+ *
+ * A ordem é `utm_source` primeiro (é o que a etiqueta do link declara), depois
+ * o domínio de quem indicou. Sem os dois, é "direto" — que quase nunca quer
+ * dizer "digitou o endereço": é link de app de mensagem, ou link de bio sem
+ * etiqueta. Por isso `incerto`, para a tela poder explicar em vez de mentir.
+ */
+const CANAIS: [RegExp, string][] = [
+  [/(^|\.)instagram\.com$|^(ig|instagram)$/, "Instagram"],
+  [/(^|\.)facebook\.com$|^(fb|facebook)$/, "Facebook"],
+  [/(^|\.)google\./, "Google"],
+  [/googlequicksearchbox|^google$/, "Google"],
+  [/(^|\.)(whatsapp\.com|wa\.me)$|^(wpp|whatsapp)$/, "WhatsApp"],
+  [/(^|\.)tiktok\.com$|^tiktok$/, "TikTok"],
+  [/(^|\.)youtube\.com$|(^|\.)youtu\.be$|^youtube$/, "YouTube"],
+  [/(^|\.)linktr\.ee$|^linktree$/, "Linktree"],
+  [/(^|\.)bing\.com$|^bing$/, "Bing"],
+];
+
+export interface Origem {
+  canal: string;
+  /** Campanha ou meio, quando a etiqueta trouxe — `campanha halloween-out`, `bio`. */
+  detalhe: string | null;
+  /** Não havia etiqueta nem quem indicou: o "direto" que não quer dizer nada. */
+  incerto: boolean;
+}
+
+export function origemDoLead(lead: Lead): Origem {
+  const detalhe = lead.utm_campaign
+    ? `campanha ${lead.utm_campaign}`
+    : (lead.utm_medium ?? null);
+
+  const bruto = (lead.utm_source ?? hostDe(lead.referrer) ?? "").trim().toLowerCase();
+  if (!bruto) return { canal: "direto", detalhe, incerto: true };
+
+  // `l.instagram.com` e `www.google.com` são o mesmo canal que `instagram.com`.
+  const limpo = bruto.replace(/^(www|l|m|lm)\./, "");
+  for (const [padrao, nome] of CANAIS) {
+    if (padrao.test(limpo) || padrao.test(bruto)) return { canal: nome, detalhe, incerto: false };
+  }
+  return { canal: limpo, detalhe, incerto: false };
+}
+
+/** O referrer é gravado inteiro; aqui interessa só quem indicou. */
+function hostDe(referrer: string | null): string | null {
+  if (!referrer) return null;
+  try {
+    return new URL(referrer).hostname;
+  } catch {
+    // Já veio só o domínio, ou veio algo que não é URL — o texto serve.
+    return referrer.split("/")[0] || null;
+  }
 }

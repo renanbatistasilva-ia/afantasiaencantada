@@ -6,6 +6,7 @@ import {
   diasDesde,
   horaBonita,
   idadeEmTexto,
+  origemDoLead,
   periodoBonito,
   rotuloDia,
   type Choque,
@@ -57,6 +58,8 @@ export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApag
     ? `festa de ${lead.crianca_nome}${lead.crianca_idade ? `, ${lead.crianca_idade} anos` : ""}`
     : null;
 
+  const origem = origemDoLead(lead);
+
   // A identidade do registro é a festa, não quem ligou: numa agenda, "sábado, 19
   // de setembro" localiza o pedido; o nome de quem preencheu, não.
   //
@@ -84,6 +87,22 @@ export default function CartaoLead({ lead, mostrarData, choque, onStatus, onApag
       </header>
 
       {lead.personagem_nome && <p className={styles.personagem}>{lead.personagem_nome}</p>}
+
+      {/* Isto já estava gravado em toda linha do banco e nunca aparecia: dava
+          para ver quantas VISITAS vieram do Instagram, mas não de onde veio o
+          pedido que virou festa. É a razão entre as duas que decide onde
+          investir. */}
+      <p
+        className={`${styles.origem} ${origem.incerto ? styles.origemIncerta : ""}`}
+        title={
+          origem.incerto
+            ? "O link não trazia etiqueta de origem e ninguém indicou. Costuma ser link de app de mensagem, ou o link da bio sem UTM — não quer dizer que a pessoa digitou o endereço."
+            : `origem registrada no pedido${lead.referrer ? ` · veio de ${lead.referrer}` : ""}`
+        }
+      >
+        veio {origem.incerto ? "sem origem identificada" : `do ${origem.canal}`}
+        {origem.detalhe ? ` · ${origem.detalhe}` : ""}
+      </p>
 
       {choque && (
         <p className={choque.mesmoPeriodo ? styles.choqueForte : styles.choqueLeve}>

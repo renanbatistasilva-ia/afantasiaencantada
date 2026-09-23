@@ -328,6 +328,28 @@
   margin-bottom: 0.9rem;
 }
 
+/* A origem do pedido fica logo abaixo do personagem, discreta: é informação
+   de quem decide onde investir, não de quem vai atender a festa. */
+.origem {
+  font-size: 0.78rem;
+  /* 58% mede 5,28:1 sobre o cartão, a mesma medida do selo de tempo. */
+  color: color-mix(in srgb, var(--porcelana) 58%, transparent);
+  margin-bottom: 0.9rem;
+}
+
+/* Só encosta na linha do personagem quando ela existe. Como margem negativa
+   solta, colava no nome da criança nos pedidos que não têm personagem. */
+.personagem + .origem {
+  margin-top: -0.65rem;
+}
+
+/* Sem etiqueta nem quem indicou. Mais apagada de propósito: é ausência de
+   dado, e ler como se fosse um canal de verdade levaria a decisão errada. */
+.origemIncerta {
+  font-style: italic;
+  color: color-mix(in srgb, var(--porcelana) 42%, transparent);
+}
+
 .choqueForte,
 .choqueLeve {
   font-size: 0.82rem;
