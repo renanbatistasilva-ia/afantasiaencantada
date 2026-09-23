@@ -17,7 +17,7 @@
  */
 
 import { diaEmSaoPaulo, lerAnalitica, receberEventos } from "./analitica";
-import { avisarPedido } from "./aviso";
+import { avisarPedido, resumoDoDia } from "./aviso";
 import {
   conferirSessao,
   cookieVazio,
@@ -422,7 +422,22 @@ export default {
     }
   },
 
-  async scheduled(_evento: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(evento: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    // Dois horários no mesmo handler, separados pelo cron que disparou (ver
+    // wrangler.jsonc). Às 04:00 de São Paulo a limpeza; às 07:00, o resumo.
+    if (evento.cron === "0 10 * * *") {
+      // O resumo falhar não pode virar alarme: o painel continua mostrando
+      // tudo, e amanhã tenta de novo. Mas registra, porque caixa muda por causa
+      // de erro se parece com caixa muda por não haver o que dizer — e as duas
+      // pedem reação diferente. Achar com `npx wrangler tail`.
+      ctx.waitUntil(
+        resumoDoDia(env, diaEmSaoPaulo(new Date())).catch((e) =>
+          console.error("resumo da manhã falhou:", e),
+        ),
+      );
+      return;
+    }
+
     // Uma falha na limpeza não pode virar alarme nem derrubar nada: na próxima
     // madrugada tenta de novo.
     ctx.waitUntil(descartarAntigos(env).catch(() => {}));

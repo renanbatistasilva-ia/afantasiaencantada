@@ -76,18 +76,24 @@ export interface DadosAviso {
 }
 
 /**
+ * Aceita vários endereços separados por vírgula. É o que permite começar
+ * enviando para quem consegue verificar hoje e acrescentar a caixa da empresa
+ * depois, com um `wrangler secret put` — sem tocar em código nem publicar.
+ */
+function destinatarios(env: Env): string[] {
+  return (env.AVISO_EMAIL_PARA ?? "")
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+}
+
+/**
  * Monta e envia. `novo` diferencia primeiro envio de correção: a tela de
  * confirmação oferece "revisar os dados", e sem essa distinção uma correção
  * chegaria como se fosse um segundo pedido.
  */
 export async function avisarPedido(env: Env, dados: DadosAviso, novo: boolean): Promise<void> {
-  // Aceita vários endereços separados por vírgula. É o que permite começar
-  // enviando para quem consegue verificar hoje e acrescentar a caixa da empresa
-  // depois, com um `wrangler secret put` — sem tocar em código nem publicar.
-  const para = (env.AVISO_EMAIL_PARA ?? "")
-    .split(",")
-    .map((e) => e.trim())
-    .filter(Boolean);
+  const para = destinatarios(env);
 
   // Sem destino configurado não há o que fazer, e não é erro: o site funciona
   // sem aviso. Ver docs/painel-admin.md para ligar.
@@ -144,4 +150,203 @@ export async function avisarPedido(env: Env, dados: DadosAviso, novo: boolean): 
 </div>`;
 
   await env.EMAIL.send({ to: para, from: REMETENTE, subject: assunto, text: texto, html });
+}
+
+/* ——— resumo da manhã ——— */
+
+/** Dias inteiros desde que o pedido chegou. */
+function diasEsperando(criadoEm: unknown): number {
+  const t = new Date(String(criadoEm ?? "")).getTime();
+  return Number.isFinite(t) ? Math.floor((Date.now() - t) / 86400000) : 0;
+}
+
+/** "há 3 dias" / "hoje". O que decide o que responder primeiro. */
+function esperaEmTexto(dias: number): string {
+  if (dias <= 0) return "hoje";
+  return `há ${dias} ${dias === 1 ? "dia" : "dias"}`;
+}
+
+/** O horário é texto livre no formulário ("15h", "15:00"). Sem ele, o período. */
+function quandoDaFesta(l: Record<string, unknown>): string {
+  const h = String(l.horario ?? "").trim();
+  if (h) return h;
+  const p = String(l.periodo ?? "").trim();
+  return p ? p.toLowerCase() : "sem horário";
+}
+
+/**
+ * O e-mail das 7 da manhã: o que acontece hoje e o que está esperando resposta.
+ *
+ * Existe por um motivo concreto. Um pedido real ficou mais de um dia sem
+ * resposta porque o painel só conta o que tem para quem decide abrir o painel —
+ * e o FAQ promete "respondemos em minutos". Aviso de pedido novo resolve o
+ * instante da chegada; este resolve o que ficou para trás.
+ *
+ * **Só sai quando há o que dizer.** Um "bom dia, hoje nada" diário ensina a
+ * ignorar o remetente, e aí o dia que importa passa batido junto. Silêncio aqui
+ * significa: nenhuma festa hoje e nenhum pedido esperando. O canal continua
+ * sendo exercitado pelos avisos de pedido novo, então caixa muda não vira
+ * dúvida sobre o sistema estar de pé.
+ */
+export interface LinhasResumo {
+  festas: Record<string, unknown>[];
+  abertos: Record<string, unknown>[];
+  proxima?: Record<string, unknown>;
+}
+
+/**
+ * Monta o e-mail a partir das linhas. Separado do banco de propósito, pela mesma
+ * razão que as contas da agenda vivem fora do React: assim dá para conferir o
+ * texto contra linhas de verdade, sem esperar as 7 da manhã para descobrir que
+ * uma coluna veio nula.
+ *
+ * Devolve `null` quando não há o que dizer — ver `resumoDoDia`.
+ */
+export function montarResumo(
+  linhas: LinhasResumo,
+): { assunto: string; texto: string; html: string } | null {
+  const { festas: doDia, abertos, proxima: prox } = linhas;
+  if (doDia.length === 0 && abertos.length === 0) return null;
+
+  const maisAntigo = abertos.length ? diasEsperando(abertos[0].criado_em) : 0;
+
+  // Assunto pensado para a tela de bloqueio: ela precisa decidir se abre agora
+  // sem abrir. Por isso o número vem antes da palavra.
+  const pedacos: string[] = [];
+  if (doDia.length === 1) {
+    // O nome da criança é o que localiza a festa de relance. Sem ele, "festa de
+    // criança" soa como erro do sistema — melhor dizer menos e dizer certo.
+    const nome = String(doDia[0].crianca_nome ?? "").trim();
+    pedacos.push(`Hoje: ${nome ? `festa de ${nome}` : "1 festa"}, ${quandoDaFesta(doDia[0])}`);
+  } else if (doDia.length > 1) {
+    pedacos.push(`Hoje: ${doDia.length} festas`);
+  }
+  if (abertos.length) {
+    pedacos.push(
+      `${abertos.length} esperando resposta${maisAntigo >= 2 ? ` (${esperaEmTexto(maisAntigo)})` : ""}`,
+    );
+  }
+  const assunto = pedacos.join(" · ");
+
+  const linhaFesta = (l: Record<string, unknown>) =>
+    [
+      String(l.crianca_nome ?? "").trim() || "sem nome",
+      quandoDaFesta(l),
+      String(l.personagem_nome ?? "").trim(),
+      String(l.endereco ?? "").trim(),
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
+  const linhaPedido = (l: Record<string, unknown>) =>
+    [
+      String(l.responsavel_nome ?? "").trim() || "sem nome",
+      String(l.personagem_nome ?? "").trim(),
+      l.data_festa ? dataBR(l.data_festa) : "sem data",
+      esperaEmTexto(diasEsperando(l.criado_em)),
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
+  const semHoje = doDia.length === 0;
+  const semHojeTexto = prox
+    ? `Nenhuma festa hoje. A próxima é ${dataBR(prox.data_festa)} — ${String(prox.crianca_nome ?? "").trim() || "sem nome"}${prox.personagem_nome ? `, ${String(prox.personagem_nome)}` : ""}.`
+    : "Nenhuma festa hoje, e nenhuma marcada ainda.";
+
+  const texto = [
+    "Bom dia.",
+    "",
+    semHoje ? semHojeTexto : `HOJE — ${doDia.length} ${doDia.length === 1 ? "festa" : "festas"}:`,
+    ...(semHoje ? [] : doDia.map((l) => `  ${linhaFesta(l)}`)),
+    "",
+    ...(abertos.length
+      ? [`ESPERANDO RESPOSTA — ${abertos.length}:`, ...abertos.map((l) => `  ${linhaPedido(l)}`), ""]
+      : []),
+    `Painel: ${PAINEL}`,
+  ].join("\n");
+
+  const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.6;color:#251629">
+  <p style="margin:0 0 16px">Bom dia.</p>
+  ${
+    semHoje
+      ? `<p style="margin:0 0 18px;color:#6b5a66">${esc(semHojeTexto)}</p>`
+      : `<p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6b5a66">Hoje</p>
+  <ul style="margin:0 0 18px;padding-left:18px">${doDia.map((l) => `<li style="margin-bottom:4px">${esc(linhaFesta(l))}</li>`).join("")}</ul>`
+  }
+  ${
+    abertos.length
+      ? `<p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6b5a66">Esperando resposta · ${abertos.length}</p>
+  <ul style="margin:0 0 18px;padding-left:18px">${abertos
+    .map(
+      (l) =>
+        `<li style="margin-bottom:4px${diasEsperando(l.criado_em) >= 2 ? ";color:#a44e68" : ""}">${esc(linhaPedido(l))}</li>`,
+    )
+    .join("")}</ul>`
+      : ""
+  }
+  <p style="margin:18px 0 0"><a href="${PAINEL}" style="color:#a44e68">Abrir o painel</a></p>
+</div>`;
+
+  return { assunto, texto, html };
+}
+
+/**
+ * O e-mail das 7 da manhã: o que acontece hoje e o que está esperando resposta.
+ *
+ * Existe por um motivo concreto. Um pedido real ficou mais de um dia sem
+ * resposta porque o painel só conta o que tem para quem decide abrir o painel —
+ * e o FAQ promete "respondemos em minutos". Aviso de pedido novo resolve o
+ * instante da chegada; este resolve o que ficou para trás.
+ *
+ * **Só sai quando há o que dizer.** Um "bom dia, hoje nada" diário ensina a
+ * ignorar o remetente, e aí o dia que importa passa batido junto. Silêncio aqui
+ * significa: nenhuma festa hoje e nenhum pedido esperando. O canal continua
+ * sendo exercitado pelos avisos de pedido novo, então caixa muda não vira
+ * dúvida sobre o sistema estar de pé.
+ */
+export async function resumoDoDia(env: Env, hoje: string): Promise<void> {
+  const para = destinatarios(env);
+  if (para.length === 0) return;
+
+  // `perdido` não ocupa o dia: pedido recusado não é festa que vai acontecer.
+  // A ordem coloca quem não informou horário no fim — `~` vem depois dos
+  // dígitos, o mesmo truque de ordenação que a agenda da tela usa.
+  const [festas, esperando, proxima] = await Promise.all([
+    env.DB.prepare(
+      `SELECT crianca_nome, personagem_nome, horario, periodo, endereco,
+              responsavel_nome, responsavel_telefone
+         FROM leads
+        WHERE data_festa = ? AND status <> 'perdido'
+        ORDER BY COALESCE(NULLIF(horario, ''), '~'), criado_em`,
+    )
+      .bind(hoje)
+      .all(),
+    env.DB.prepare(
+      `SELECT criado_em, responsavel_nome, crianca_nome, personagem_nome, data_festa
+         FROM leads WHERE status = 'novo' ORDER BY criado_em`,
+    ).all(),
+    env.DB.prepare(
+      `SELECT data_festa, crianca_nome, personagem_nome
+         FROM leads
+        WHERE data_festa > ? AND status <> 'perdido'
+        ORDER BY data_festa LIMIT 1`,
+    )
+      .bind(hoje)
+      .all(),
+  ]);
+
+  const montado = montarResumo({
+    festas: festas.results as Record<string, unknown>[],
+    abertos: esperando.results as Record<string, unknown>[],
+    proxima: (proxima.results as Record<string, unknown>[])[0],
+  });
+  if (!montado) return;
+
+  await env.EMAIL.send({
+    to: para,
+    from: REMETENTE,
+    subject: montado.assunto,
+    text: montado.texto,
+    html: montado.html,
+  });
 }

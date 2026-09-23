@@ -14,7 +14,11 @@
   // contadores com mais de 25 meses. Cron Trigger é gratuito e mora aqui, sem
   // passo no painel — confirmar no primeiro deploy, porque R2, Analytics Engine
   // e Zero Trust também "moravam aqui" e os três exigiram clique.
-  "triggers": { "crons": ["0 7 * * *"] },
+  // Dois horários, ambos em UTC. O Brasil não tem mais horário de verão desde
+  // 2019, então São Paulo é UTC-3 o ano inteiro e a conta não muda em novembro.
+  //   07:00 UTC = 04:00 SP — limpeza, na hora em que ninguém usa o site
+  //   10:00 UTC = 07:00 SP — o resumo da manhã, antes de ela começar o dia
+  "triggers": { "crons": ["0 7 * * *", "0 10 * * *"] },
   // Aviso de pedido novo. O envio da Cloudflare é gratuito e não consome cota
   // quando o destino é um endereço verificado da conta — é o caso, porque o
   // aviso vai para a caixa da dona. Sem destino fixado aqui de propósito: o

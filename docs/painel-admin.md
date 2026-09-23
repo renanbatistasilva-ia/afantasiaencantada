@@ -136,6 +136,19 @@ contatos** pesa mais, numa caixa pessoal, que qualquer registro de DNS.
 > `Return-Path`). É lá que se lê se o SPF e o DKIM alinharam com o domínio — e não dá para
 > descobrir isso por fora.
 
+### O resumo das 7 da manhã
+
+Além do aviso de pedido novo, sai um e-mail **às 07:00 de São Paulo** com o que interessa no
+dia: as festas de hoje e os pedidos esperando resposta, com quantos dias cada um espera.
+
+**Ele só sai quando há o que dizer.** Um "bom dia, hoje nada" todo dia ensina a ignorar o
+remetente — e aí o dia que importa passa batido junto. Caixa vazia significa: nenhuma festa hoje
+e nenhum pedido esperando. Não significa sistema parado: o aviso de pedido novo continua saindo
+a cada pedido, então o canal é exercitado sozinho.
+
+Usa o mesmo remetente e o mesmo `AVISO_EMAIL_PARA` do aviso de pedido — ligar um liga o outro.
+Se parar de chegar, o motivo aparece em `npx wrangler tail` como `resumo da manhã falhou`.
+
 ### Se os avisos pararem de chegar
 
 O pedido **não se perde**: ele continua no painel. O aviso é que atrasa.
