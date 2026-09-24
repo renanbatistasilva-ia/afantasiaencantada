@@ -5,25 +5,25 @@ import styles from "./Moments.module.css";
 
 const album = [
   {
-    src: "/images/momentos/piscina-bolinhas.jpg",
+    src: "/images/momentos/piscina-bolinhas.webp",
     alt: "Princesas e uma bebê batendo palminhas na piscina de bolinhas",
     caption: "Palminhas na piscina de bolinhas",
     rotate: -2.2,
   },
   {
-    src: "/images/reino/princesas-fera.jpg",
+    src: "/images/reino/princesas-fera.webp",
     alt: "Fileira de princesas com a Fera no salão da festa",
     caption: "O reino inteiro veio à festa",
     rotate: 1.6,
   },
   {
-    src: "/images/momentos/kpop-crianca.jpg",
+    src: "/images/momentos/kpop-crianca.webp",
     alt: "Trio de guerreiras do k-pop abraçando uma menina",
     caption: "Virou estrela por um dia",
     rotate: -1.4,
   },
   {
-    src: "/images/mascotes/bluey-bingo.jpg",
+    src: "/images/mascotes/bluey-bingo.webp",
     alt: "Mascotes das cachorrinhas de mãos dadas na festa",
     caption: "As irmãs mais pedidas da TV",
     rotate: 2,
@@ -44,7 +44,7 @@ export default function Moments() {
         <Reveal variant="bloom" className={styles.featureFrame}>
           <figure className={styles.featurePhoto}>
             <Image
-              src="/images/momentos/moana-vela.jpg"
+              src="/images/momentos/moana-vela.webp"
               alt="Navegante dos mares soprando a vela do bolo junto com a aniversariante"
               width={1275}
               height={1700}

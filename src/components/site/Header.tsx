@@ -28,7 +28,7 @@ export default function Header() {
     >
       <Link href="/" className={styles.wordmark}>
         <Image
-          src="/images/marca/logo-header-tight.png"
+          src="/images/marca/logo-header-tight.webp"
           alt="Fantasia Encantada"
           width={360}
           height={188}

@@ -82,7 +82,7 @@ export default function CurtainIntro() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
             <Image
-              src="/images/marca/logo-alpha.png"
+              src="/images/marca/logo-alpha.webp"
               alt="Fantasia Encantada"
               width={600}
               height={775}

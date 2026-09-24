@@ -61,7 +61,7 @@ const localBusinessJsonLd = {
     "Personagens vivos para festas infantis em São Paulo. Princesas, heróis, mascotes e estrelas do pop que transformam a festa do seu filho em um conto de fadas.",
   url: "https://afantasiaencantada.com",
   image: "https://afantasiaencantada.com/og-v2.jpg",
-  logo: "https://afantasiaencantada.com/images/marca/logo-alpha.png",
+  logo: "https://afantasiaencantada.com/images/marca/logo-alpha.webp",
   telephone: "+5511932237456",
   priceRange: "$$",
   address: {

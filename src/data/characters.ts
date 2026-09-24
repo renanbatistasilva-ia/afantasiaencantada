@@ -12,14 +12,14 @@ export const characters: Character[] = [
     emblem: "concha",
     photos: [
       {
-        src: "/images/reino/ariel-danca.jpg",
+        src: "/images/reino/ariel-danca.webp",
         alt: "Princesa do mar de cabelos vermelhos rodando o vestido verde-água ao entardecer",
         position: "50% 18%",
         width: 1267,
         height: 1900,
       },
       {
-        src: "/images/reino/ariel-close.jpg",
+        src: "/images/reino/ariel-close.webp",
         alt: "Retrato da princesa do mar sorrindo, cabelos ruivos ao sol",
         position: "50% 30%",
         width: 1000,
@@ -37,21 +37,21 @@ export const characters: Character[] = [
     emblem: "torre",
     photos: [
       {
-        src: "/images/reino/neve-e-torre-dupla.jpg",
+        src: "/images/reino/neve-e-torre-dupla.webp",
         alt: "Princesa da Torre ao lado da Princesa da Neve, as duas surpresas, no jardim ao fim da tarde",
         position: "70% 22%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/reino/rapunzel-corpo.jpg",
+        src: "/images/reino/rapunzel-corpo.webp",
         alt: "Princesa da torre segurando a longa trança florida no jardim",
         position: "50% 16%",
         width: 1267,
         height: 1900,
       },
       {
-        src: "/images/reino/rapunzel-retrato.jpg",
+        src: "/images/reino/rapunzel-retrato.webp",
         alt: "Retrato da princesa da torre com coroa e flores na trança",
         position: "50% 20%",
         width: 1133,
@@ -69,28 +69,28 @@ export const characters: Character[] = [
     emblem: "coroa",
     photos: [
       {
-        src: "/images/reino/neve-close.jpg",
+        src: "/images/reino/neve-close.webp",
         alt: "Retrato da Princesa da Neve com laço vermelho no cabelo e capa vermelha, ao fim da tarde",
         position: "50% 18%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/reino/neve-corpo.jpg",
+        src: "/images/reino/neve-corpo.webp",
         alt: "Princesa da Neve de corpo inteiro, segurando a saia amarela sob as árvores do jardim",
         position: "50% 24%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/reino/neve-sentada.jpg",
+        src: "/images/reino/neve-sentada.webp",
         alt: "Princesa da Neve sentada no jardim com a capa vermelha estendida, olhando ao longe",
         position: "50% 26%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/reino/neve-torre-jardim.jpg",
+        src: "/images/reino/neve-torre-jardim.webp",
         alt: "Princesa da Neve com a mão no rosto ao lado da Princesa da Torre, no jardim ao fim da tarde",
         position: "35% 22%",
         width: 1067,
@@ -108,14 +108,14 @@ export const characters: Character[] = [
     emblem: "rosa",
     photos: [
       {
-        src: "/images/reino/aurora-corpo.jpg",
+        src: "/images/reino/aurora-corpo.webp",
         alt: "Princesa de vestido rosa e coroa dourada rodando o vestido no jardim ao pôr do sol",
         position: "50% 22%",
         width: 1267,
         height: 1900,
       },
       {
-        src: "/images/reino/aurora-close.jpg",
+        src: "/images/reino/aurora-close.webp",
         alt: "Retrato da princesa loira de coroa dourada sorrindo",
         position: "50% 30%",
         width: 1000,
@@ -140,7 +140,7 @@ export const characters: Character[] = [
         height: 1600,
       },
       {
-        src: "/images/reino/jasmine.jpg",
+        src: "/images/reino/jasmine.webp",
         alt: "Princesa de traje turquesa e dourado com longa trança escura",
         position: "50% 28%",
         width: 956,
@@ -158,7 +158,7 @@ export const characters: Character[] = [
     emblem: "onda",
     photos: [
       {
-        src: "/images/momentos/moana-vela.jpg",
+        src: "/images/momentos/moana-vela.webp",
         alt: "Navegante dos mares com coroa de flores ao lado de uma menina soprando a vela",
         position: "24% 35%",
         width: 1275,
@@ -176,7 +176,7 @@ export const characters: Character[] = [
     emblem: "coroa",
     photos: [
       {
-        src: "/images/reino/princesa-baile.jpg",
+        src: "/images/reino/princesa-baile.webp",
         alt: "Princesa do Baile de vestido azul e luvas, diante da decoração de castelo da festa",
         position: "50% 25%",
         width: 910,
@@ -194,7 +194,7 @@ export const characters: Character[] = [
     emblem: "arco",
     photos: [
       {
-        src: "/images/reino/arqueira-valente.jpg",
+        src: "/images/reino/arqueira-valente.webp",
         alt: "Arqueira Valente de cabelo ruivo cacheado e vestido azul-petróleo, com o arco ao lado",
         position: "50% 30%",
         width: 1446,
@@ -212,7 +212,7 @@ export const characters: Character[] = [
     emblem: "estrela",
     photos: [
       {
-        src: "/images/reino/fada-madrinha.jpg",
+        src: "/images/reino/fada-madrinha.webp",
         alt: "Fada Madrinha de capa azul, com varinha e a carruagem dourada nas mãos",
         position: "50% 30%",
         width: 1247,
@@ -230,7 +230,7 @@ export const characters: Character[] = [
     emblem: "rosa",
     photos: [
       {
-        src: "/images/reino/bela-e-fera-real.jpg",
+        src: "/images/reino/bela-e-fera-real.webp",
         alt: "Bela de vestido amarelo ao lado da Fera de casaco azul, de braços dados numa festa",
         position: "50% 24%",
         width: 900,
@@ -248,21 +248,21 @@ export const characters: Character[] = [
     emblem: "tridente",
     photos: [
       {
-        src: "/images/reino/bruxa-mar-retrato.jpg",
+        src: "/images/reino/bruxa-mar-retrato.webp",
         alt: "Bruxa do Mar em close: cabelo branco armado, sombra verde-água e batom vermelho",
         position: "50% 25%",
         width: 884,
         height: 1222,
       },
       {
-        src: "/images/reino/bruxa-mar-corpo.jpg",
+        src: "/images/reino/bruxa-mar-corpo.webp",
         alt: "Bruxa do Mar de vestido preto, com os tentáculos roxos abertos ao redor",
         position: "50% 25%",
         width: 1028,
         height: 1314,
       },
       {
-        src: "/images/reino/bruxa-mar-fantasia.jpg",
+        src: "/images/reino/bruxa-mar-fantasia.webp",
         alt: "Detalhe da fantasia: o vestido de veludo preto e os tentáculos roxos com ventosas",
         position: "50% 50%",
         width: 924,
@@ -281,7 +281,7 @@ export const characters: Character[] = [
     emblem: "lampada",
     photos: [
       {
-        src: "/images/reino/principe-deserto.jpg",
+        src: "/images/reino/principe-deserto.webp",
         alt: "Príncipe do Deserto de turbante branco com pluma rosa, segurando a lâmpada dourada",
         position: "50% 22%",
         width: 1200,
@@ -308,7 +308,7 @@ export const characters: Character[] = [
     emblem: "aranha",
     photos: [
       {
-        src: "/images/herois/homem-aranha.jpg",
+        src: "/images/herois/homem-aranha.webp",
         alt: "Trio de heróis aranha: Gwen, Miles e o clássico, lado a lado na festa",
         position: "50% 40%",
         width: 921,
@@ -326,7 +326,7 @@ export const characters: Character[] = [
     emblem: "raio",
     photos: [
       {
-        src: "/images/herois/time-de-herois.jpg",
+        src: "/images/herois/time-de-herois.webp",
         alt: "Três heróis lado a lado numa festa: um de escudo, um de armadura vermelha e dourada e um de teia",
         position: "50% 35%",
         width: 1233,
@@ -344,7 +344,7 @@ export const characters: Character[] = [
     emblem: "morcego",
     photos: [
       {
-        src: "/images/herois/cavaleiro-sombras.jpg",
+        src: "/images/herois/cavaleiro-sombras.webp",
         alt: "Cavaleiro das Sombras de máscara e armadura, num salão de festa",
         position: "25% 35%",
         width: 710,
@@ -362,7 +362,7 @@ export const characters: Character[] = [
     emblem: "lua",
     photos: [
       {
-        src: "/images/herois/herois-pijama.jpg",
+        src: "/images/herois/herois-pijama.webp",
         alt: "Os heróis de pijama enfileirados num jardim, ao fim da tarde",
         position: "50% 40%",
         width: 1303,
@@ -382,7 +382,7 @@ export const characters: Character[] = [
     emblem: "patinha",
     photos: [
       {
-        src: "/images/mascotes/bluey-bingo.jpg",
+        src: "/images/mascotes/bluey-bingo.webp",
         alt: "Mascotes das cachorrinhas azul e caramelo de mãos dadas na festa",
         position: "50% 30%",
         width: 1320,
@@ -400,7 +400,7 @@ export const characters: Character[] = [
     emblem: "patinha",
     photos: [
       {
-        src: "/images/mascotes/patrulha-filhotes.jpg",
+        src: "/images/mascotes/patrulha-filhotes.webp",
         alt: "Seis mascotes filhotes de capacete colorido posando com o menino da patrulha numa festa",
         position: "50% 40%",
         width: 1600,
@@ -418,7 +418,7 @@ export const characters: Character[] = [
     emblem: "onda",
     photos: [
       {
-        src: "/images/mascotes/baby-shark.jpg",
+        src: "/images/mascotes/baby-shark.webp",
         alt: "Cinco mascotes coloridos da família tubarão em frente à entrada da festa",
         position: "50% 40%",
         width: 1320,
@@ -436,7 +436,7 @@ export const characters: Character[] = [
     emblem: "estrela",
     photos: [
       {
-        src: "/images/mascotes/stitch-angel.jpg",
+        src: "/images/mascotes/stitch-angel.webp",
         alt: "Mascotes do alienzinho azul e da alienzinha rosa dançando",
         position: "50% 45%",
         width: 1320,
@@ -454,7 +454,7 @@ export const characters: Character[] = [
     emblem: "orelhas",
     photos: [
       {
-        src: "/images/datas-magicas/ratinhos-halloween-real.jpg",
+        src: "/images/datas-magicas/ratinhos-halloween-real.webp",
         alt: "Casal de ratinhos fantasiado para o Halloween diante de um arco de balões laranja e roxo",
         position: "50% 30%",
         width: 960,
@@ -474,28 +474,28 @@ export const characters: Character[] = [
     emblem: "estrela",
     photos: [
       {
-        src: "/images/pop/kpop-com-crianca.jpg",
+        src: "/images/pop/kpop-com-crianca.webp",
         alt: "As três do K-Pop abraçadas com uma criança, diante do painel colorido da festa",
         position: "50% 30%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/pop/guerreira-tranca.jpg",
+        src: "/images/pop/guerreira-tranca.webp",
         alt: "Guerreira do k-pop de trança roxa e jaqueta amarela",
         position: "50% 18%",
         width: 1066,
         height: 1600,
       },
       {
-        src: "/images/pop/guerreira-preta.jpg",
+        src: "/images/pop/guerreira-preta.webp",
         alt: "Guerreira do k-pop de cabelo preto fazendo coração com os dedos",
         position: "50% 15%",
         width: 1067,
         height: 1600,
       },
       {
-        src: "/images/pop/guerreira-roxa.jpg",
+        src: "/images/pop/guerreira-roxa.webp",
         alt: "Guerreira do k-pop de cabelo roxo no cenário Guerreiras do K-Pop",
         position: "50% 12%",
         width: 1200,
@@ -533,7 +533,7 @@ export const characters: Character[] = [
     emblem: "gato",
     photos: [
       {
-        src: "/images/diversao/gabby-amigos.jpg",
+        src: "/images/diversao/gabby-amigos.webp",
         alt: "Os dois gatinhos da casa de bonecas, o azul e a branca de bolsinha rosa, acenando",
         position: "50% 35%",
         width: 1306,
@@ -567,14 +567,14 @@ export const characters: Character[] = [
         height: 1024,
       },
       {
-        src: "/images/brasil/milhinho-junino.jpg",
+        src: "/images/brasil/milhinho-junino.webp",
         alt: "O Milhinho Junino, um dos três da turma, no arraiá com bandeirinhas e a placa Viva São João",
         position: "50% 35%",
         width: 1106,
         height: 1422,
       },
       {
-        src: "/images/brasil/casal-roca.jpg",
+        src: "/images/brasil/casal-roca.webp",
         alt: "O Chico Bento e a Rosinha, outros dois da turma, com duas crianças numa festa junina ao ar livre",
         position: "50% 35%",
         width: 1322,
@@ -610,14 +610,14 @@ export const characters: Character[] = [
     emblem: "lua",
     photos: [
       {
-        src: "/images/datas-magicas/noiva-outro-mundo.jpg",
+        src: "/images/datas-magicas/noiva-outro-mundo.webp",
         alt: "Noiva do Outro Mundo de pele azul e véu, segurando um buquê de rosas brancas",
         position: "50% 20%",
         width: 1206,
         height: 1551,
       },
       {
-        src: "/images/datas-magicas/noiva-outro-mundo-2.jpg",
+        src: "/images/datas-magicas/noiva-outro-mundo-2.webp",
         alt: "Noiva do Outro Mundo ao ar livre à noite, com a minhoquinha verde no ombro",
         position: "50% 22%",
         width: 1058,
@@ -642,7 +642,7 @@ export const characters: Character[] = [
         height: 1300,
       },
       {
-        src: "/images/datas-magicas/rei-abobora-natal.jpg",
+        src: "/images/datas-magicas/rei-abobora-natal.webp",
         alt: "Rei da Abóbora e a Boneca de Retalhos vestidos de vermelho para o Natal",
         position: "50% 24%",
         width: 864,
@@ -662,7 +662,7 @@ export const characters: Character[] = [
     emblem: "estrela",
     photos: [
       {
-        src: "/images/brasil/turma-bairro.jpg",
+        src: "/images/brasil/turma-bairro.webp",
         alt: "O quarteto dos quadrinhos brasileiros no jardim, com o coelho azul",
         position: "50% 30%",
         width: 920,
@@ -701,7 +701,7 @@ export const characters: Character[] = [
         height: 1457,
       },
       {
-        src: "/images/brasil/cangaceiro-figurino.jpg",
+        src: "/images/brasil/cangaceiro-figurino.webp",
         alt: "O figurino do cangaceiro em detalhe: colete, cartucheira cruzada e calça com bordado de fogo",
         position: "50% 0%",
         width: 1024,
@@ -722,7 +722,7 @@ export const characters: Character[] = [
     emblem: "chapeu",
     photos: [
       {
-        src: "/images/brasil/casal-roca.jpg",
+        src: "/images/brasil/casal-roca.webp",
         alt: "Chico Bento e Rosinha, em boneco, posando com duas crianças numa festa junina ao ar livre",
         position: "50% 35%",
         width: 1322,
@@ -740,7 +740,7 @@ export const characters: Character[] = [
     emblem: "milho",
     photos: [
       {
-        src: "/images/brasil/milhinho-junino.jpg",
+        src: "/images/brasil/milhinho-junino.webp",
         alt: "Milhinho Junino, o mascote espiga de milho, no arraiá com bandeirinhas e fardos de feno",
         position: "50% 35%",
         width: 1106,

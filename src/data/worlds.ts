@@ -14,7 +14,7 @@ export const worlds: World[] = [
       mood: "day",
     },
     cover: {
-      src: "/images/reino/ariel-danca.jpg",
+      src: "/images/reino/ariel-danca.webp",
       alt: "Princesa do mar dançando com vestido verde-água ao pôr do sol",
       position: "50% 16%",
     },
@@ -33,7 +33,7 @@ export const worlds: World[] = [
       mood: "night",
     },
     cover: {
-      src: "/images/herois/homem-aranha.jpg",
+      src: "/images/herois/homem-aranha.webp",
       alt: "Trio de heróis aranha lado a lado na festa",
       position: "50% 38%",
     },
@@ -52,7 +52,7 @@ export const worlds: World[] = [
       mood: "day",
     },
     cover: {
-      src: "/images/mascotes/bluey-bingo.jpg",
+      src: "/images/mascotes/bluey-bingo.webp",
       alt: "Mascotes de cachorrinhos azul e caramelo acenando na festa",
       position: "50% 30%",
     },
@@ -71,7 +71,7 @@ export const worlds: World[] = [
       mood: "night",
     },
     cover: {
-      src: "/images/pop/guerreira-roxa.jpg",
+      src: "/images/pop/guerreira-roxa.webp",
       alt: "Guerreira do k-pop de cabelo roxo no cenário Guerreiras do K-Pop",
       position: "50% 12%",
     },
@@ -128,7 +128,7 @@ export const worlds: World[] = [
       mood: "festive",
     },
     cover: {
-      src: "/images/brasil/junina-capa.jpg",
+      src: "/images/brasil/junina-capa.webp",
       alt: "Turma junina dançando ao som de sanfona com bandeirinhas e fogueira ao fundo",
       position: "50% 35%",
     },

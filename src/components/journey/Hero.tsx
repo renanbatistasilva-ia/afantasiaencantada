@@ -102,7 +102,7 @@ export default function Hero() {
         transition={{ duration: 1.4, delay: 0.35, ease }}
       >
         <LiveStage
-          src="/images/reino/rapunzel-hero.jpg"
+          src="/images/reino/rapunzel-hero.webp"
           alt="Princesa da torre com coroa dourada e trança florida sorrindo ao entardecer"
           position="50% 16%"
           priority

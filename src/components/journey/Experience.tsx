@@ -13,7 +13,7 @@ const acts = [
     characterSlug: "princesa-da-neve",
     characterName: "Princesa da Neve",
     photo: {
-      src: "/images/reino/neve-e-torre.jpg",
+      src: "/images/reino/neve-e-torre.webp",
       alt: "Princesa da neve e princesa da torre chegando juntas ao jardim",
       position: "50% 28%",
     },
@@ -25,7 +25,7 @@ const acts = [
     characterSlug: "guerreiras-do-kpop",
     characterName: "Guerreiras do K-Pop",
     photo: {
-      src: "/images/pop/guerreira-tranca.jpg",
+      src: "/images/pop/guerreira-tranca.webp",
       alt: "Guerreira do k-pop sorrindo no cenário da festa",
       position: "50% 10%",
     },
@@ -37,7 +37,7 @@ const acts = [
     characterSlug: "sereia-do-mar",
     characterName: "Princesa do Mar",
     photo: {
-      src: "/images/reino/ariel-close.jpg",
+      src: "/images/reino/ariel-close.webp",
       alt: "Retrato da princesa do mar sorrindo, cabelos ruivos ao sol",
       position: "50% 28%",
     },
