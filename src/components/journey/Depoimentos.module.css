@@ -28,6 +28,50 @@
   color: var(--ouro-claro);
 }
 
+/* Assinatura, não banner: fica abaixo do texto de abertura, no mesmo eixo
+   central, e só ganha contorno ao ser tocado. A prova é o conteúdo dele — não
+   precisa gritar para ser vista. */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(233, 206, 156, 0.26);
+  background: rgba(250, 243, 236, 0.04);
+  font-size: 0.86rem;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .selo:hover {
+    border-color: rgba(233, 206, 156, 0.5);
+    background: rgba(250, 243, 236, 0.08);
+  }
+}
+
+.seloEstrelas {
+  color: var(--ouro-claro);
+  letter-spacing: 0.1em;
+}
+
+.seloNota {
+  font-weight: 650;
+  color: var(--porcelana);
+}
+
+.seloTexto {
+  color: color-mix(in srgb, var(--porcelana) 72%, transparent);
+}
+
+.seloSeta {
+  color: color-mix(in srgb, var(--ouro-claro) 80%, transparent);
+}
+
 .lede {
   margin-top: 1rem;
   font-size: 1rem;

@@ -74,14 +74,21 @@ const localBusinessJsonLd = {
     { "@type": "City", name: "São Paulo" },
     { "@type": "AdministrativeArea", name: "Grande São Paulo" },
   ],
+  // 24 horas, que é o que o perfil do Google Meu Negócio declara — a mensagem
+  // chega a qualquer hora e é respondida. Aqui dizia 09:00–21:00, e informação
+  // divergente entre o site e o perfil enfraquece o resultado na busca local.
+  // 00:00–23:59 é a convenção do schema.org para o dia inteiro.
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      opens: "09:00",
-      closes: "21:00",
+      opens: "00:00",
+      closes: "23:59",
     },
   ],
+  // O Google usa isto para ligar o site aos perfis. O do Meu Negócio não entra
+  // aqui: `sameAs` é para perfis em outros serviços, e a ficha do próprio Google
+  // ele já sabe qual é.
   sameAs: ["https://www.instagram.com/afantasiaencantada"],
 };
 

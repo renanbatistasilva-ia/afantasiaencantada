@@ -1,6 +1,26 @@
 import Reveal from "@/components/fx/Reveal";
 import styles from "./Depoimentos.module.css";
 
+/**
+ * A ficha no Google, que tem prova que nenhum texto nosso tem: avaliação de
+ * terceiro, que o visitante consegue conferir sozinho. Os depoimentos abaixo
+ * são de clientes reais, mas quem chega não tem como saber disso — o selo é o
+ * que os transforma de "texto escolhido a dedo" em amostra de algo verificável.
+ *
+ * Conferido à mão em 24/09/2026. O número envelhece e ninguém vai lembrar de
+ * atualizar, então fica em um lugar só e com a data à vista.
+ *
+ * O `kgmid` é o identificador do negócio no Google e não muda. O link curto que
+ * o botão "compartilhar" gera não serve aqui: ele carrega parâmetros da sessão
+ * de quem compartilhou (`rlz`, `sei`, `utm_source`), que não podem ficar
+ * gravados numa página pública.
+ */
+const GOOGLE = {
+  nota: "5,0",
+  avaliacoes: 19,
+  perfil: "https://www.google.com/search?kgmid=/g/11nvctdpd2",
+};
+
 const depoimentos = [
   {
     text: "A princesa entrou pela porta cantando o nome da Isabela e minha filha começou a chorar de emoção. Foi o momento mais mágico dos 5 anos dela. Recomendo de coração.",
@@ -36,6 +56,27 @@ export default function Depoimentos() {
           O que as famílias contam depois que a magia bate na porta. Cada visita vira uma memória
           que a criança revisita no café da manhã, no álbum, nas conversas de escola.
         </p>
+
+        {/* As estrelas ficam escondidas do leitor de tela porque o texto ao lado
+            já diz a nota — ouvir "estrela estrela estrela estrela estrela" antes
+            de "5,0" só atrasa quem está escutando a página. */}
+        <a
+          className={styles.selo}
+          href={GOOGLE.perfil}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className={styles.seloEstrelas} aria-hidden="true">
+            ★★★★★
+          </span>
+          <span className={styles.seloNota}>{GOOGLE.nota}</span>
+          <span className={styles.seloTexto}>
+            · {GOOGLE.avaliacoes} avaliações no Google
+          </span>
+          <span className={styles.seloSeta} aria-hidden="true">
+            →
+          </span>
+        </a>
       </Reveal>
 
       <div className={styles.grid}>
