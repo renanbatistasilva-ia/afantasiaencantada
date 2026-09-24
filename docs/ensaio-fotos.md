@@ -155,6 +155,87 @@ para o único desta lista.
 
 ---
 
+## Fotografar na festa
+
+São quinhentas festas em oito anos e **três fotos com criança** no site. É o maior buraco da
+vitrine, e é o único que nenhuma linha de código resolve.
+
+A diferença entre as duas coisas é grande: o ensaio mostra que a fantasia é boa; a foto de
+festa mostra que **aconteceu**. Uma mãe decidindo olha para a segunda.
+
+### Antes: a autorização
+
+Sem isso as fotos não podem ser usadas, e é imagem de criança — a parte do site que mais exige
+cuidado.
+
+**Pergunte na conversa da reserva, não na hora da festa.** No WhatsApp, quando a data já está
+combinada:
+
+> Uma coisa: a gente costuma tirar algumas fotos durante a visita e às vezes usa no Instagram
+> e no site, para outras famílias conhecerem o trabalho. Você autoriza as fotos do(a)
+> {criança}? Se preferir que não, tudo bem — a gente fotografa só o personagem.
+
+Duas razões para ser assim: na festa ela está ocupada e vai dizer sim sem pensar, o que não é
+consentimento de verdade; e a resposta escrita fica registrada no WhatsApp, que é onde alguém
+vai procurar se um dia perguntarem.
+
+**Anote no painel.** O campo de anotação do pedido serve para isso: *"autorizou foto"* ou
+*"NÃO autorizou foto"*. Sem isso, seis meses depois ninguém lembra de quem pode.
+
+> **As outras crianças da festa não estão autorizadas.** A mãe da aniversariante responde pela
+> filha dela, não pelos convidados. Na prática: enquadre fechado na aniversariante, e quando
+> aparecer gente atrás, fotografe de costas ou descarte. Foto de grupo com rostos de
+> convidados identificáveis não vai para o site.
+
+### As cinco fotos que valem, em ordem
+
+**1. O reconhecimento.** O rosto da criança no instante em que o personagem entra. Boca aberta,
+mãos no rosto, o passo para trás. **Dura três segundos e não se repete** — quem for fotografar
+precisa estar com o celular já na mão, apontado para a CRIANÇA, não para a porta.
+
+É a foto mais difícil e a que mais convence. Se só der para tirar uma, é esta.
+
+**2. O contato.** Abraço, mão dada, criança no colo. Prova o que nenhum texto prova: que o
+personagem é acolhedor e que a criança não teve medo.
+
+**3. O sopro da vela.** É exatamente a `moana-vela` — hoje a melhor foto do site. O personagem
+ao lado, a criança soprando, ninguém olhando para a câmera.
+
+**4. A brincadeira em curso.** Dança, roda, a coreografia. Mostra que são 45 minutos de
+atividade, não uma sessão de fotos. Aqui o desfoque de movimento ajuda em vez de atrapalhar.
+
+**5. O personagem sozinho, no ambiente da festa.** Serve de reserva quando a autorização não
+veio, e alimenta a página do personagem.
+
+### Quem fotografa
+
+**Não pode ser a atriz.** Ela está em personagem, e sair do personagem para pegar o celular
+quebra exatamente a coisa que o site promete. Se for equipe de uma pessoa só, combine antes com
+o responsável: *"pode ir tirando fotos que a gente depois pede algumas"* — a mãe fotografa a
+festa inteira de qualquer jeito.
+
+### O que estraga a foto de festa
+
+Vale tudo o que já está acima, mais o que é específico de salão:
+
+- **Marca do buffet no quadro** — banner, toalha com logotipo, placa. Vira propaganda dos outros.
+- **Mesa do bolo bagunçada atrás** — pratos sujos, copos, sacola. Tire dois passos para o lado.
+- **Todo mundo olhando para a câmera.** Posado mata a cena. As melhores são as que ninguém
+  percebeu.
+- **Flash direto no salão escuro.** Achata a fantasia e endurece o rosto — mesma regra do
+  ensaio. Se estiver escuro, chegue perto de uma janela ou aceite a foto mais granulada.
+
+### Depois da festa
+
+Mande **o arquivo original**, não o que passou pelo WhatsApp — a compressão do app é o que mais
+degrada foto de festa, e o site aceita qualquer resolução de celular recente.
+
+Para entrar no site: as fotos com criança vão para `public/images/momentos/`, e as do personagem
+para a pasta do mundo dele. Depois `scripts/otimizar-imagens.sh` converte tudo para WebP e
+atualiza as referências.
+
+---
+
 ## Quando as fotos chegarem
 
 O encaixe é rápido: as fotos são processadas para no máximo 1600px e 150–300KB, entram no
